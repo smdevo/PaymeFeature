@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if window == nil {
             window = UIWindow()
             
-            window?.rootViewController = ViewController()
+            window?.rootViewController = UniteViewController()
             window?.makeKeyAndVisible()
         }
         
