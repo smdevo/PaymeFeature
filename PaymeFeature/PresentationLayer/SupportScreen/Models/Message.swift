@@ -1,6 +1,6 @@
 import Foundation
 
-enum Sender {
+enum Sender: String {
     case user, assistant
 }
 
