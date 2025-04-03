@@ -37,16 +37,16 @@ class ChatViewModel: ObservableObject {
             historyService.saveMessage(message: assistantMessage.text, type: Sender(rawValue: assistantMessage.sender.rawValue) ?? .assistant)
         } else {
             apiService.fetchResponse(for: query) { [weak self] result in
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
                     switch result {
                     case .success(let response):
                         let assistantMessage = Message(sender: .assistant, text: response)
                         self?.messages.append(assistantMessage)
-                        self?.historyService.saveMessage(message: assistantMessage.text, type: Sender(rawValue: assistantMessage.sender.rawValue) ?? .user)
+                        self?.historyService.saveMessage(message: assistantMessage.text, type: .assistant)
                     case .failure(let error):
                         let errorMessage = Message(sender: .assistant, text: "Ошибка: \(error.localizedDescription)")
                         self?.messages.append(errorMessage)
-                        self?.historyService.saveMessage(message: errorMessage.text, type: Sender(rawValue: errorMessage.sender.rawValue) ?? .user)
+                        self?.historyService.saveMessage(message: errorMessage.text, type: .assistant)
                     }
                 }
             }
