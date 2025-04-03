@@ -4,7 +4,7 @@ struct APIService {
     // Используйте ваш токен Hugging Face
     let accessToken: String = "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"
     // URL для модели GPT-2 через Hugging Face Inference API
-    let baseURL: URL = URL(string: "https://api-inference.huggingface.co/models/gpt2")!
+    let baseURL: URL = URL(string: "https://api-inference.huggingface.co/models/openai-community/gpt2 ")!
     
     func fetchResponse(for query: String, completion: @escaping (Result<String, Error>) -> Void) {
         var request = URLRequest(url: baseURL)
