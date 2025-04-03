@@ -42,9 +42,11 @@ class ChatViewModel: ObservableObject {
                     case .success(let response):
                         let assistantMessage = Message(sender: .assistant, text: response)
                         self?.messages.append(assistantMessage)
+                        self?.historyService.saveMessage(message: assistantMessage.text, type: Sender(rawValue: assistantMessage.sender.rawValue) ?? .user)
                     case .failure(let error):
                         let errorMessage = Message(sender: .assistant, text: "Ошибка: \(error.localizedDescription)")
                         self?.messages.append(errorMessage)
+                        self?.historyService.saveMessage(message: errorMessage.text, type: Sender(rawValue: errorMessage.sender.rawValue) ?? .user)
                     }
                 }
             }
