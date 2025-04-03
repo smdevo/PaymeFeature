@@ -24,7 +24,8 @@ struct ColorTheme {
     let tabbarBC = Color("tabbarBC")
     let paymeC = Color("paymeC")
     let unselectedTabbarItem = Color("unselectedTabbarItem")
-    
+    let labelC = Color("labelC")
+
 }
 
 struct ColorThemeK {
@@ -32,6 +33,7 @@ struct ColorThemeK {
     let tabbarBC = UIColor(named: "tabbarBC") ?? .secondarySystemBackground
     let paymeC = UIColor(named: "paymeC") ?? .green
     let unselectedTabbarItem = UIColor(named: "unselectedTabbarItem") ?? .gray
+    let labelC = UIColor(named: "labelC") ?? .white
   
 }
 

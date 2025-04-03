@@ -20,7 +20,7 @@ class UniteViewController: UITabBarController {
         
         setupTabBarAppearance()
         
-        let main = MainViewController()
+        let main = Assembly().giveMAinViewController()
         main.tabBarItem = UITabBarItem(title: "Main", image: UIImage(systemName: "house"), tag: 0)
 
 
