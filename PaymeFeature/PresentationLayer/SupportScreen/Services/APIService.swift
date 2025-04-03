@@ -8,7 +8,7 @@ struct APIService {
     
     func fetchResponse(for query: String, completion: @escaping (Result<String, Error>) -> Void) {
         var request = URLRequest(url: baseURL)
-        request.httpMethod = "POST"
+        request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
@@ -32,10 +32,6 @@ struct APIService {
                 return
             }
             
-            // Выводим сырой ответ для отладки
-            if let rawResponse = String(data: data, encoding: .utf8) {
-                print("Raw response: \(rawResponse)")
-            }
             
             do {
                 // GPT-2 возвращает ответ в виде массива словарей
