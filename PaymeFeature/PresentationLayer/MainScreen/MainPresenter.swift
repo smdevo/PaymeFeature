@@ -9,6 +9,8 @@
 
 protocol MainPresenterProtocol {
     
+    func presentCurrencies(currencies: [Currency])
+    
 }
 
 
@@ -21,6 +23,12 @@ final class MainPresenter {
 
 
 extension MainPresenter: MainPresenterProtocol {
+    
+    
+    func presentCurrencies(currencies: [Currency]) {
+        view?.showCurrencies(currencies: currencies)
+    }
+    
     
     
 }
