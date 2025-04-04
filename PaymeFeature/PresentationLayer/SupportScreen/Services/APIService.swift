@@ -30,10 +30,6 @@ struct APIService {
                 return
             }
             
-            if let rawResponse = String(data: data, encoding: .utf8) {
-                print("Raw response: \(rawResponse)")
-            }
-            
             do {
                 if let jsonArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]],
                    let firstResponse = jsonArray.first,
