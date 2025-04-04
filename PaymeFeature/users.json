@@ -1,0 +1,101 @@
+[
+  {
+    "id": "1",
+    "name": "Alice Johnson",
+    "age": 30,
+    "balance": 2500.50,
+    "userName": "alice",
+    "password": "123",
+    "date": 1743688593,
+    "cardNumber": "1111 2222 3333 4444",
+    "avatar": "avatar1.png",
+    "friends": [
+      {
+        "id": "2",
+        "name": "Bob Smith",
+        "age": 28,
+        "balance": 1500.25,
+        "userName": "bob",
+        "password": "123",
+        "date": 1743688590,
+        "cardNumber": "2222 3333 4444 5555",
+        "avatar": "avatar2.png",
+        "friends": []
+      },
+      {
+        "id": "3",
+        "name": "Charlie Brown",
+        "age": 35,
+        "balance": 3200.00,
+        "userName": "charlie",
+        "password": "123",
+        "date": 1743688587,
+        "cardNumber": "3333 4444 5555 6666",
+        "avatar": "avatar3.png",
+        "friends": []
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Bob Smith",
+    "age": 28,
+    "balance": 1500.25,
+    "userName": "bob",
+    "password": "123",
+    "date": 1743688590,
+    "cardNumber": "2222 3333 4444 5555",
+    "avatar": "avatar2.png",
+    "friends": [
+      {
+        "id": "1",
+        "name": "Alice Johnson",
+        "age": 30,
+        "balance": 2500.50,
+        "userName": "alice",
+        "password": "123",
+        "date": 1743688593,
+        "cardNumber": "1111 2222 3333 4444",
+        "avatar": "avatar1.png",
+        "friends": []
+      },
+      {
+        "id": "3",
+        "name": "Charlie Brown",
+        "age": 35,
+        "balance": 3200.00,
+        "userName": "charlie",
+        "password": "123",
+        "date": 1743688587,
+        "cardNumber": "3333 4444 5555 6666",
+        "avatar": "avatar3.png",
+        "friends": []
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Charlie Brown",
+    "age": 35,
+    "balance": 3200.00,
+    "userName": "charlie",
+    "password": "123",
+    "date": 1743688587,
+    "cardNumber": "3333 4444 5555 6666",
+    "avatar": "avatar3.png",
+    "friends": [
+      {
+        "id": "1",
+        "name": "Alice Johnson",
+        "age": 30,
+        "balance": 2500.50,
+        "userName": "alice",
+        "password": "123",
+        "date": 1743688593,
+        "cardNumber": "1111 2222 3333 4444",
+        "avatar": "avatar1.png",
+        "friends": []
+      }
+    ]
+  }
+]

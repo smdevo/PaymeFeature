@@ -36,8 +36,13 @@ class UniteViewController: UITabBarController {
         let support = UIHostingController(rootView: SupportView())
         support.tabBarItem = UITabBarItem(title: "Support", image: UIImage(systemName: "person.crop.circle"), tag: 4)
 
-
-        viewControllers = [main, transfers, payment, service, support]
+        let friends = UIHostingController(rootView: FriendsViewContainer())
+           friends.tabBarItem = UITabBarItem(title: "Friends", image: UIImage(systemName: "person.2.fill"), tag: 5)
+      
+               let login = UIHostingController(rootView: LoginView())
+               login.tabBarItem = UITabBarItem(title: "Login", image: UIImage(systemName: "wallet.bifold.fill"), tag: 6)
+               
+               viewControllers = [main, transfers, payment, service, support, login, friends]
         
     }
     

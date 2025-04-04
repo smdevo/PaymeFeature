@@ -1,3 +1,10 @@
+//
+//  AuthScreen.swift
+//  PaymeFeature
+//
+//  Created by Dmitriy An on 04/04/25.
+//
+
 import SwiftUI
 
 struct FoodOrderView: View {
