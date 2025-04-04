@@ -8,8 +8,8 @@
 import Foundation
 import Combine
 
-class AuthManager: ObservableObject {
-    static let shared = AuthManager()
+class LoginManager: ObservableObject {
+    static let shared = LoginManager()
     
     @Published var loggedInUser: User?
     @Published var users: [User] = []
