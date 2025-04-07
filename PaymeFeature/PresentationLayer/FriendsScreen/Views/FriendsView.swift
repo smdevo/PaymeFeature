@@ -15,7 +15,7 @@ struct FriendsView: View {
         NavigationView {
             VStack {
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 15) {
+                    HStack(spacing: 5) {
                         ForEach(viewModel.friends) { friend in
                             VStack {
                                 Circle()
@@ -55,7 +55,7 @@ struct FriendsView: View {
 
 extension FriendsViewModel {
     func updateFriends() {
-        if let currentUser = AuthManager.shared.loggedInUser {
+        if let currentUser = LoginManager.shared.loggedInUser {
             self.friends = currentUser.friends ?? []
         }
     }
@@ -65,7 +65,7 @@ extension FriendsViewModel {
 import SwiftUI
 
 struct FriendsViewContainer: View {
-    @ObservedObject var authManager = AuthManager.shared
+    @ObservedObject var authManager = LoginManager.shared
     
     var body: some View {
         if let currentUser = authManager.loggedInUser {

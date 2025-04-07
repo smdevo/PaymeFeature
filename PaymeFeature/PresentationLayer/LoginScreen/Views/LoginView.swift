@@ -36,7 +36,7 @@ struct LoginView: View {
             }
         }
         .onAppear {
-            AuthManager.shared.loadUsersFromJSON()
+            LoginManager.shared.loadUsersFromJSON()
         }
     }
     
@@ -44,10 +44,10 @@ struct LoginView: View {
         let trimmedUserName = userName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        if let user = AuthManager.shared.users.first(where: {
+        if let user = LoginManager.shared.users.first(where: {
             $0.userName.lowercased() == trimmedUserName && $0.password == trimmedPassword
         }) {
-            AuthManager.shared.loggedInUser = user
+            LoginManager.shared.loggedInUser = user
        
         } else {
             errorMessage = "Неверный логин или пароль"
