@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 protocol MainViewProtocol: AnyObject {
     
@@ -19,7 +20,7 @@ final class MainViewController: UIViewController {
     //MARK: -Dependency
     let interactor: MainInteractorProtocol
     
-    var currencies: [Currency] = []
+    //var currencies: [Currency] = []
     
     //MARK: -UI elements
     
@@ -29,7 +30,8 @@ final class MainViewController: UIViewController {
     
     private let currencyView = CurrencyView()
     
-    //private var currencySetView = CurrencySetView()
+    private var currencyScrollView = SetScrollView()
+    
     
     
     //MARK: -Init
@@ -57,12 +59,34 @@ final class MainViewController: UIViewController {
         view.addSubview(balanceView)
         view.addSubview(quickPayView)
         view.addSubview(currencyView)
-       // currencyView.addSubview(currencySetView)
-       
-        //currencySetView.isHidden = true
         
+        setUPCurrencyScrollView()
+       
         setUpConstraints()
     }
+    
+    
+    private func setUPCurrencyScrollView() {
+        
+        let hostingController = UIHostingController(rootView: currencyScrollView)
+        
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.backgroundColor = UIColor.theme.backgroundColor
+        
+        
+        NSLayoutConstraint.activate([
+            hostingController.view.topAnchor.constraint(equalTo: currencyView.topAnchor,constant: .spacing(.x5)),
+            hostingController.view.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor),
+            hostingController.view.widthAnchor.constraint(equalTo: currencyView.widthAnchor),
+            hostingController.view.heightAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        hostingController.didMove(toParent: self)
+        
+    }
+    
     
     private func setUpConstraints() {
     
@@ -84,11 +108,6 @@ final class MainViewController: UIViewController {
         currencyView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         
-//        currencySetView.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor).isActive = true
-//        currencySetView.trailingAnchor.constraint(equalTo: currencyView.trailingAnchor).isActive = true
-//        currencySetView.topAnchor.constraint(equalTo: currencyView.topAnchor, constant: 50).isActive = true
-//        currencySetView.heightAnchor.constraint(equalToConstant: 90).isActive = true
-        
     }
     
     
@@ -103,13 +122,13 @@ extension MainViewController: MainViewProtocol {
     
     
     func showCurrencies(currencies: [Currency]) {
-        self.currencies = currencies
+        
+        
         
         currencies.forEach { currency in
             print(currency.flag)
         }
         
-      //  currencySetView.setContents(currencies: currencies)
     }
     
 

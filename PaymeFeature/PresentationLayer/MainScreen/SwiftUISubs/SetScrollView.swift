@@ -6,75 +6,121 @@
 //
 
 import SwiftUI
+import UIKit
 
 
 class SetScrollViewModel: ObservableObject {
     
-    @Published var currencies: [Currency] = [
-        
-        Currency(id: 10, code: "840", currency: "USD", nameRU: "", nameUZ: "", nameUZC: "", nameEN: "", nominal: "13000", rate: "13000", diff: "12", date: "as"),
-        Currency(id: 10, code: "840", currency: "USD", nameRU: "", nameUZ: "", nameUZC: "", nameEN: "", nominal: "13000", rate: "13000", diff: "12", date: "as"),
-        Currency(id: 10, code: "840", currency: "USD", nameRU: "", nameUZ: "", nameUZC: "", nameEN: "", nominal: "13000", rate: "13000", diff: "-12", date: "as")
-        
-    ]
+    @Published var currencies: [Currency] = []
+
+    private let server = CurrencyNetworkingService()
    
     
+    init() {
+        fetchData()
+    }
+    
+    func fetchData() {
+        
+        server.fetchSelectedCurrencies(codes: ["USD","EUR","RUB","GBP"]) { currencies in
+            guard let currencies else
+            {
+                return
+            }
+            self.currencies = currencies
+        }
+        
+    }
     
 }
 
 
 struct SetScrollView: View {
     
-    @StateObject var vm = SetScrollViewModel()
+    @StateObject var vm =  SetScrollViewModel()
+
     
     
     var body: some View {
-        ScrollView(.horizontal) {
+        
+        VStack {
+            
+            ScrollView(.horizontal) {
+                HStack {
+                    
+                    if vm.currencies.isEmpty {
+                        HStack {
+                            ProgressView()
+                        }
+                    }else {
+                        
+                        ForEach(vm.currencies) { currency in
+                            HStack {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.white)
+                                        .frame(width: 50)
+                                    
+                                    
+                                    Text(currency.flag)
+                                        .padding()
+                                }
+                                VStack(alignment: .leading){
+                                    
+                                    Text("Pul Birligi")
+                                    
+                                    Text(currency.code)
+                                }
+                                
+                                VStack(alignment: .leading){
+                                    
+                                    Text("Qiymati")
+                                    
+                                    Text(currency.rate)
+                                }
+                                
+                                VStack{
+                                    Text("O'zgarish")
+                                    Text(currency.diff)
+                                }
+                            }
+                            .padding()
+                            .background {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .fill(Color.theme.backgroundColor)
+                                    .shadow(radius: 10)
+                            }
+                            .padding()
+                            
+                        }//FOREACH
+                        
+                    }//else
+                }
+            }//ScrollView
+            .scrollIndicators(.hidden)
+            
             HStack {
                 
-                ForEach(vm.currencies) { currency in
+                Spacer()
+                
+                Button {
                     
-                    HStack {
-                        
-                        Text(currency.flag)
-                            .padding()
-                        
-                        
-                        VStack(alignment: .leading){
-                            
-                            Text("Pul Birligi")
-                            
-                            Text(currency.code)
-                        }
-                        
-                        VStack(alignment: .leading){
-                            
-                            Text("Qiymati")
-                            
-                            Text(currency.rate)
-                        }
-                        
-                        VStack{
-                            Text("O'zgarish")
-                            Text(currency.diff)
-                        }
-                    }
-                    .padding()
-                    .background {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.white)
-                            .shadow(radius: 10)
-                    }
-                    .padding()
                     
+                } label: {
+                    
+                    HStack(spacing: 0) {
+                        Text("Hammasi")
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundStyle(.unselectedTabbarItem)
                 }
+                
             }
-        }
-        .scrollIndicators(.hidden)
-        
-    }
-}
+            .padding(.horizontal)
+        }//Vstack
+    }//body
+}//Class
 
 #Preview {
-    SetScrollView()
+            SetScrollView()
 }

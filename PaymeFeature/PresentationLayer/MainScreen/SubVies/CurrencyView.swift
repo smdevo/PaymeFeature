@@ -17,7 +17,7 @@ class CurrencyView: UIView {
         
         backgroundColor = UIColor.theme.backgroundColor
         
-        layer.cornerRadius = 20
+        layer.cornerRadius = 10
     }
     
     required init?(coder: NSCoder) {

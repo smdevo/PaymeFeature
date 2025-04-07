@@ -11,7 +11,7 @@ final class CurrencyNetworkingService {
     
     private let linkUrl = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
     
-    func fetchSelectedCurrencies(codes: [String], completion: @escaping ([Currency]?) -> Void) {
+    func fetchSelectedCurrencies(codes: [String] = ["USD","EUR","RUB"], all: Bool = false, completion: @escaping ([Currency]?) -> Void) {
         guard let url = URL(string: linkUrl) else {
             print("Invalid URL")
             completion(nil)
@@ -35,7 +35,7 @@ final class CurrencyNetworkingService {
                 let decoder = JSONDecoder()
                 let allCurrencies = try decoder.decode([Currency].self, from: data)
                 
-                let selectedCurrencies = allCurrencies.filter { codes.contains($0.currency) }
+                let selectedCurrencies = all ? allCurrencies : allCurrencies.filter { codes.contains($0.currency) }
                 
                 DispatchQueue.main.async {
                     completion(selectedCurrencies)
@@ -46,4 +46,10 @@ final class CurrencyNetworkingService {
             }
         }.resume()
     }
+    
+    
+    
 }
+
+
+
