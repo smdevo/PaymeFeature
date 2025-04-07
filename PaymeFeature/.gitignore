@@ -1,0 +1,9 @@
+//
+//  gitignore.swift
+//  PaymeFeature
+//
+//  Created by Dmitriy An on 07/04/25.
+//
+
+
+*.xcuserstate
