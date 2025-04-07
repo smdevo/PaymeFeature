@@ -9,11 +9,12 @@
 protocol MainInteractorProtocol {
     
     func onviewDidLoad()
-    
 }
 
 
 final class MainInteractor {
+    
+    let currencyNetworkingService: CurrencyNetworkingService = CurrencyNetworkingService()
     
     let presenter: MainPresenterProtocol
     
@@ -28,6 +29,27 @@ extension MainInteractor: MainInteractorProtocol {
     
     func onviewDidLoad() {
         print("Interactor is working")
+        
+        fetchCurrencyData()
     }
+    
+    private func fetchCurrencyData() {
+        
+        currencyNetworkingService.fetchSelectedCurrencies(codes: ["USD", "EUR", "RUB","GBP","JPY"]) { [weak self] currencies in
+            
+            guard let currencies = currencies
+            else {
+                print("Failed to fetch currency data.")
+                return
+            }
+            
+            
+            self?.presenter.presentCurrencies(currencies: currencies)
+            
+        }
+
+        
+    }
+    
     
 }

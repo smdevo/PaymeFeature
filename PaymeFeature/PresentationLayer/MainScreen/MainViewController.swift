@@ -9,6 +9,8 @@ import UIKit
 
 protocol MainViewProtocol: AnyObject {
     
+    func showCurrencies(currencies: [Currency])
+    
 }
 
 
@@ -17,134 +19,17 @@ final class MainViewController: UIViewController {
     //MARK: -Dependency
     let interactor: MainInteractorProtocol
     
+    var currencies: [Currency] = []
     
     //MARK: -UI elements
-    let balanceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Umumiy balans"
-        label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
-        label.textColor = UIColor.theme.labelC
-        return label
-    }()
     
-   
-    let sumLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "280 045"
-        label.font = UIFont.systemFont(ofSize: .spacing(.x9), weight: .semibold)
-        label.textColor = UIColor.theme.labelC
-        return label
-    }()
+    private let balanceView = BalanceView()
+
+    private let quickPayView = QuickPayView()
     
-    let currencyNaminglabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "so'm"
-        label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
-        label.textColor = UIColor.theme.labelC
-        return label
-    }()
+    private let currencyView = CurrencyView()
     
-    
-    let stackSum: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        stackView.alignment = .bottom
-        stackView.distribution = .fillProportionally
-        return stackView
-    }()
-    
-    let expenseLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Chiqim -"
-        label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
-        label.textColor = UIColor.theme.labelC
-        return label
-    }()
-    
-    let currencyNamingForExpenselabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "so'm"
-        label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
-        label.textColor = UIColor.theme.labelC
-        return label
-    }()
-    
-    let expenseSum: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "250 100"
-        label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
-        label.textColor = UIColor.theme.labelC
-        return label
-    }()
-    
-    let stackExpense: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        stackView.alignment = .center
-        stackView.distribution = .fillProportionally
-        return stackView
-    }()
-    
-    let hidderStack: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 0
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
-    
-    let hidderButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "eye.slash.fill"), for: .normal)
-        button.tintColor = UIColor.theme.labelC
-        return button
-    }()
-    
-    
-    let showCardsButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-        button.tintColor = UIColor.theme.labelC
-        return button
-    }()
-    
-    
-    let showBalanceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Balansni ko'rsatish"
-        label.font = UIFont.systemFont(ofSize: .spacing(.x6), weight: .semibold)
-        label.textColor = UIColor.theme.labelC
-        label.isHidden = true
-        return label
-    }()
-    
-    
-    let wholeBalanceStack: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 0
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        return stackView
-    }()
-    
-   
+    //private var currencySetView = CurrencySetView()
     
     
     //MARK: -Init
@@ -168,51 +53,47 @@ final class MainViewController: UIViewController {
     //MARK: -Functions
     
     private func setUpView() {
-        
         view.backgroundColor = UIColor.theme.paymeC
-        
-        stackSum.addArrangedSubview(sumLabel)
-        stackSum.addArrangedSubview(currencyNaminglabel)
-
-        stackExpense.addArrangedSubview(expenseLabel)
-        stackExpense.addArrangedSubview(expenseSum)
-        stackExpense.addArrangedSubview(currencyNamingForExpenselabel)
-
-        hidderStack.addArrangedSubview(balanceLabel)
-        hidderStack.addArrangedSubview(stackSum)
-        hidderStack.addArrangedSubview(stackExpense)
-        
-        wholeBalanceStack.addArrangedSubview(hidderButton)
-        wholeBalanceStack.addArrangedSubview(hidderStack)
-        wholeBalanceStack.addArrangedSubview(showBalanceLabel)
-        wholeBalanceStack.addArrangedSubview(showCardsButton)
-        
-        view.addSubview(wholeBalanceStack)
-        
-        hidderButton.addTarget(self, action: #selector(hideShowBalance), for: .touchUpInside)
-        
+        view.addSubview(balanceView)
+        view.addSubview(quickPayView)
+        view.addSubview(currencyView)
+       // currencyView.addSubview(currencySetView)
+       
+        //currencySetView.isHidden = true
         
         setUpConstraints()
     }
     
     private func setUpConstraints() {
+    
+        balanceView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .spacing(.x10)).isActive = true
+        balanceView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(.spacing(.x10))).isActive = true
+        balanceView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+        balanceView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
+    
+        
+        quickPayView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .spacing(.x10)).isActive = true
+        quickPayView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(.spacing(.x10))).isActive = true
+        quickPayView.topAnchor.constraint(equalTo: balanceView.bottomAnchor, constant: 60).isActive = true
+        quickPayView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
         
         
+        currencyView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        currencyView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        currencyView.topAnchor.constraint(equalTo: quickPayView.bottomAnchor, constant: 50).isActive = true
+        currencyView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
-        wholeBalanceStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .spacing(.x10)).isActive = true
-        wholeBalanceStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(.spacing(.x10))).isActive = true
-        wholeBalanceStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
         
+//        currencySetView.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor).isActive = true
+//        currencySetView.trailingAnchor.constraint(equalTo: currencyView.trailingAnchor).isActive = true
+//        currencySetView.topAnchor.constraint(equalTo: currencyView.topAnchor, constant: 50).isActive = true
+//        currencySetView.heightAnchor.constraint(equalToConstant: 90).isActive = true
         
     }
     
     
     @objc func hideShowBalance() {
-        
-        hidderStack.isHidden = true
-        
-        showBalanceLabel.isHidden = false
-        
+            
         
     }
     
@@ -221,4 +102,15 @@ final class MainViewController: UIViewController {
 extension MainViewController: MainViewProtocol {
     
     
+    func showCurrencies(currencies: [Currency]) {
+        self.currencies = currencies
+        
+        currencies.forEach { currency in
+            print(currency.flag)
+        }
+        
+      //  currencySetView.setContents(currencies: currencies)
+    }
+    
+
 }
