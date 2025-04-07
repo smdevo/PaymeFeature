@@ -14,29 +14,41 @@ struct LoginView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Авторизация")
-                .font(.largeTitle)
-            
-            TextField("Username", text: $userName)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-            
-            SecureField("Password", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-            
-            Button("Войти") {
-                login()
-            }
-            .padding()
-            
-            if let error = errorMessage {
-                Text(error)
-                    .foregroundColor(.red)
+            if let loggedUser = LoginManager.shared.loggedInUser {
+                // Если пользователь уже авторизован
+                Text("Вы уже авторизованы как \(loggedUser.name)")
+                    .font(.title)
+                Button("Выйти") {
+                    logout()
+                }
+                .foregroundColor(.red)
+            } else {
+                // Форма для авторизации
+                Text("Авторизация")
+                    .font(.largeTitle)
+                
+                TextField("Username", text: $userName)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal)
+                
+                SecureField("Password", text: $password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal)
+                
+                Button("Войти") {
+                    login()
+                }
+                .padding()
+                
+                if let error = errorMessage {
+                    Text(error)
+                        .foregroundColor(.red)
+                }
             }
         }
         .onAppear {
-            LoginManager.shared.loadUsersFromJSON()
+        LoginManager.shared.loadUsersFromJSON()
+            print("LoginView onAppear. Users count: \(LoginManager.self).shared.users.count)")
         }
     }
     
@@ -47,13 +59,28 @@ struct LoginView: View {
         if let user = LoginManager.shared.users.first(where: {
             $0.userName.lowercased() == trimmedUserName && $0.password == trimmedPassword
         }) {
-            LoginManager.shared.loggedInUser = user
-       
+        LoginManager.shared.loggedInUser = user
+            switchToMain()
         } else {
             errorMessage = "Неверный логин или пароль"
         }
     }
     
+    func logout() {
+    (LoginManager).shared.loggedInUser = nil
+        userName = ""
+        password = ""
+        errorMessage = nil
+    }
+    
+    func switchToMain() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            let tabBarController = UniteViewController() // Ваш таббар-контроллер
+            window.rootViewController = tabBarController
+            window.makeKeyAndVisible()
+        }
+    }
 }
 
 struct LoginView_Previews: PreviewProvider {
@@ -61,4 +88,3 @@ struct LoginView_Previews: PreviewProvider {
         LoginView()
     }
 }
-

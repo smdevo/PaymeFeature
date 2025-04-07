@@ -23,26 +23,26 @@ class UniteViewController: UITabBarController {
         let main = Assembly().giveMAinViewController()
         main.tabBarItem = UITabBarItem(title: "Main", image: UIImage(systemName: "house"), tag: 0)
 
-
         let transfers = UIHostingController(rootView: TransfersView())
         transfers.tabBarItem = UITabBarItem(title: "Transfers", image: UIImage(systemName: "arrow.left.arrow.right"), tag: 1)
 
-        let payment = UIHostingController(rootView: PaymentsView())
-        payment.tabBarItem = UITabBarItem(title: "Payment", image: UIImage(systemName: "wallet.bifold.fill"), tag: 2)
-
+        
+        let friends = UIHostingController(rootView: FamilyViewContainer())
+        friends.tabBarItem = UITabBarItem(title: "Family", image: UIImage(systemName: "person.2.fill"), tag: 2)
+        
         let service = UIHostingController(rootView: ServiceView())
         service.tabBarItem = UITabBarItem(title: "Services", image: UIImage(systemName: "square.grid.2x2"), tag: 3)
 
         let support = UIHostingController(rootView: SupportView())
         support.tabBarItem = UITabBarItem(title: "Support", image: UIImage(systemName: "person.crop.circle"), tag: 4)
 
-        let friends = UIHostingController(rootView: FriendsViewContainer())
-           friends.tabBarItem = UITabBarItem(title: "Friends", image: UIImage(systemName: "person.2.fill"), tag: 5)
-      
+        let payment = UIHostingController(rootView: PaymentsView())
+        payment.tabBarItem = UITabBarItem(title: "Payment", image: UIImage(systemName: "wallet.bifold.fill"), tag: 5)
+
                let login = UIHostingController(rootView: LoginView())
                login.tabBarItem = UITabBarItem(title: "Login", image: UIImage(systemName: "wallet.bifold.fill"), tag: 6)
                
-               viewControllers = [main, transfers, payment, service, support, login, friends]
+               viewControllers = [main, transfers,friends, service, support, login, payment]
         
     }
     

@@ -17,36 +17,45 @@ class LoginManager: ObservableObject {
     private init() { }
     
     func loadUsersFromJSON() {
-        guard let url = Bundle.main.url(forResource: "users", withExtension: "json") else { return }
+        guard let url = Bundle.main.url(forResource: "users", withExtension: "json") else {
+            return
+        }
         do {
             let data = try Data(contentsOf: url)
-            let decodedUsers = try JSONDecoder().decode([User].self, from: data)
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            let decodedUsers = try decoder.decode([User].self, from: data)
             DispatchQueue.main.async {
                 self.users = decodedUsers
+                print("Loaded users: \(self.users.count)")
             }
         } catch {
             print("Error decoding users: \(error)")
         }
     }
+
 }
 
-
-import Foundation
 
 struct User: Codable, Identifiable, Equatable {
     let id: String
     let name: String
     let age: Int
-    let balance: Double
+    var balance: Double
     let userName: String
     let password: String
     let date: TimeInterval
     var friends: [User]? = []
     let cardNumber: String?
     let avatar: String?
+    let role: String
+    var transactions: [Transaction]? = []
+    var subscriptions: [Subscription]? = []
     
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.id == rhs.id
     }
 }
+
+
 

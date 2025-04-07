@@ -2,99 +2,99 @@
   {
     "id": "1",
     "name": "Alice Johnson",
-    "age": 30,
+    "age": 35,
     "balance": 2500.50,
     "userName": "alice",
     "password": "123",
     "date": 1743688593,
     "cardNumber": "1111 2222 3333 4444",
     "avatar": "avatar1.png",
+    "role": "parent",
     "friends": [
-      {
-        "id": "2",
-        "name": "Bob Smith",
-        "age": 28,
-        "balance": 1500.25,
-        "userName": "bob",
-        "password": "123",
-        "date": 1743688590,
-        "cardNumber": "2222 3333 4444 5555",
-        "avatar": "avatar2.png",
-        "friends": []
-      },
       {
         "id": "3",
         "name": "Charlie Brown",
-        "age": 35,
-        "balance": 3200.00,
+        "age": 12,
+        "balance": 500.00,
         "userName": "charlie",
         "password": "123",
         "date": 1743688587,
         "cardNumber": "3333 4444 5555 6666",
         "avatar": "avatar3.png",
-        "friends": []
+        "role": "child",
+        "friends": [],
+        "transactions": [],
+        "subscriptions": []
+      }
+    ],
+    "transactions": [
+      {
+        "id": "txn_1",
+        "fromUserID": "1",
+        "toUserID": "3",
+        "amount": 50.0,
+        "date": "2025-04-04T12:00:00Z",
+        "description": "Оплата обеда"
+      }
+    ],
+    "subscriptions": [
+      {
+        "id": "sub_1",
+        "name": "Payme Plus",
+        "price": 9.99,
+        "renewalDate": "2025-05-01T00:00:00Z"
       }
     ]
   },
   {
     "id": "2",
     "name": "Bob Smith",
-    "age": 28,
+    "age": 40,
     "balance": 1500.25,
     "userName": "bob",
     "password": "123",
     "date": 1743688590,
     "cardNumber": "2222 3333 4444 5555",
     "avatar": "avatar2.png",
-    "friends": [
-      {
-        "id": "1",
-        "name": "Alice Johnson",
-        "age": 30,
-        "balance": 2500.50,
-        "userName": "alice",
-        "password": "123",
-        "date": 1743688593,
-        "cardNumber": "1111 2222 3333 4444",
-        "avatar": "avatar1.png",
-        "friends": []
-      },
-      {
-        "id": "3",
-        "name": "Charlie Brown",
-        "age": 35,
-        "balance": 3200.00,
-        "userName": "charlie",
-        "password": "123",
-        "date": 1743688587,
-        "cardNumber": "3333 4444 5555 6666",
-        "avatar": "avatar3.png",
-        "friends": []
-      }
-    ]
+    "role": "parent",
+    "friends": [],
+    "transactions": [],
+    "subscriptions": []
   },
   {
     "id": "3",
     "name": "Charlie Brown",
-    "age": 35,
-    "balance": 3200.00,
+    "age": 12,
+    "balance": 500.00,
     "userName": "charlie",
     "password": "123",
     "date": 1743688587,
     "cardNumber": "3333 4444 5555 6666",
     "avatar": "avatar3.png",
-    "friends": [
+    "role": "child",
+    "friends": [],
+    "transactions": [
       {
-        "id": "1",
-        "name": "Alice Johnson",
-        "age": 30,
-        "balance": 2500.50,
-        "userName": "alice",
-        "password": "123",
-        "date": 1743688593,
-        "cardNumber": "1111 2222 3333 4444",
-        "avatar": "avatar1.png",
-        "friends": []
+        "id": "txn_2",
+        "fromUserID": "2",
+        "toUserID": "3",
+        "amount": 20.0,
+        "date": "2025-04-05T10:00:00Z",
+        "description": "Карманные деньги"
+      }
+    ],
+    "subscriptions": [
+      {
+        "id": "sub_2",
+        "name": "Kids Club",
+        "price": 4.99,
+        "renewalDate": "2025-04-10T00:00:00Z"
+      },
+      {
+        "id": "sub_3",
+        "name": "Game Pass",
+        "price": 6.99,
+        "renewalDate": "2025-04-15T00:00:00Z"
       }
     ]
   }

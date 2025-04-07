@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Transaction: Identifiable, Codable {
-    let id: UUID
-    let fromCardNumber: String
-    let toCardNumber: String
+struct Transaction: Codable, Identifiable {
+    let id: String
+    let fromUserID: String
+    let toUserID: String
     let amount: Double
-    let description: String
     let date: Date
+    let description: String
 }
