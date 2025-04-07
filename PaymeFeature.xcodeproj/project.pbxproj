@@ -14,29 +14,17 @@
 		7C7CDF0D2D9D329000A94584 /* Exceptions for "PaymeFeature" folder in "PaymeFeature" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				.gitignore,
 				Info.plist,
 			);
 			target = 7C7CDEF72D9D328F00A94584 /* PaymeFeature */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		21F3F1E82DA40CB3006D148A /* Exceptions for "PaymeFeature" folder in "Compile Sources" phase from "PaymeFeature" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 7C7CDEF42D9D328F00A94584 /* Sources */;
-			membershipExceptions = (
-				.gitignore,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7C7CDEFA2D9D328F00A94584 /* PaymeFeature */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				7C7CDF0D2D9D329000A94584 /* Exceptions for "PaymeFeature" folder in "PaymeFeature" target */,
-				21F3F1E82DA40CB3006D148A /* Exceptions for "PaymeFeature" folder in "Compile Sources" phase from "PaymeFeature" target */,
 			);
 			path = PaymeFeature;
 			sourceTree = "<group>";
@@ -173,10 +161,6 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = samandar.PaymeFeature;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -206,10 +190,6 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = samandar.PaymeFeature;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
