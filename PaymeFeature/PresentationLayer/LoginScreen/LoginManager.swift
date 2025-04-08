@@ -27,7 +27,6 @@ class LoginManager: ObservableObject {
             let decodedUsers = try decoder.decode([User].self, from: data)
             DispatchQueue.main.async {
                 self.users = decodedUsers
-                print("Loaded users: \(self.users.count)")
             }
         } catch {
             print("Error decoding users: \(error)")
@@ -37,25 +36,6 @@ class LoginManager: ObservableObject {
 }
 
 
-struct User: Codable, Identifiable, Equatable {
-    let id: String
-    let name: String
-    let age: Int
-    var balance: Double
-    let userName: String
-    let password: String
-    let date: TimeInterval
-    var friends: [User]? = []
-    let cardNumber: String?
-    let avatar: String?
-    let role: String
-    var transactions: [Transaction]? = []
-    var subscriptions: [Subscription]? = []
-    
-    static func == (lhs: User, rhs: User) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
 
 
 

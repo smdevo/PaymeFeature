@@ -13,8 +13,7 @@ struct FamilyView: View {
     @State private var selectedMember: User?
     @State private var sendAmount: String = ""
     
-    @State private var showAddMemberSheet: Bool = false
-    @State private var newMemberCardNumber: String = ""
+    @State private var showFamilyCardAddSheet: Bool = false
     
     var body: some View {
         NavigationView {
@@ -47,7 +46,7 @@ struct FamilyView: View {
                 
                 if viewModel.currentUser.role == "parent" {
                     Divider()
-                    Text("История")
+                    Text("История детей")
                         .font(.headline)
                         .padding(.top)
                     
@@ -88,8 +87,6 @@ struct FamilyView: View {
                             }
                         }
                         .listStyle(PlainListStyle())
-
-                        .listStyle(PlainListStyle())
                     }
                 }
                 
@@ -101,16 +98,17 @@ struct FamilyView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if viewModel.currentUser.role == "parent" {
                         Button(action: {
-                            showAddMemberSheet = true
+                            showFamilyCardAddSheet.toggle()
                         }) {
-                            Image(systemName: "plus")
+                            Image(systemName: "plus.circle")
                         }
                     }
                 }
             }
-            
             .sheet(isPresented: $showSendMoneySheet) {
-                SendMoneySheet(selectedMember: $selectedMember, sendAmount: $sendAmount, onSend: {
+                SendMoneySheet(selectedMember: $selectedMember,
+                               sendAmount: $sendAmount,
+                               onSend: {
                     if let member = selectedMember, let amount = Double(sendAmount) {
                         viewModel.sendMoney(to: member, amount: amount)
                     }
@@ -121,16 +119,10 @@ struct FamilyView: View {
                     sendAmount = ""
                 })
             }
-            
-            .sheet(isPresented: $showAddMemberSheet) {
-                AddMemberSheet(newCardNumber: $newMemberCardNumber, onAdd: {
-                    viewModel.addFamilyMember(byCardNumber: newMemberCardNumber)
-                    newMemberCardNumber = ""
-                    showAddMemberSheet = false
-                }, onCancel: {
-                    newMemberCardNumber = ""
-                    showAddMemberSheet = false
-                })
+            .sheet(isPresented: $showFamilyCardAddSheet) {
+                FamilyCardAddView()
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.hidden)
             }
         }
     }
@@ -142,30 +134,31 @@ struct FamilyView: View {
         return formatter.string(from: date)
     }
 }
-
-
-extension FamilyViewModel {
-    func updateFriends() {
-        if let currentUser = LoginManager.shared.loggedInUser {
-            self.familyMembers = currentUser.friends ?? []
-        }
-    }
-}
-
-
-import SwiftUI
-
-struct FamilyViewContainer: View {
-    @ObservedObject var authManager = LoginManager.shared
     
-    var body: some View {
-        if let currentUser = authManager.loggedInUser {
-            let familyVM = FamilyViewModel(currentUser: currentUser, allUsers: authManager.users)
-            FamilyView(viewModel: familyVM)
-        } else {
-            Text("Пожалуйста, войдите, чтобы увидеть семью")
-                .foregroundColor(.gray)
+    
+    
+    extension FamilyViewModel {
+        func updateFriends() {
+            if let currentUser = LoginManager.shared.loggedInUser {
+                self.familyMembers = currentUser.friends ?? []
+            }
         }
     }
-}
-
+    
+    
+    
+    
+    struct FamilyViewContainer: View {
+        @ObservedObject var authManager = LoginManager.shared
+        
+        var body: some View {
+            if let currentUser = authManager.loggedInUser {
+                let familyVM = FamilyViewModel(currentUser: currentUser, allUsers: authManager.users)
+                FamilyView(viewModel: familyVM)
+            } else {
+                Text("Пожалуйста, войдите, чтобы увидеть семью")
+                    .foregroundColor(.gray)
+            }
+        }
+    }
+    

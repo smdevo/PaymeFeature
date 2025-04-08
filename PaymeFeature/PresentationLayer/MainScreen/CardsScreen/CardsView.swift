@@ -15,6 +15,7 @@ struct CardsView: View {
     
     @State var controllerTab: Int = 0
     
+    @State private var showAddCardSheet: Bool = false
     
     var body: some View {
         VStack {
@@ -80,8 +81,9 @@ extension CardsView {
     
     private var plusButton: some View {
         
+       
         Button {
-            //opening the adding card view
+            showAddCardSheet.toggle()
         } label: {
             Circle()
                 .fill(.paymeC)
@@ -92,6 +94,13 @@ extension CardsView {
                         .padding(22)
                         .foregroundStyle(.white)
                 }
+        }.sheet(isPresented: $showAddCardSheet) {
+            AddCardView()
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.hidden)
         }
     }
 }
+
+
+
