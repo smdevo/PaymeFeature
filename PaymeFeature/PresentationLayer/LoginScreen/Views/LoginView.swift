@@ -10,6 +10,8 @@ import SwiftUI
 struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel()
 
+    @FocusState private var isUsernameFieldFocused: Bool
+    
     var body: some View {
         VStack(spacing: 20) {
             if let loggedUser = LoginManager.shared.loggedInUser {
@@ -26,10 +28,12 @@ struct LoginView: View {
                 TextField("Username", text: $viewModel.userName)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
+                    .focused($isUsernameFieldFocused)
                 
                 SecureField("Password", text: $viewModel.password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
+                    .focused($isUsernameFieldFocused)
                 
                 Button("Войти") {
                     viewModel.login()
