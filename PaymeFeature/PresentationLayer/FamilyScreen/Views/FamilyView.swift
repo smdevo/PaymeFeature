@@ -13,13 +13,11 @@ struct FamilyView: View {
     @State private var selectedMember: User?
     @State private var sendAmount: String = ""
     
-    // Состояние для показа листа добавления семейной карты
     @State private var showFamilyCardAddSheet: Bool = false
-
+    
     var body: some View {
         NavigationView {
             VStack {
-                // Горизонтальный список членов семьи
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(viewModel.familyMembers) { member in
@@ -33,7 +31,6 @@ struct FamilyView: View {
                                             .font(.title)
                                     )
                                     .onTapGesture {
-                                        // Если текущий пользователь – родитель и нажали на ребёнка, открыть лист для отправки денег
                                         if viewModel.currentUser.role == "parent" && member.role == "child" {
                                             selectedMember = member
                                             showSendMoneySheet = true
@@ -47,7 +44,6 @@ struct FamilyView: View {
                     .padding(.horizontal)
                 }
                 
-                // История детей (транзакции и подписки), показывается только родителям
                 if viewModel.currentUser.role == "parent" {
                     Divider()
                     Text("История детей")
@@ -99,7 +95,6 @@ struct FamilyView: View {
             .navigationTitle("Семья")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                // Кнопка добавления карты, отображается справа в navigationBar (только для родителей)
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if viewModel.currentUser.role == "parent" {
                         Button(action: {
@@ -110,7 +105,6 @@ struct FamilyView: View {
                     }
                 }
             }
-            // Лист для отправки денег (при нажатии на аватар ребенка)
             .sheet(isPresented: $showSendMoneySheet) {
                 SendMoneySheet(selectedMember: $selectedMember,
                                sendAmount: $sendAmount,
@@ -125,7 +119,6 @@ struct FamilyView: View {
                     sendAmount = ""
                 })
             }
-            // Лист для добавления семейной карты через FamilyCardAddView
             .sheet(isPresented: $showFamilyCardAddSheet) {
                 FamilyCardAddView()
                     .presentationDetents([.medium])
@@ -140,31 +133,32 @@ struct FamilyView: View {
         formatter.timeStyle = .short
         return formatter.string(from: date)
     }
-
-
-
-extension FamilyViewModel {
-    func updateFriends() {
-        if let currentUser = LoginManager.shared.loggedInUser {
-            self.familyMembers = currentUser.friends ?? []
-        }
-    }
 }
-
-
-import SwiftUI
-
-struct FamilyViewContainer: View {
-    @ObservedObject var authManager = LoginManager.shared
     
-    var body: some View {
-        if let currentUser = authManager.loggedInUser {
-            let familyVM = FamilyViewModel(currentUser: currentUser, allUsers: authManager.users)
-            FamilyView(viewModel: familyVM)
-        } else {
-            Text("Пожалуйста, войдите, чтобы увидеть семью")
-                .foregroundColor(.gray)
+    
+    
+    extension FamilyViewModel {
+        func updateFriends() {
+            if let currentUser = LoginManager.shared.loggedInUser {
+                self.familyMembers = currentUser.friends ?? []
+            }
         }
     }
-}
-
+    
+    
+    
+    
+    struct FamilyViewContainer: View {
+        @ObservedObject var authManager = LoginManager.shared
+        
+        var body: some View {
+            if let currentUser = authManager.loggedInUser {
+                let familyVM = FamilyViewModel(currentUser: currentUser, allUsers: authManager.users)
+                FamilyView(viewModel: familyVM)
+            } else {
+                Text("Пожалуйста, войдите, чтобы увидеть семью")
+                    .foregroundColor(.gray)
+            }
+        }
+    }
+    

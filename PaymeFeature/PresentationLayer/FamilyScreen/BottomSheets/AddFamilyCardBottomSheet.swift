@@ -5,7 +5,7 @@ struct FamilyCardAddView: View {
     @State private var expiryDate: String = ""
     @State private var phoneNumber: String = ""
     @State private var showSMSConfirmationSheet: Bool = false
-    @State private var isButtonLoading: Bool = false  // Флаг для отображения загрузки в кнопке
+    @State private var isButtonLoading: Bool = false  
 
     @Environment(\.dismiss) var dismiss
 
