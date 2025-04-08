@@ -27,7 +27,6 @@ class LoginManager: ObservableObject {
             let decodedUsers = try decoder.decode([User].self, from: data)
             DispatchQueue.main.async {
                 self.users = decodedUsers
-                print("Loaded users: \(self.users.count)")
             }
         } catch {
             print("Error decoding users: \(error)")

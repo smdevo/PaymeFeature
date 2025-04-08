@@ -44,7 +44,6 @@ struct LoginView: View {
         }
         .onAppear {
             LoginManager.shared.loadUsersFromJSON()
-            print("LoginView onAppear. Users count: \(LoginManager.shared.users.count)")
         }
         .onReceive(viewModel.$errorMessage) { err in
             if let err = err {
@@ -52,7 +51,6 @@ struct LoginView: View {
             }
         }
         .onAppear {
-            // Устанавливаем обратный вызов
             viewModel.onLoginSuccess = {
                 switchToMain()
             }
@@ -60,23 +58,18 @@ struct LoginView: View {
     }
     
     func logout() {
-        LoginManager.shared.loggedInUser = nil
+        
     }
     
     func switchToMain() {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = windowScene.windows.first {
-            let tabBarController = UniteViewController() // Ваш таббар-контроллер
+            let tabBarController = UniteViewController()
             window.rootViewController = tabBarController
             window.makeKeyAndVisible()
-            print("Переход на таббар. Logged in user: \(LoginManager.shared.loggedInUser?.name ?? "nil")")
         }
     }
 }
 
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView()
-    }
-}
+
 

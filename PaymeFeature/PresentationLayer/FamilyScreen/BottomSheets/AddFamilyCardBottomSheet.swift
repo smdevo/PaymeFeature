@@ -5,7 +5,7 @@ struct FamilyCardAddView: View {
     @State private var expiryDate: String = ""
     @State private var phoneNumber: String = ""
     @State private var showSMSConfirmationSheet: Bool = false
-    @State private var isButtonLoading: Bool = false  // Флаг для отображения загрузки в кнопке
+    @State private var isButtonLoading: Bool = false  
 
     @Environment(\.dismiss) var dismiss
 
@@ -34,7 +34,6 @@ struct FamilyCardAddView: View {
                         }
                     }
                     
-                    // Поле ввода срока действия: после 2 цифр вставляется "/"
                     LabeledTextField(
                         label: "Срок действия карты",
                         placeholder: "MM/YY",
@@ -75,17 +74,15 @@ struct FamilyCardAddView: View {
                         }
                     }
                     
-                    // Кнопка "Добавить семейную карту", которая при нажатии становится загрузочным индикатором
                     if isButtonLoading {
                         ProgressView()
                             .padding()
                             .frame(maxWidth: .infinity)
                     } else {
                         Button(action: {
-                            // Начинаем имитацию загрузки, заменяя кнопку на ProgressView
                             isButtonLoading = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                isButtonLoading = false  // можно сбросить состояние, если требуется
+                                isButtonLoading = false
                                 showSMSConfirmationSheet = true
                             }
                         }) {
@@ -119,7 +116,6 @@ struct FamilyCardAddView: View {
 struct SMSConfirmationView: View {
     @State private var smsCode: String = ""
     @State private var errorMessage: String = ""
-    // Флаг для показа ProgressView (имитация загрузки)
     @State private var isLoading: Bool = false
     
     var onCodeConfirmed: (Bool) -> Void
