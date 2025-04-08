@@ -123,8 +123,6 @@ extension MainViewController: MainViewProtocol {
     
     func showCurrencies(currencies: [Currency]) {
         
-        
-        
         currencies.forEach { currency in
             print(currency.flag)
         }
