@@ -37,7 +37,6 @@ struct CardView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(height: 30)
-//                        .foregroundStyle(.link)
                     
                 }
             }
