@@ -28,7 +28,6 @@ final class MainInteractor {
 extension MainInteractor: MainInteractorProtocol {
     
     func onviewDidLoad() {
-        print("Interactor is working")
         
         fetchCurrencyData()
     }
