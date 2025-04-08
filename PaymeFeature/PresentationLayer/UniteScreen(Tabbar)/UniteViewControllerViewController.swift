@@ -9,7 +9,9 @@ import UIKit
 import SwiftUI
 
 class UniteViewController: UITabBarController {
-
+    
+    var user: User?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
