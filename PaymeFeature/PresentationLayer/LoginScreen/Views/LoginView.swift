@@ -8,14 +8,11 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var userName: String = ""
-    @State private var password: String = ""
-    @State private var errorMessage: String?
-    
+    @StateObject private var viewModel = LoginViewModel()
+
     var body: some View {
         VStack(spacing: 20) {
             if let loggedUser = LoginManager.shared.loggedInUser {
-                // Если пользователь уже авторизован
                 Text("Вы уже авторизованы как \(loggedUser.name)")
                     .font(.title)
                 Button("Выйти") {
@@ -23,54 +20,47 @@ struct LoginView: View {
                 }
                 .foregroundColor(.red)
             } else {
-                // Форма для авторизации
                 Text("Авторизация")
                     .font(.largeTitle)
                 
-                TextField("Username", text: $userName)
+                TextField("Username", text: $viewModel.userName)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
                 
-                SecureField("Password", text: $password)
+                SecureField("Password", text: $viewModel.password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
                 
                 Button("Войти") {
-                    login()
+                    viewModel.login()
                 }
                 .padding()
                 
-                if let error = errorMessage {
+                if let error = viewModel.errorMessage {
                     Text(error)
                         .foregroundColor(.red)
                 }
             }
         }
         .onAppear {
-        LoginManager.shared.loadUsersFromJSON()
-            print("LoginView onAppear. Users count: \(LoginManager.self).shared.users.count)")
+            LoginManager.shared.loadUsersFromJSON()
+            print("LoginView onAppear. Users count: \(LoginManager.shared.users.count)")
         }
-    }
-    
-    func login() {
-        let trimmedUserName = userName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if let user = LoginManager.shared.users.first(where: {
-            $0.userName.lowercased() == trimmedUserName && $0.password == trimmedPassword
-        }) {
-        LoginManager.shared.loggedInUser = user
-            switchToMain()
-        } else {
-            errorMessage = "Неверный логин или пароль"
+        .onReceive(viewModel.$errorMessage) { err in
+            if let err = err {
+                print("Ошибка логина: \(err)")
+            }
+        }
+        .onAppear {
+            // Устанавливаем обратный вызов
+            viewModel.onLoginSuccess = {
+                switchToMain()
+            }
         }
     }
     
     func logout() {
-    (LoginManager).shared.loggedInUser = nil
-        userName = ""
-        password = ""
-        errorMessage = nil
+        LoginManager.shared.loggedInUser = nil
     }
     
     func switchToMain() {
@@ -79,6 +69,7 @@ struct LoginView: View {
             let tabBarController = UniteViewController() // Ваш таббар-контроллер
             window.rootViewController = tabBarController
             window.makeKeyAndVisible()
+            print("Переход на таббар. Logged in user: \(LoginManager.shared.loggedInUser?.name ?? "nil")")
         }
     }
 }
@@ -88,3 +79,4 @@ struct LoginView_Previews: PreviewProvider {
         LoginView()
     }
 }
+

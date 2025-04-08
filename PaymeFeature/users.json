@@ -24,7 +24,8 @@
         "role": "child",
         "friends": [],
         "transactions": [],
-        "subscriptions": []
+        "subscriptions": [],
+        "cards": []
       }
     ],
     "transactions": [
@@ -44,6 +45,24 @@
         "price": 9.99,
         "renewalDate": "2025-05-01T00:00:00Z"
       }
+    ],
+    "cards": [
+      {
+        "id": "card_1",
+        "cardNumber": "9999 8888 7777 6666",
+        "expiryDate": "12/25",
+        "phoneNumber": "+1234567890",
+        "isFamily": false,
+        "ownerID": "1"
+      },
+      {
+        "id": "card_2",
+        "cardNumber": "5555 4444 3333 2222",
+        "expiryDate": "10/24",
+        "phoneNumber": "+1987654321",
+        "isFamily": false,
+        "ownerID": "1"
+      }
     ]
   },
   {
@@ -59,7 +78,8 @@
     "role": "parent",
     "friends": [],
     "transactions": [],
-    "subscriptions": []
+    "subscriptions": [],
+    "cards": []
   },
   {
     "id": "3",
@@ -73,29 +93,8 @@
     "avatar": "avatar3.png",
     "role": "child",
     "friends": [],
-    "transactions": [
-      {
-        "id": "txn_2",
-        "fromUserID": "2",
-        "toUserID": "3",
-        "amount": 20.0,
-        "date": "2025-04-05T10:00:00Z",
-        "description": "Карманные деньги"
-      }
-    ],
-    "subscriptions": [
-      {
-        "id": "sub_2",
-        "name": "Kids Club",
-        "price": 4.99,
-        "renewalDate": "2025-04-10T00:00:00Z"
-      },
-      {
-        "id": "sub_3",
-        "name": "Game Pass",
-        "price": 6.99,
-        "renewalDate": "2025-04-15T00:00:00Z"
-      }
-    ]
+    "transactions": [],
+    "subscriptions": [],
+    "cards": []
   }
 ]

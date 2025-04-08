@@ -13,12 +13,13 @@ struct FamilyView: View {
     @State private var selectedMember: User?
     @State private var sendAmount: String = ""
     
-    @State private var showAddMemberSheet: Bool = false
-    @State private var newMemberCardNumber: String = ""
-    
+    // Состояние для показа листа добавления семейной карты
+    @State private var showFamilyCardAddSheet: Bool = false
+
     var body: some View {
         NavigationView {
             VStack {
+                // Горизонтальный список членов семьи
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(viewModel.familyMembers) { member in
@@ -32,6 +33,7 @@ struct FamilyView: View {
                                             .font(.title)
                                     )
                                     .onTapGesture {
+                                        // Если текущий пользователь – родитель и нажали на ребёнка, открыть лист для отправки денег
                                         if viewModel.currentUser.role == "parent" && member.role == "child" {
                                             selectedMember = member
                                             showSendMoneySheet = true
@@ -45,9 +47,10 @@ struct FamilyView: View {
                     .padding(.horizontal)
                 }
                 
+                // История детей (транзакции и подписки), показывается только родителям
                 if viewModel.currentUser.role == "parent" {
                     Divider()
-                    Text("История")
+                    Text("История детей")
                         .font(.headline)
                         .padding(.top)
                     
@@ -88,8 +91,6 @@ struct FamilyView: View {
                             }
                         }
                         .listStyle(PlainListStyle())
-
-                        .listStyle(PlainListStyle())
                     }
                 }
                 
@@ -98,19 +99,22 @@ struct FamilyView: View {
             .navigationTitle("Семья")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                // Кнопка добавления карты, отображается справа в navigationBar (только для родителей)
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if viewModel.currentUser.role == "parent" {
                         Button(action: {
-                            showAddMemberSheet = true
+                            showFamilyCardAddSheet.toggle()
                         }) {
-                            Image(systemName: "plus")
+                            Image(systemName: "plus.circle")
                         }
                     }
                 }
             }
-            
+            // Лист для отправки денег (при нажатии на аватар ребенка)
             .sheet(isPresented: $showSendMoneySheet) {
-                SendMoneySheet(selectedMember: $selectedMember, sendAmount: $sendAmount, onSend: {
+                SendMoneySheet(selectedMember: $selectedMember,
+                               sendAmount: $sendAmount,
+                               onSend: {
                     if let member = selectedMember, let amount = Double(sendAmount) {
                         viewModel.sendMoney(to: member, amount: amount)
                     }
@@ -121,16 +125,11 @@ struct FamilyView: View {
                     sendAmount = ""
                 })
             }
-            
-            .sheet(isPresented: $showAddMemberSheet) {
-                AddMemberSheet(newCardNumber: $newMemberCardNumber, onAdd: {
-                    viewModel.addFamilyMember(byCardNumber: newMemberCardNumber)
-                    newMemberCardNumber = ""
-                    showAddMemberSheet = false
-                }, onCancel: {
-                    newMemberCardNumber = ""
-                    showAddMemberSheet = false
-                })
+            // Лист для добавления семейной карты через FamilyCardAddView
+            .sheet(isPresented: $showFamilyCardAddSheet) {
+                FamilyCardAddView()
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.hidden)
             }
         }
     }
