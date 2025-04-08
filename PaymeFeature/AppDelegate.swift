@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import SwiftUI
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,7 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if window == nil {
             window = UIWindow()
             
-            window?.rootViewController = UniteViewController()
+            let hostingController = UIHostingController(rootView: LoginView())
+            
+            window?.rootViewController = hostingController
             window?.makeKeyAndVisible()
         }
         
