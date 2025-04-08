@@ -13,7 +13,7 @@ struct FamilyView: View {
     @State private var selectedMember: User?
     @State private var sendAmount: String = ""
     
-    @State private var showAddMemberSheet: Bool = false
+    @State private var showFamilyCardSheet = false
     @State private var newMemberCardNumber: String = ""
     
     var body: some View {
@@ -47,10 +47,6 @@ struct FamilyView: View {
                 
                 if viewModel.currentUser.role == "parent" {
                     Divider()
-                    Text("История")
-                        .font(.headline)
-                        .padding(.top)
-                    
                     if viewModel.childrenHistory.isEmpty {
                         Text("Нет истории")
                             .foregroundColor(.gray)
@@ -101,7 +97,7 @@ struct FamilyView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if viewModel.currentUser.role == "parent" {
                         Button(action: {
-                            showAddMemberSheet = true
+                            showFamilyCardSheet = true
                         }) {
                             Image(systemName: "plus")
                         }
@@ -122,15 +118,11 @@ struct FamilyView: View {
                 })
             }
             
-            .sheet(isPresented: $showAddMemberSheet) {
-                AddMemberSheet(newCardNumber: $newMemberCardNumber, onAdd: {
-                    viewModel.addFamilyMember(byCardNumber: newMemberCardNumber)
-                    newMemberCardNumber = ""
-                    showAddMemberSheet = false
-                }, onCancel: {
-                    newMemberCardNumber = ""
-                    showAddMemberSheet = false
-                })
+                .sheet(isPresented: $showFamilyCardSheet) {
+                          FamilyCardAddView()
+                              .presentationDetents([.medium])
+                              .presentationDragIndicator(.hidden)
+                      }
             }
         }
     }
@@ -141,7 +133,7 @@ struct FamilyView: View {
         formatter.timeStyle = .short
         return formatter.string(from: date)
     }
-}
+
 
 
 extension FamilyViewModel {
