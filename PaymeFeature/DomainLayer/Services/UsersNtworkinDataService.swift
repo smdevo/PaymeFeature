@@ -16,6 +16,7 @@ struct UserModel: Codable, Identifiable, Equatable {
     let role: Bool
     let balance: String
     let id: String
+    let invitation: Bool
 }
 
 struct FamilyModel: Codable {
@@ -29,6 +30,7 @@ struct VirtualCardModel: Codable {
     let id: String
     let name: String
     let number: String
+    let ownerPhoneNumber: String
 }
 
 

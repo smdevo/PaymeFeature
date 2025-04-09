@@ -13,43 +13,43 @@ struct FamilyView: View {
     
     @State private var showFamilyCardAddSheet: Bool = false
     @State private var showAddFamilyMemberSheet: Bool = false
-
+    
     
     var familyCards: [BankCard] = [
-           BankCard(
-               name: "Personal Debit Card",
-               ownerName: "Alice Johnson",
-               sum: 2500,
-               cardNumber: "1111 2222 3333 4444",
-               type: .uzcard,
-               expirationDate: "12/25",
-               cardColor: Color.green,
-               iconName: "creditcard.fill",
-               isFamilyCard: true
-           ),
-           BankCard(
-               name: "Family Virtual Card",
-               ownerName: "Johnson Family",
-               sum: 5000,
-               cardNumber: "5555 4444 3333 2222",
-               type: .uzcard,
-               expirationDate: "11/26",
-               cardColor: Color.blue,
-               iconName: "house.fill",
-               isFamilyCard: true
-           ),
-           BankCard(
-               name: "Business Credit Card",
-               ownerName: "Alice Johnson",
-               sum: 10000,
-               cardNumber: "7777 8888 9999 0000",
-               type: .mastercard,
-               expirationDate: "10/27",
-               cardColor: Color.purple,
-               iconName: "briefcase.fill",
-               isFamilyCard: true
-           )
-       ]
+        BankCard(
+            name: "Personal Debit Card",
+            ownerName: "Alice Johnson",
+            sum: 2500,
+            cardNumber: "1111 2222 3333 4444",
+            type: .uzcard,
+            expirationDate: "12/25",
+            cardColor: Color.green,
+            iconName: "creditcard.fill",
+            isFamilyCard: true
+        ),
+        BankCard(
+            name: "Family Virtual Card",
+            ownerName: "Johnson Family",
+            sum: 5000,
+            cardNumber: "5555 4444 3333 2222",
+            type: .uzcard,
+            expirationDate: "11/26",
+            cardColor: Color.blue,
+            iconName: "house.fill",
+            isFamilyCard: true
+        ),
+        BankCard(
+            name: "Business Credit Card",
+            ownerName: "Alice Johnson",
+            sum: 10000,
+            cardNumber: "7777 8888 9999 0000",
+            type: .mastercard,
+            expirationDate: "10/27",
+            cardColor: Color.purple,
+            iconName: "briefcase.fill",
+            isFamilyCard: true
+        )
+    ]
     
     var body: some View {
         NavigationView {
@@ -75,8 +75,8 @@ struct FamilyView: View {
                     .padding(.horizontal)
                 }
                 
-
-                if viewModel.hasPendingInvitation {
+                
+                if ((viewModel.currentUser?.invitation) != false) {
                     HStack {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .foregroundColor(.yellow)
@@ -90,19 +90,20 @@ struct FamilyView: View {
                     .padding(.horizontal)
                 } else {
                     ScrollView(.vertical, showsIndicators: false) {
-                                      VStack(spacing: 16) {
-                                          ForEach(familyCards) { card in
-                                              CardView(bankCard: card)
-                                          }
-                                      }
-                                      .padding()
-                                  }
+                        VStack(spacing: 16) {
+                            ForEach(familyCards) { card in
+                                CardView(bankCard: card)
+                            }
+                        }
+                        .padding()
+                    }
                 }
                 
                 Spacer()
                 
                 if let user = viewModel.currentUser,
-                    user.role {
+                   user.role
+                {
                     Button(action: {
                         showFamilyCardAddSheet = true
                     }) {
@@ -115,8 +116,10 @@ struct FamilyView: View {
                             .cornerRadius(10)
                     }
                     .padding()
-//                }
-            }
+                    //                }
+                }
+                    
+            }//Vstack
             .navigationTitle("Моя семья")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showFamilyCardAddSheet) {
@@ -132,29 +135,17 @@ struct FamilyView: View {
                             showAddFamilyMemberSheet.toggle()
                         }) {
                             Image(systemName: "plus.circle")
+                        }.sheet(isPresented: $showAddFamilyMemberSheet) {
+                            AddFamilyMember()
+                                .presentationDetents([.medium])
+                                .presentationDragIndicator(.hidden)
                         }
-//                    }
+                        //                    }
+                    }
                 }
-            }
-            .sheet(isPresented: $showAddFamilyMemberSheet) {
-                AddFamilyMember()
-                    .presentationDetents([.medium])
-                    .presentationDragIndicator(.hidden)
-            }
+                
+            }//toolbar
         }
+        
     }
-}    
-    
-//    struct FamilyViewContainer: View {
-//        @ObservedObject var authManager = LoginManager.shared
-//        
-//        var body: some View {
-//            if let currentUser = authManager.loggedNetUser {
-//                let familyVM = FamilyViewModel(currentUser: currentUser, allUsers: authManager.users)
-//                FamilyView(viewModel: familyVM)
-//            } else {
-//                Text("Пожалуйста, войдите, чтобы увидеть семью")
-//                    .foregroundColor(.gray)
-//            }
-//        }
-//    }
+}
