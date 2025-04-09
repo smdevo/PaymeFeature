@@ -20,19 +20,5 @@ class FamilyViewModel: ObservableObject {
         self.familyMembers = allUsers
     }
     
-    init() {
-        self.currentUser = User(id: "0", name: "", age: 0, balance: 0.0, userName: "", password: "", date: 0, friends: [], cardNumber: nil, avatar: nil, role: "", transactions: [], subscriptions: [])
-        self.familyMembers = []
-        self.allUsers = []
-    }
-    
-}
-
-extension FamilyViewModel {
-    func updateFamily() {
-        if let currentUser = LoginManager.shared.loggedInUser {
-            self.familyMembers = currentUser.friends ?? []
-        }
-    }
 }
 

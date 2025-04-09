@@ -53,7 +53,6 @@ struct FamilyView: View {
     var body: some View {
         NavigationView {
             VStack {
-                // Горизонтальный список членов семьи
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(viewModel.familyMembers) { member in
@@ -100,7 +99,7 @@ struct FamilyView: View {
                 
                 Spacer()
                 
-                if viewModel.currentUser.role == "parent" {
+//                if viewModel.currentUser.role == "parent" {
                     Button(action: {
                         showFamilyCardAddSheet = true
                     }) {
@@ -113,7 +112,7 @@ struct FamilyView: View {
                             .cornerRadius(10)
                     }
                     .padding()
-                }
+//                }
             }
             .navigationTitle("Моя семья")
             .navigationBarTitleDisplayMode(.inline)
@@ -124,13 +123,13 @@ struct FamilyView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    if viewModel.currentUser.role == "parent" {
+//                    if viewModel.currentUser.role == "parent" {
                         Button(action: {
                             showAddFamilyMemberSheet.toggle()
                         }) {
                             Image(systemName: "plus.circle")
                         }
-                    }
+//                    }
                 }
             }
             .sheet(isPresented: $showAddFamilyMemberSheet) {
@@ -146,8 +145,44 @@ struct FamilyViewContainer: View {
     @ObservedObject var authManager = LoginManager.shared
 
     var body: some View {
-        if let currentUser = authManager.loggedInUser {
-            let familyVM = FamilyViewModel(currentUser: currentUser, allUsers: authManager.users)
+        if let currentUserModel = authManager.loggedNetUser {
+            let convertedUser = User(
+                id: currentUserModel.id,
+                name: currentUserModel.name,
+                age: 0,
+                balance: Double(currentUserModel.balance) ?? 0.0,
+                userName: currentUserModel.number,
+                password: currentUserModel.password,
+                date: TimeInterval(currentUserModel.date),
+                friends: [],
+                cardNumber: nil,
+                avatar: nil,
+                role: currentUserModel.role ? "parent" : "child",
+                cards: [],
+                transactions: [],
+                subscriptions: []
+            )
+            
+            let convertedUsers = authManager.netUsers.map { userModel in
+                User(
+                    id: userModel.id,
+                    name: userModel.name,
+                    age: 0,
+                    balance: Double(userModel.balance) ?? 0.0,
+                    userName: userModel.number,
+                    password: userModel.password,
+                    date: TimeInterval(userModel.date),
+                    friends: [],
+                    cardNumber: nil,
+                    avatar: nil,
+                    role: userModel.role ? "parent" : "child",
+                    cards: [],
+                    transactions: [],
+                    subscriptions: []
+                )
+            }
+            
+            let familyVM = FamilyViewModel(currentUser: convertedUser, allUsers: convertedUsers)
             FamilyView(viewModel: familyVM)
         } else {
             Text("Пожалуйста, войдите, чтобы увидеть семью")
@@ -155,3 +190,5 @@ struct FamilyViewContainer: View {
         }
     }
 }
+
+
