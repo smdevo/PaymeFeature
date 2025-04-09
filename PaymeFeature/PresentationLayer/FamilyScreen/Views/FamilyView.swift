@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct FamilyView: View {
-    @StateObject var viewModel: FamilyViewModel
+    @ObservedObject var viewModel: FamilyViewModel = FamilyViewModel()
+    
     @State private var showFamilyCardAddSheet: Bool = false
     @State private var showAddFamilyMemberSheet: Bool = false
 
@@ -17,10 +18,11 @@ struct FamilyView: View {
             VStack {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
+                        
                         ForEach(viewModel.familyMembers) { member in
                             VStack {
                                 Circle()
-                                    .fill(member.role == "parent" ? Color.green : Color.blue)
+                                    .fill(member.role ? Color.green : Color.blue)
                                     .frame(width: 60, height: 60)
                                     .overlay(
                                         Text(String(member.name.prefix(1)))
@@ -30,14 +32,15 @@ struct FamilyView: View {
                                 Text(member.name)
                                     .font(.caption)
                             }
-                        }
+                        }//Foreach
                     }
                     .padding(.horizontal)
                 }
                 
                 Spacer()
                 
-                if viewModel.currentUser.role == "parent" {
+                if let user = viewModel.currentUser,
+                    user.role {
                     Button(action: {
                         showFamilyCardAddSheet = true
                     }) {
@@ -62,7 +65,8 @@ struct FamilyView: View {
             
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    if viewModel.currentUser.role == "parent" {
+                    if let user = viewModel.currentUser,
+                       user.role  {
                         Button(action: {
                             showAddFamilyMemberSheet.toggle()
                         }) {
@@ -80,16 +84,16 @@ struct FamilyView: View {
     }
 }    
     
-    struct FamilyViewContainer: View {
-        @ObservedObject var authManager = LoginManager.shared
-        
-        var body: some View {
-            if let currentUser = authManager.loggedInUser {
-                let familyVM = FamilyViewModel(currentUser: currentUser, allUsers: authManager.users)
-                FamilyView(viewModel: familyVM)
-            } else {
-                Text("Пожалуйста, войдите, чтобы увидеть семью")
-                    .foregroundColor(.gray)
-            }
-        }
-    }
+//    struct FamilyViewContainer: View {
+//        @ObservedObject var authManager = LoginManager.shared
+//        
+//        var body: some View {
+//            if let currentUser = authManager.loggedNetUser {
+//                let familyVM = FamilyViewModel(currentUser: currentUser, allUsers: authManager.users)
+//                FamilyView(viewModel: familyVM)
+//            } else {
+//                Text("Пожалуйста, войдите, чтобы увидеть семью")
+//                    .foregroundColor(.gray)
+//            }
+//        }
+//    }

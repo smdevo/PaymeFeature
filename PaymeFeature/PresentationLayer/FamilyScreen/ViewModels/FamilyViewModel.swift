@@ -8,29 +8,34 @@
 import SwiftUI
 
 class FamilyViewModel: ObservableObject {
-    @Published var familyMembers: [User]
-    var allUsers: [User]
-    var currentUser: User
     
-    init(currentUser: User, allUsers: [User]) {
-        self.currentUser = currentUser
-        self.allUsers = allUsers
-        self.familyMembers = allUsers
-    }
+    @Published var currentUser: UserModel?/* = UserModel(name: "Sam", number: "", password: "", date: 1, familyId: "", role: false, balance: "", id: "")*/
+    
+    @Published var familyMembers: [UserModel] = [] //{
+//        didSet {
+//            a()
+//        }
+//    }
+    
     
     init() {
-        self.currentUser = User(id: "0", name: "", age: 0, balance: 0.0, userName: "", password: "", date: 0, friends: [], cardNumber: nil, avatar: nil, role: "", transactions: [], subscriptions: [])
-        self.familyMembers = []
-        self.allUsers = []
+        
+        UsersNtworkinDataService.shared.fetchUsers { [weak self] users in
+            guard let users else { return }
+            
+            let id = UserDefaults.standard.string(forKey: "idUser") ?? "4"
+            
+            self?.currentUser = users.first(where: {$0.id == id})
+            self?.familyMembers = users.filter({$0.familyId == self?.currentUser?.familyId})
+            }
+        print(familyMembers)
     }
     
-}
-
-extension FamilyViewModel {
-    func updateFamily() {
-        if let currentUser = LoginManager.shared.loggedInUser {
-            self.familyMembers = currentUser.friends ?? []
-        }
-    }
+    
+//    func a() {
+//        print(familyMembers)
+//    }
+//    
+//    
 }
 

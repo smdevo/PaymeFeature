@@ -7,7 +7,7 @@
 
 
 
-struct UserModel: Codable {
+struct UserModel: Codable, Identifiable, Equatable {
     let name: String
     let number: String
     let password: String
@@ -106,10 +106,5 @@ final class UsersNtworkinDataService {
             }
         }.resume()
     }
-    
-    
-    
-    
-    
     
 }

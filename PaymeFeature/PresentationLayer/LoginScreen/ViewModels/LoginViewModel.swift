@@ -30,6 +30,9 @@ class LoginViewModel: ObservableObject {
             $0.name.lowercased() == trimmedUserName && $0.password == trimmedPassword
         }) {
             LoginManager.shared.loggedNetUser = user
+            
+            UserDefaults.standard.set(user.id, forKey: "idUser")
+            
             onLoginSuccess?()
         } else {
             errorMessage = "Неверный логин или пароль"

@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 class LoginManager: ObservableObject {
     
@@ -24,10 +25,6 @@ class LoginManager: ObservableObject {
     private init() {
         loadUsersFromJSON()
     }
-    
-    
-    
-    
     
     func loadUsersFromJSON() {
         
