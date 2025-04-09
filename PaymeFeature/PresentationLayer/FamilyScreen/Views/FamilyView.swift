@@ -25,7 +25,7 @@ struct FamilyView: View {
             expirationDate: "12/25",
             cardColor: Color.green,
             iconName: "creditcard.fill",
-            isFamilyCard: true
+            isFamilyCard: false
         )
 //        BankCard(
 //            name: "Family Virtual Card",
@@ -100,7 +100,8 @@ struct FamilyView: View {
                                                 sum: famCard.balance,
                                                 cardNumber: famCard.number,
                                                 type: .humo,
-                                                expirationDate: "11/27"))
+                                                expirationDate: "11/27",
+                                                isFamilyCard: true))
                             }
                             
                             ForEach(familyCards) { card in
