@@ -9,8 +9,10 @@ import SwiftUI
 
 class FamilyViewModel: ObservableObject {
     @Published var familyMembers: [User]
+    @Published var hasPendingInvitation: Bool = false
     var allUsers: [User]
     var currentUser: User
+    
     
     init(currentUser: User, allUsers: [User]) {
         self.currentUser = currentUser
