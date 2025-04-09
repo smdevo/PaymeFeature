@@ -6,7 +6,6 @@
 //
 
 
-
 struct UserModel: Codable, Identifiable, Equatable {
     let name: String
     let number: String
