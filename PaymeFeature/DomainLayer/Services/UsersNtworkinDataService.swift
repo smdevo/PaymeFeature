@@ -31,6 +31,7 @@ struct VirtualCardModel: Codable {
     let name: String
     let number: String
     let ownerPhoneNumber: String
+    var balance: String
 }
 
 

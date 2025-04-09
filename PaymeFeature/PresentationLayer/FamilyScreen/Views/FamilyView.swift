@@ -19,36 +19,36 @@ struct FamilyView: View {
         BankCard(
             name: "Personal Debit Card",
             ownerName: "Alice Johnson",
-            sum: 2500,
+            sum: "2500",
             cardNumber: "1111 2222 3333 4444",
             type: .uzcard,
             expirationDate: "12/25",
             cardColor: Color.green,
             iconName: "creditcard.fill",
             isFamilyCard: true
-        ),
-        BankCard(
-            name: "Family Virtual Card",
-            ownerName: "Johnson Family",
-            sum: 5000,
-            cardNumber: "5555 4444 3333 2222",
-            type: .uzcard,
-            expirationDate: "11/26",
-            cardColor: Color.blue,
-            iconName: "house.fill",
-            isFamilyCard: true
-        ),
-        BankCard(
-            name: "Business Credit Card",
-            ownerName: "Alice Johnson",
-            sum: 10000,
-            cardNumber: "7777 8888 9999 0000",
-            type: .mastercard,
-            expirationDate: "10/27",
-            cardColor: Color.purple,
-            iconName: "briefcase.fill",
-            isFamilyCard: true
         )
+//        BankCard(
+//            name: "Family Virtual Card",
+//            ownerName: "Johnson Family",
+//            sum: "5000",
+//            cardNumber: "5555 4444 3333 2222",
+//            type: .uzcard,
+//            expirationDate: "11/26",
+//            cardColor: Color.blue,
+//            iconName: "house.fill",
+//            isFamilyCard: true
+//        ),
+//        BankCard(
+//            name: "Business Credit Card",
+//            ownerName: "Alice Johnson",
+//            sum: "10000",
+//            cardNumber: "7777 8888 9999 0000",
+//            type: .mastercard,
+//            expirationDate: "10/27",
+//            cardColor: Color.purple,
+//            iconName: "briefcase.fill",
+//            isFamilyCard: true
+//        )
     ]
     
     var body: some View {
@@ -91,6 +91,18 @@ struct FamilyView: View {
                 } else {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 16) {
+                            
+                            if let famCard = viewModel.familyCard {
+                                CardView(bankCard:
+                                            BankCard(
+                                                name: famCard.name,
+                                                ownerName: famCard.name,
+                                                sum: famCard.balance,
+                                                cardNumber: famCard.number,
+                                                type: .humo,
+                                                expirationDate: "11/27"))
+                            }
+                            
                             ForEach(familyCards) { card in
                                 CardView(bankCard: card)
                             }
