@@ -13,6 +13,7 @@ class LoginManager: ObservableObject {
     
     static let shared = LoginManager()
     
+//    @Published var loggedInUser: UserModel = UserModel(name: "qwe", number: "qwe", password: "", date: 0, familyId: "qwe", role: false, balance: "0", id: "666")
     
     @Published var loggedInUser: User?
     @Published var users: [User] = []
@@ -26,6 +27,8 @@ class LoginManager: ObservableObject {
         loadUsersFromJSON()
     }
     
+    
+
     func loadUsersFromJSON() {
         
         

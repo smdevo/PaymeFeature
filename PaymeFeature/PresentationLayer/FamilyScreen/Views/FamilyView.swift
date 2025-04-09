@@ -1,5 +1,6 @@
+
 //
-//  FriendsView.swift
+//  FamilyView.swift
 //  PaymeFeature
 //
 //  Created by Dmitriy An on 04/04/25.
@@ -13,6 +14,43 @@ struct FamilyView: View {
     @State private var showFamilyCardAddSheet: Bool = false
     @State private var showAddFamilyMemberSheet: Bool = false
 
+    
+    var familyCards: [BankCard] = [
+           BankCard(
+               name: "Personal Debit Card",
+               ownerName: "Alice Johnson",
+               sum: 2500,
+               cardNumber: "1111 2222 3333 4444",
+               type: .uzcard,
+               expirationDate: "12/25",
+               cardColor: Color.green,
+               iconName: "creditcard.fill",
+               isFamilyCard: true
+           ),
+           BankCard(
+               name: "Family Virtual Card",
+               ownerName: "Johnson Family",
+               sum: 5000,
+               cardNumber: "5555 4444 3333 2222",
+               type: .uzcard,
+               expirationDate: "11/26",
+               cardColor: Color.blue,
+               iconName: "house.fill",
+               isFamilyCard: true
+           ),
+           BankCard(
+               name: "Business Credit Card",
+               ownerName: "Alice Johnson",
+               sum: 10000,
+               cardNumber: "7777 8888 9999 0000",
+               type: .mastercard,
+               expirationDate: "10/27",
+               cardColor: Color.purple,
+               iconName: "briefcase.fill",
+               isFamilyCard: true
+           )
+       ]
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -37,6 +75,30 @@ struct FamilyView: View {
                     .padding(.horizontal)
                 }
                 
+
+                if viewModel.hasPendingInvitation {
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundColor(.yellow)
+                        Text("Вас приглашают в семью")
+                            .font(.subheadline)
+                            .foregroundColor(.orange)
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                    .padding(.horizontal)
+                } else {
+                    ScrollView(.vertical, showsIndicators: false) {
+                                      VStack(spacing: 16) {
+                                          ForEach(familyCards) { card in
+                                              CardView(bankCard: card)
+                                          }
+                                      }
+                                      .padding()
+                                  }
+                }
+                
                 Spacer()
                 
                 if let user = viewModel.currentUser,
@@ -53,7 +115,7 @@ struct FamilyView: View {
                             .cornerRadius(10)
                     }
                     .padding()
-                }
+//                }
             }
             .navigationTitle("Моя семья")
             .navigationBarTitleDisplayMode(.inline)
@@ -62,7 +124,6 @@ struct FamilyView: View {
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
             }
-            
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if let user = viewModel.currentUser,
@@ -72,7 +133,7 @@ struct FamilyView: View {
                         }) {
                             Image(systemName: "plus.circle")
                         }
-                    }
+//                    }
                 }
             }
             .sheet(isPresented: $showAddFamilyMemberSheet) {
