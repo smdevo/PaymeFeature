@@ -11,7 +11,7 @@ struct BankCard: Identifiable {
     let id: String = UUID().uuidString
     let name: String
     let ownerName: String
-    let sum: Int
+    let sum: String
     let cardNumber: String
     let type: CardType
     let expirationDate: String
@@ -22,7 +22,7 @@ struct BankCard: Identifiable {
     
     init(name: String,
          ownerName: String,
-         sum: Int,
+         sum: String,
          cardNumber: String,
          type: CardType,
          expirationDate: String,
