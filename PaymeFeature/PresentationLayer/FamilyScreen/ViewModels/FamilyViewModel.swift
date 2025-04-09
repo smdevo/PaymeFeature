@@ -15,12 +15,7 @@ class FamilyViewModel: ObservableObject {
     init(currentUser: User, allUsers: [User]) {
         self.currentUser = currentUser
         self.allUsers = allUsers
-
-        if currentUser.role == "child" {
-            self.familyMembers = allUsers.filter { $0.role == "parent" }
-        } else {
-            self.familyMembers = currentUser.friends ?? []
-        }
+        self.familyMembers = allUsers
     }
     
     init() {
@@ -29,86 +24,13 @@ class FamilyViewModel: ObservableObject {
         self.allUsers = []
     }
     
-    func addFamilyMember(byCardNumber cardNumber: String) {
-        guard !cardNumber.isEmpty else { return }
-        if let member = allUsers.first(where: { $0.cardNumber == cardNumber }) {
-            if !familyMembers.contains(where: { $0.id == member.id }) {
-                familyMembers.append(member)
-            }
-        }
-    }
-    
-    
-    func sendMoney(to child: User, amount: Double) {
-        guard currentUser.role == "parent" else {
-            return
-        }
-        guard currentUser.balance >= amount else {
-            return
-        }
-        
-        currentUser.balance -= amount
-        
-        if let index = allUsers.firstIndex(where: { $0.id == child.id }) {
-            allUsers[index].balance += amount
-            
-            let transaction = Transaction(
-                id: UUID().uuidString,
-                fromUserID: currentUser.id,
-                toUserID: child.id,
-                amount: amount,
-                date: Date(),
-                description: "Перевод денег от родителя"
-            )
-            
-            if var existingTxns = allUsers[index].transactions {
-                existingTxns.append(transaction)
-                allUsers[index].transactions = existingTxns
-            } else {
-                allUsers[index].transactions = [transaction]
-            }
-        }
-        
-        if let famIndex = familyMembers.firstIndex(where: { $0.id == child.id }) {
-            familyMembers[famIndex].balance += amount
-            
-            let txn = Transaction(
-                id: UUID().uuidString,
-                fromUserID: currentUser.id,
-                toUserID: child.id,
-                amount: amount,
-                date: Date(),
-                description: "Перевод денег от родителя"
-            )
-            
-            if var existingTxns = familyMembers[famIndex].transactions {
-                existingTxns.append(txn)
-                familyMembers[famIndex].transactions = existingTxns
-            } else {
-                familyMembers[famIndex].transactions = [txn]
-            }
-        }
-        
-    }
+}
 
-
-    var childrenHistory: [HistoryItem] {
-        let children = familyMembers.filter { $0.role == "child" }
-        var items: [HistoryItem] = []
-        for child in children {
-            if let txns = child.transactions {
-                for txn in txns {
-                    items.append(.transaction(txn))
-                }
-            }
-            if let subs = child.subscriptions {
-                for sub in subs {
-                    items.append(.subscription(sub))
-                }
-            }
+extension FamilyViewModel {
+    func updateFamily() {
+        if let currentUser = LoginManager.shared.loggedInUser {
+            self.familyMembers = currentUser.friends ?? []
         }
-        items.sort { $0.date > $1.date }
-        return items
     }
 }
 
