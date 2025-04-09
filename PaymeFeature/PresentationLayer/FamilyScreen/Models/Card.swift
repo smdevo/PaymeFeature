@@ -13,6 +13,5 @@ struct Card: Codable, Identifiable, Equatable {
     let cardNumber: String
     let expiryDate: String
     let phoneNumber: String
-    let isFamily: Bool     
-    let ownerID: String 
+     
 }
