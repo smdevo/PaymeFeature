@@ -9,32 +9,6 @@ import SwiftUI
 import UIKit
 
 
-class SetScrollViewModel: ObservableObject {
-    
-    @Published var currencies: [Currency] = []
-
-    private let server = CurrencyNetworkingService()
-   
-    
-    init() {
-        fetchData()
-    }
-    
-    func fetchData() {
-        
-        server.fetchSelectedCurrencies(codes: ["USD","EUR","RUB","GBP"]) { currencies in
-            guard let currencies else
-            {
-                return
-            }
-            self.currencies = currencies
-        }
-        
-    }
-    
-}
-
-
 struct SetScrollView: View {
     
     @StateObject var vm =  SetScrollViewModel()
@@ -104,12 +78,12 @@ struct SetScrollView: View {
                 Spacer()
                 
                 Button {
-                    
+                    logOut()
                     
                 } label: {
                     
                     HStack(spacing: 0) {
-                        Text("Hammasi")
+                        Text("Log Out")
                         Image(systemName: "chevron.right")
                     }
                     .foregroundStyle(.unselectedTabbarItem)
@@ -117,9 +91,27 @@ struct SetScrollView: View {
                 
             }
             .padding(.horizontal)
+            
+    
+
         }//Vstack
     }//body
+    
+    func logOut() {
+        UserDefaults.standard.removeObject(forKey: "idUser")
+        switchToLogin()
+    }
+    
+    func switchToLogin() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            let hostingController = UIHostingController(rootView: LoginView())
+            window.rootViewController = hostingController
+            window.makeKeyAndVisible()
+        }
+    }
 }//Class
+
 
 #Preview {
             SetScrollView()

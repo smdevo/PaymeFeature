@@ -59,8 +59,6 @@ struct CardsView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             .animation(.easeInOut(duration: 0.3), value: controllerTab)
             
-            
-            
             Spacer()
             
         }
@@ -74,8 +72,6 @@ struct CardsView: View {
 #Preview {
     CardsView()
 }
-
-
 
 extension CardsView {
     

@@ -1,5 +1,6 @@
+
 //
-//  FriendsView.swift
+//  FamilyView.swift
 //  PaymeFeature
 //
 //  Created by Dmitriy An on 04/04/25.
@@ -8,157 +9,143 @@
 import SwiftUI
 
 struct FamilyView: View {
-    @StateObject var viewModel: FamilyViewModel
-    @State private var showSendMoneySheet: Bool = false
-    @State private var selectedMember: User?
-    @State private var sendAmount: String = ""
+    @ObservedObject var viewModel: FamilyViewModel = FamilyViewModel()
     
     @State private var showFamilyCardAddSheet: Bool = false
+    @State private var showAddFamilyMemberSheet: Bool = false
+    
+    
+    var familyCards: [BankCard] = [
+        BankCard(
+            name: "Personal Debit Card",
+            ownerName: "Alice Johnson",
+            sum: 2500,
+            cardNumber: "1111 2222 3333 4444",
+            type: .uzcard,
+            expirationDate: "12/25",
+            cardColor: Color.green,
+            iconName: "creditcard.fill",
+            isFamilyCard: true
+        ),
+        BankCard(
+            name: "Family Virtual Card",
+            ownerName: "Johnson Family",
+            sum: 5000,
+            cardNumber: "5555 4444 3333 2222",
+            type: .uzcard,
+            expirationDate: "11/26",
+            cardColor: Color.blue,
+            iconName: "house.fill",
+            isFamilyCard: true
+        ),
+        BankCard(
+            name: "Business Credit Card",
+            ownerName: "Alice Johnson",
+            sum: 10000,
+            cardNumber: "7777 8888 9999 0000",
+            type: .mastercard,
+            expirationDate: "10/27",
+            cardColor: Color.purple,
+            iconName: "briefcase.fill",
+            isFamilyCard: true
+        )
+    ]
     
     var body: some View {
         NavigationView {
             VStack {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
+                        
                         ForEach(viewModel.familyMembers) { member in
                             VStack {
                                 Circle()
-                                    .fill(member.role == "parent" ? Color.green : Color.blue)
+                                    .fill(member.role ? Color.green : Color.blue)
                                     .frame(width: 60, height: 60)
                                     .overlay(
                                         Text(String(member.name.prefix(1)))
                                             .foregroundColor(.white)
                                             .font(.title)
                                     )
-                                    .onTapGesture {
-                                        if viewModel.currentUser.role == "parent" && member.role == "child" {
-                                            selectedMember = member
-                                            showSendMoneySheet = true
-                                        }
-                                    }
                                 Text(member.name)
                                     .font(.caption)
                             }
-                        }
+                        }//Foreach
                     }
                     .padding(.horizontal)
                 }
                 
-                if viewModel.currentUser.role == "parent" {
-                    Divider()
-                    Text("История детей")
-                        .font(.headline)
-                        .padding(.top)
-                    
-                    if viewModel.childrenHistory.isEmpty {
-                        Text("Нет истории")
-                            .foregroundColor(.gray)
-                    } else {
-                        List(viewModel.childrenHistory) { item in
-                            switch item {
-                            case .transaction(let txn):
-                                if let sender = viewModel.allUsers.first(where: { $0.id == txn.fromUserID }),
-                                   let recipient = viewModel.allUsers.first(where: { $0.id == txn.toUserID }) {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text("Отправитель: \(sender.name)")
-                                            .font(.headline)
-                                        Text("Получатель: \(recipient.name)")
-                                            .font(.subheadline)
-                                        Text("Сумма: \(txn.amount, specifier: "%.2f")")
-                                        Text("Описание: \(txn.description)")
-                                        Text("Дата: \(formattedDate(txn.date))")
-                                            .font(.caption)
-                                            .foregroundColor(.gray)
-                                    }
-                                    .padding(.vertical, 4)
-                                } else {
-                                    Text("Данные транзакции недоступны")
-                                }
-                            case .subscription(let sub):
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Подписка: \(sub.name)")
-                                        .font(.headline)
-                                    Text("Цена: \(sub.price, specifier: "%.2f")")
-                                    Text("Дата обновления: \(formattedDate(sub.renewalDate))")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                }
-                                .padding(.vertical, 4)
+                
+                if ((viewModel.currentUser?.invitation) != false) {
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundColor(.yellow)
+                        Text("Вас приглашают в семью")
+                            .font(.subheadline)
+                            .foregroundColor(.orange)
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                    .padding(.horizontal)
+                } else {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(spacing: 16) {
+                            ForEach(familyCards) { card in
+                                CardView(bankCard: card)
                             }
                         }
-                        .listStyle(PlainListStyle())
+                        .padding()
                     }
                 }
                 
                 Spacer()
-            }
-            .navigationTitle("Семья")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if viewModel.currentUser.role == "parent" {
-                        Button(action: {
-                            showFamilyCardAddSheet.toggle()
-                        }) {
-                            Image(systemName: "plus.circle")
-                        }
+                
+                if let user = viewModel.currentUser,
+                   user.role
+                {
+                    Button(action: {
+                        showFamilyCardAddSheet = true
+                    }) {
+                        Text("Заказать виртуальную карту")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .cornerRadius(10)
                     }
+                    .padding()
+                    //                }
                 }
-            }
-            .sheet(isPresented: $showSendMoneySheet) {
-                SendMoneySheet(selectedMember: $selectedMember,
-                               sendAmount: $sendAmount,
-                               onSend: {
-                    if let member = selectedMember, let amount = Double(sendAmount) {
-                        viewModel.sendMoney(to: member, amount: amount)
-                    }
-                    showSendMoneySheet = false
-                    sendAmount = ""
-                }, onCancel: {
-                    showSendMoneySheet = false
-                    sendAmount = ""
-                })
-            }
+                    
+            }//Vstack
+            .navigationTitle("Моя семья")
+            .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showFamilyCardAddSheet) {
                 FamilyCardAddView()
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
             }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if let user = viewModel.currentUser,
+                       user.role  {
+                        Button(action: {
+                            showAddFamilyMemberSheet.toggle()
+                        }) {
+                            Image(systemName: "plus.circle")
+                        }.sheet(isPresented: $showAddFamilyMemberSheet) {
+                            AddFamilyMember()
+                                .presentationDetents([.medium])
+                                .presentationDragIndicator(.hidden)
+                        }
+                        //                    }
+                    }
+                }
+                
+            }//toolbar
         }
-    }
-    
-    func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        return formatter.string(from: date)
+        
     }
 }
-    
-    
-    
-    extension FamilyViewModel {
-        func updateFriends() {
-            if let currentUser = LoginManager.shared.loggedInUser {
-                self.familyMembers = currentUser.friends ?? []
-            }
-        }
-    }
-    
-    
-    
-    
-    struct FamilyViewContainer: View {
-        @ObservedObject var authManager = LoginManager.shared
-        
-        var body: some View {
-            if let currentUser = authManager.loggedInUser {
-                let familyVM = FamilyViewModel(currentUser: currentUser, allUsers: authManager.users)
-                FamilyView(viewModel: familyVM)
-            } else {
-                Text("Пожалуйста, войдите, чтобы увидеть семью")
-                    .foregroundColor(.gray)
-            }
-        }
-    }
-    
