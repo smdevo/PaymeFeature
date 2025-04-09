@@ -9,14 +9,42 @@ import Foundation
 import Combine
 
 class LoginManager: ObservableObject {
+    
     static let shared = LoginManager()
+    
     
     @Published var loggedInUser: User?
     @Published var users: [User] = []
     
-    private init() { }
+    @Published var loggedNetUser: UserModel?
+    
+    @Published var netUsers: [UserModel] = []
+    @Published var families: [FamilyModel] = []
+    
+    private init() {
+        loadUsersFromJSON()
+    }
+    
+    
+    
+    
     
     func loadUsersFromJSON() {
+        
+        
+        UsersNtworkinDataService.shared.fetchUsers { [weak self] users in
+            guard let users else { return }
+            
+            self?.netUsers = users
+            }
+        
+        UsersNtworkinDataService.shared.fetchFamilies { [weak self] families in
+            guard let families else { return }
+            
+            self?.families = families
+        }
+        
+        
         guard let url = Bundle.main.url(forResource: "users", withExtension: "json") else {
             return
         }

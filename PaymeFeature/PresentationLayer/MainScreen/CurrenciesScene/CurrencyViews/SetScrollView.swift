@@ -9,32 +9,6 @@ import SwiftUI
 import UIKit
 
 
-class SetScrollViewModel: ObservableObject {
-    
-    @Published var currencies: [Currency] = []
-
-    private let server = CurrencyNetworkingService()
-   
-    
-    init() {
-        fetchData()
-    }
-    
-    func fetchData() {
-        
-        server.fetchSelectedCurrencies(codes: ["USD","EUR","RUB","GBP"]) { currencies in
-            guard let currencies else
-            {
-                return
-            }
-            self.currencies = currencies
-        }
-        
-    }
-    
-}
-
-
 struct SetScrollView: View {
     
     @StateObject var vm =  SetScrollViewModel()

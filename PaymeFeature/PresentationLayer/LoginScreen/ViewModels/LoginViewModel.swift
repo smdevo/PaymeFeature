@@ -22,10 +22,14 @@ class LoginViewModel: ObservableObject {
             print("Пользователь: \(user.userName), пароль: \(user.password)")
         }
         
-        if let user = LoginManager.shared.users.first(where: {
-            $0.userName.lowercased() == trimmedUserName && $0.password == trimmedPassword
+        for user in LoginManager.shared.netUsers {
+            print("Пользователь: \(user.name), пароль: \(user.password)")
+        }
+        
+        if let user = LoginManager.shared.netUsers.first(where: {
+            $0.name.lowercased() == trimmedUserName && $0.password == trimmedPassword
         }) {
-            LoginManager.shared.loggedInUser = user
+            LoginManager.shared.loggedNetUser = user
             onLoginSuccess?()
         } else {
             errorMessage = "Неверный логин или пароль"
