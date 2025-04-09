@@ -73,7 +73,7 @@ struct CardView: View {
 
 #Preview {
     VStack {
-        CardView(bankCard: BankCard(name: "Aloqabank", ownerName: "Samandar Toshpulatov", sum: 60400, cardNumber: "7789098756432118", type: .uzcard,expirationDate: "11/25"))
+        CardView(bankCard: BankCard(name: "Aloqabank", ownerName: "Samandar Toshpulatov", sum: "60400", cardNumber: "7789098756432118", type: .uzcard,expirationDate: "11/25"))
             .padding()
     }
     .background(Color(.systemGroupedBackground))
