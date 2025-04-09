@@ -3,37 +3,4 @@
    uuid = "F2F7A556-0E6E-4C67-A185-B409D7C5A741"
    type = "1"
    version = "2.0">
-   <Breakpoints>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
-         <BreakpointContent
-            uuid = "C6D465EF-DE18-4FFC-8404-83C201D670D2"
-            shouldBeEnabled = "Yes"
-            nameForDebugger = "UIViewAlertForUnsatisfiableConstraint"
-            condition = "UIViewAlertForUnsatisfiableConstraint"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            symbolName = "UIViewAlertForUnsatisfiableConstraint"
-            moduleName = "UIViewAlertForUnsatisfiableConstraint">
-            <Locations>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B76FAC44-39E6-4EFD-B7BA-E37D18082215"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PaymeFeature/PresentationLayer/MainScreen/CardsScreen/CardsView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "plusButton"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-   </Breakpoints>
 </Bucket>
