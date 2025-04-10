@@ -36,7 +36,7 @@ struct VirtualCardModel: Codable {
 
 import Foundation
 
-
+//NO NEED
 final class NetService {
     
     static var shared: NetService = NetService()
@@ -149,6 +149,7 @@ final class UsersNtworkinDataService {
             }
         }.resume()
 
+        
     }
     
     

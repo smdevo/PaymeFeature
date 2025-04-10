@@ -49,7 +49,14 @@ struct AddFamilyMember: View {
                                 isButtonLoading = false
                                 showSMSAlert = true
                             }
-                        }) {
+                            
+                            //TODO:
+                            // UPDATE API PHONENUMBER.FAMILYID = CURRENTUSER.FAMILYID
+                            
+                            
+                        }
+                        
+                        ) {
                             Text("Добавить участника в семью")
                                 .font(.headline)
                                 .foregroundColor(.white)
@@ -75,5 +82,10 @@ struct AddFamilyMember: View {
             Text("На указанный номер отправлено уведомление с кодом")
         }
     }
+}
+
+
+func addFamilyMemberByNumber(_ familyMember: inout [String], _ number: Int) {
+    familyMember.append(String(number))
 }
 

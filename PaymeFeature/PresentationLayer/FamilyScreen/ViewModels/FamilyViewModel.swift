@@ -12,6 +12,9 @@ class FamilyViewModel: ObservableObject {
     @Published var currentUser: UserModel?
     
     @Published var familyMembers: [UserModel] = []
+
+    
+    @Published var allUsers: [UserModel] = []
     
     @Published var familyCard: VirtualCardModel?
     

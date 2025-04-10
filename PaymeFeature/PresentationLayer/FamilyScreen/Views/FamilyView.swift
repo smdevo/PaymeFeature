@@ -56,7 +56,7 @@ struct FamilyView: View {
             VStack {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
-                        
+                    
                         ForEach(viewModel.familyMembers) { member in
                             VStack {
                                 Circle()
@@ -159,6 +159,5 @@ struct FamilyView: View {
                 
             }//toolbar
         }
-        
     }
 }
