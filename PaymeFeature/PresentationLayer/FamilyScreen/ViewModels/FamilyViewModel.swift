@@ -15,24 +15,22 @@ class FamilyViewModel: ObservableObject {
     
     @Published var familyCard: VirtualCardModel?
     
+    let userId = UserDefaults.standard.string(forKey: "idUser") ?? "1"
+    
     
     
     init() {
         UsersNtworkinDataService.shared.fetchUsers { [weak self] users in
             guard let users else { return }
-            
-            let id = UserDefaults.standard.string(forKey: "idUser") ?? "4"
-            
-            self?.currentUser = users.first(where: {$0.id == id})
+            self?.currentUser = users.first(where: {$0.id == self?.userId})
             self?.familyMembers = users.filter({$0.familyId == self?.currentUser?.familyId})
             }
         
         UsersNtworkinDataService.shared.fetchFamilies { [weak self] families in
             guard let families else { return }
-    
-            self?.familyCard = families.filter({$0.id == self?.currentUser?.familyId}).first?.virtualcard
-            print("FAM CARD: : \(self?.familyCard?.name)")
-        }
+                
+            self?.familyCard = families.filter({$0.members.contains(self!.userId)}).first?.virtualcard
+            }
     }
 
 }
