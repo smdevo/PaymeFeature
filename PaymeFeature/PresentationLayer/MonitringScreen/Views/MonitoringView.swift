@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-struct MonitoringxView: View {
+struct MonitoringView: View {
     var body: some View {
         Text("MonitoringView")  
     }

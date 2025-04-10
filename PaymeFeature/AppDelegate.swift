@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         
-//        if let userId = UserDefaults.standard.string(forKey: "idUser"), !userId.isEmpty {
+//        if let userId = UserDefaults.standard.string(forKey: "userId"), !userId.isEmpty {
 //            let mainVC = Assembly().giveMAinViewController()
 //            let navigationController = UINavigationController(rootViewController: mainVC)
 //            window?.rootViewController = navigationController
@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if window == nil {
             window = UIWindow()
             
-            if let id = UserDefaults.standard.string(forKey: "idUser"), !id.isEmpty {
+            if let id = UserDefaults.standard.string(forKey: "userId"), !id.isEmpty {
                 
                 window?.rootViewController = UniteViewController()
                 

@@ -15,7 +15,7 @@ class FamilyViewModel: ObservableObject {
     
     @Published var familyCard: VirtualCardModel?
     
-    let userId = UserDefaults.standard.string(forKey: "idUser") ?? "1"
+    let userId = UserDefaults.standard.string(forKey: "userId") ?? "1"
     
     
     

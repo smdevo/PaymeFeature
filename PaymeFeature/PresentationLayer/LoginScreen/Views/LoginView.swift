@@ -14,14 +14,7 @@ struct LoginView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            if let loggedUser = LoginManager.shared.loggedInUser {
-                Text("Вы уже авторизованы как \(loggedUser.name)")
-                    .font(.title)
-                Button("Выйти") {
-                    logout()
-                }
-                .foregroundColor(.red)
-            } else {
+         
                 Text("Авторизация")
                     .font(.largeTitle)
                 
@@ -44,7 +37,7 @@ struct LoginView: View {
                     Text(error)
                         .foregroundColor(.red)
                 }
-            }
+            
         }
         .onAppear {
             LoginManager.shared.loadUsersFromJSON()
@@ -60,11 +53,7 @@ struct LoginView: View {
             }
         }
     }
-    
-    func logout() {
-        
-    }
-    
+
     func switchToMain() {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = windowScene.windows.first {

@@ -34,8 +34,8 @@ class UniteViewController: UITabBarController {
         let service = UIHostingController(rootView: ServiceView())
         service.tabBarItem = UITabBarItem(title: "Services", image: UIImage(systemName: "square.grid.2x2"), tag: 3)
 
-        let monitoring = UIHostingController(rootView: MonitoringxView())
-        monitoring.tabBarItem = UITabBarItem(title: "Support", image: UIImage(systemName: "person.crop.circle"), tag: 4)
+        let monitoring = UIHostingController(rootView: MonitoringView())
+        monitoring.tabBarItem = UITabBarItem(title: "Monitoring", image: UIImage(systemName: "chart.bar"), tag: 4)
 
         let payment = UIHostingController(rootView: PaymentsView())
         payment.tabBarItem = UITabBarItem(title: "Payment", image: UIImage(systemName: "wallet.bifold.fill"), tag: 5)
