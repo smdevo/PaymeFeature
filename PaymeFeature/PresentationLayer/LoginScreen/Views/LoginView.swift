@@ -53,8 +53,8 @@ struct LoginView: View {
                 switchToMain()
             }
         }
-    
-}
+    }
+
     func switchToMain() {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = windowScene.windows.first {

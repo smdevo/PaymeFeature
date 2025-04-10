@@ -19,6 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         
+        
+//        if let userId = UserDefaults.standard.string(forKey: "userId"), !userId.isEmpty {
+//            let mainVC = Assembly().giveMAinViewController()
+//            let navigationController = UINavigationController(rootViewController: mainVC)
+//            window?.rootViewController = navigationController
+//        } else {
+//            let loginView = LoginView()
+//            window?.rootViewController = UIHostingController(rootView: loginView)
+//        }
+//        window?.makeKeyAndVisible()
+//        
+        
+        
+        
         if window == nil {
             window = UIWindow()
             
