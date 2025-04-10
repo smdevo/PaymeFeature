@@ -19,20 +19,23 @@ class FamilyViewModel: ObservableObject {
     @Published var familyCard: VirtualCardModel?
     
     let userId = UserDefaults.standard.string(forKey: "userId") ?? "1"
+    let userFamilyId = UserDefaults.standard.string(forKey: "userFamilyId") ?? "1"
     
     
     
     init() {
-        UsersNtworkinDataService.shared.fetchUsers { [weak self] users in
+        
+        UsersNtworkinDataService.shared.getData(link: "users/") { [weak self] (users: [UserModel]?) in
             guard let users else { return }
             self?.currentUser = users.first(where: {$0.id == self?.userId})
             self?.familyMembers = users.filter({$0.familyId == self?.currentUser?.familyId})
-            }
+        }
         
-        UsersNtworkinDataService.shared.fetchFamilies { [weak self] families in
-            guard let families else { return }
+        
+        UsersNtworkinDataService.shared.getData(link: "families/" + userFamilyId) { [weak self] (family: FamilyModel?) in
+            guard let family else { return }
                 
-            self?.familyCard = families.filter({$0.members.contains(self!.userId)}).first?.virtualcard
+            self?.familyCard = family.virtualcard
             }
     }
 
