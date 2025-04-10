@@ -16,6 +16,7 @@ struct UserModel: Codable, Identifiable, Equatable {
     let balance: String
     let id: String
     let invitation: Bool
+    let cardNumber: String
 }
 
 struct FamilyModel: Codable {
@@ -195,5 +196,9 @@ final class UsersNtworkinDataService {
 
     
     
-   
+    
+    
+    
+    
+    
 }
