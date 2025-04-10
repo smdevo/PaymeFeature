@@ -11,7 +11,7 @@ struct UserModel: Codable, Identifiable, Equatable {
     let number: String
     let password: String
     let date: Int
-    let familyId: String
+    var familyId: String
     let role: Bool
     let balance: String
     let id: String
@@ -20,7 +20,7 @@ struct UserModel: Codable, Identifiable, Equatable {
 
 struct FamilyModel: Codable {
     let name: String
-    let members: [String]
+    var members: [String]
     let virtualcard: VirtualCardModel
     let id: String
 }
@@ -36,7 +36,7 @@ struct VirtualCardModel: Codable {
 
 import Foundation
 
-
+//NO NEED
 final class NetService {
     
     static var shared: NetService = NetService()
@@ -149,7 +149,51 @@ final class UsersNtworkinDataService {
             }
         }.resume()
 
+        
     }
+    
+    
+    
+    func updateData<T: Codable>(link: String, dataToUpdate: T, completion: @escaping (Bool) -> Void) {
+        
+        guard let url = URL(string: serVerLink + link) else {
+            completion(false)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH" // или "PATCH", если обновление происходит частично
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(dataToUpdate)
+            request.httpBody = jsonData
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                if error != nil {
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                    DispatchQueue.main.async {
+                        completion(true)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                }
+            }.resume()
+        } catch {
+            completion(false)
+        }
+    }
+
+    
     
    
 }
