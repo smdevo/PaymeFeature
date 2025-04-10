@@ -39,15 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let id = UserDefaults.standard.string(forKey: "userId"), !id.isEmpty {
                 
                 window?.rootViewController = UniteViewController()
-                
             }else {
                 let hostingController = UIHostingController(rootView: LoginView())
-                
-               window?.rootViewController = hostingController
-                
+                window?.rootViewController = hostingController
             }
-            
-           
            window?.makeKeyAndVisible()
         }
         

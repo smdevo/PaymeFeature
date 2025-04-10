@@ -99,6 +99,8 @@ struct SetScrollView: View {
     
     func logOut() {
         UserDefaults.standard.removeObject(forKey: "userId")
+        UserDefaults.standard.removeObject(forKey: "userFamilyId")
+        
         switchToLogin()
     }
     

@@ -119,7 +119,7 @@ final class UsersNtworkinDataService {
     static let shared = UsersNtworkinDataService()
     
     
-    func fetchData<T: Codable>(link: String, completion: @escaping (T?) -> Void) {
+    func getData<T: Codable>(link: String, completion: @escaping (T?) -> Void) {
         
         guard let url = URL(string: serVerLink + link) else {
             completion(nil)
@@ -151,98 +151,5 @@ final class UsersNtworkinDataService {
 
     }
     
-    
-    func fetchUsers(completion: @escaping ([UserModel]?) -> Void) {
-        
-        
-        guard let url = URL(string: linkUsers) else {
-            completion(nil)
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if error != nil {
-                completion(nil)
-                return
-            }
-            
-            guard let data = data else {
-                completion(nil)
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let allUsers = try decoder.decode([UserModel].self, from: data)
-                
-                DispatchQueue.main.async {
-                    completion(allUsers)
-                }
-            } catch {
-                completion(nil)
-            }
-        }.resume()
-    }
-    
-    
-    func fetchFamilies(completion: @escaping ([FamilyModel]?) -> Void) {
-        guard let url = URL(string: linkFamilies) else {
-            completion(nil)
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if error != nil {
-                completion(nil)
-                return
-            }
-            
-            guard let data = data else {
-                completion(nil)
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let allfamilies = try decoder.decode([FamilyModel].self, from: data)
-                
-                DispatchQueue.main.async {
-                    completion(allfamilies)
-                }
-            } catch {
-                completion(nil)
-            }
-        }.resume()
-    }
-    
-    func fetchFamily(completion: @escaping (FamilyModel?) -> Void) {
-        guard let url = URL(string: linkFamilies) else {
-            completion(nil)
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if error != nil {
-                completion(nil)
-                return
-            }
-            
-            guard let data = data else {
-                completion(nil)
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let family = try decoder.decode(FamilyModel.self, from: data)
-                
-                DispatchQueue.main.async {
-                    completion(family)
-                }
-            } catch {
-                completion(nil)
-            }
-        }.resume()
-    }
-    
+   
 }
