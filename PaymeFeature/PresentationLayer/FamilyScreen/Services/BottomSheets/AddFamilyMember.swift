@@ -4,11 +4,13 @@
 //
 //  Created by Dmitriy An on 08/04/25.
 //
+
+
 import SwiftUI
 
 struct AddFamilyMember: View {
-    @State private var cardNumber: String = ""
-    @State private var expiryDate: String = ""
+    @ObservedObject var viewModel: FamilyViewModel
+    
     @State private var phoneNumber: String = ""
     @State private var showSMSAlert: Bool = false
     @State private var isButtonLoading: Bool = false
@@ -26,10 +28,10 @@ struct AddFamilyMember: View {
                         keyboardType: .phonePad
                     )
                     .onChange(of: phoneNumber) { newValue, _ in
-                        var result = ""
-                        if let firstChar = newValue.first, firstChar == "+" {
-                            result = "+"
-                        }
+                                            var result = ""
+                                            if let firstChar = newValue.first, firstChar == "+" {
+                                                result = "+"
+                                            }
                         let digits = newValue.filter { $0.isNumber }
                         let limitedDigits = String(digits.prefix(12))
                         let formatted = result + limitedDigits
@@ -44,10 +46,20 @@ struct AddFamilyMember: View {
                             .frame(maxWidth: .infinity)
                     } else {
                         Button(action: {
+                            guard !phoneNumber.isEmpty else { return }
+                            guard let currentUser = viewModel.currentUser else { return }
+                            
                             isButtonLoading = true
+                            
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                isButtonLoading = false
-                                showSMSAlert = true
+                                viewModel.addUserToFamily(phoneNumber: phoneNumber, adminUser: currentUser) { success in
+                                    isButtonLoading = false
+                                    if success {
+                                        showSMSAlert = true
+                                    } else {
+                                        dismiss()
+                                    }
+                                }
                             }
                         }) {
                             Text("Добавить участника в семью")
@@ -76,4 +88,3 @@ struct AddFamilyMember: View {
         }
     }
 }
-
