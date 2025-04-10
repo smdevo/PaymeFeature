@@ -17,9 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        
+        
         if window == nil {
             window = UIWindow()
+            
             if let id = UserDefaults.standard.string(forKey: "userId"), !id.isEmpty {
+                
                 window?.rootViewController = UniteViewController()
             }else {
                 let hostingController = UIHostingController(rootView: LoginView())

@@ -10,7 +10,6 @@ import SwiftUI
 
 struct CardsView: View {
     
-    
     @StateObject var vm = CardsViewModel()
     
     @State var controllerTab: Int = 0

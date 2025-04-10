@@ -57,6 +57,7 @@ class LoginViewModel: ObservableObject {
             
             UserDefaults.standard.set(user.id, forKey: "userId")
             UserDefaults.standard.set(user.familyId, forKey: "userFamilyId")
+
             
             onLoginSuccess?()
         } else {
