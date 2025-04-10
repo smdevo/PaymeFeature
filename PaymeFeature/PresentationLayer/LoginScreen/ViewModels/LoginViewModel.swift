@@ -18,11 +18,7 @@ class LoginViewModel: ObservableObject {
     func login() {
         let trimmedUserName = userName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
-//        
-//        for user in LoginManager.shared.users {
-//            print("Пользователь: \(user.userName), пароль: \(user.password)")
-//        }
-        
+
         for user in LoginManager.shared.netUsers {
             print("Пользователь: \(user.name), пароль: \(user.password)")
         }
