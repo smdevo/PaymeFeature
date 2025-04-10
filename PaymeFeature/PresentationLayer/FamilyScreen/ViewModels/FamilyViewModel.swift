@@ -13,7 +13,6 @@ class FamilyViewModel: ObservableObject {
     
     @Published var familyMembers: [UserModel] = []
 
-    
     @Published var allUsers: [UserModel] = []
     
     @Published var familyCard: VirtualCardModel?
@@ -27,6 +26,7 @@ class FamilyViewModel: ObservableObject {
         
         UsersNtworkinDataService.shared.getData(link: "users/") { [weak self] (users: [UserModel]?) in
             guard let users else { return }
+            self?.allUsers = users
             self?.currentUser = users.first(where: {$0.id == self?.userId})
             self?.familyMembers = users.filter({$0.familyId == self?.currentUser?.familyId})
         }
@@ -37,7 +37,72 @@ class FamilyViewModel: ObservableObject {
                 
             self?.familyCard = family.virtualcard
             }
+        
     }
 
+    
+    
+   
+    func addUserToFamily(phoneNumber: String, adminUser: UserModel, completion: @escaping (Bool) -> Void) {
+        let usersEndpoint = "/users?number=\(phoneNumber)"
+        
+        UsersNtworkinDataService.shared.getData(link: usersEndpoint) { (users: [UserModel]?) in
+            guard let users = users, let userToUpdate = users.first else {
+                print("Пользователь не найден для номера: \(phoneNumber)")
+                completion(false)
+                return
+            }
+            
+            var updatedUser = userToUpdate
+            updatedUser.familyId = adminUser.familyId
+            
+            let userUpdateEndpoint = "/users/\(updatedUser.id)"
+            
+            UsersNtworkinDataService.shared.updateData(link: userUpdateEndpoint, dataToUpdate: updatedUser) { success in
+                if success {
+                    let familyEndpoint = "/families/\(adminUser.familyId)"
+                    UsersNtworkinDataService.shared.getData(link: familyEndpoint) { (family: FamilyModel?) in
+                        guard var familyToUpdate = family else {
+                            completion(false)
+                            return
+                        }
+                        
+                        if !familyToUpdate.members.contains(updatedUser.id) {
+                            familyToUpdate.members.append(updatedUser.id)
+                        }
+                        
+                        UsersNtworkinDataService.shared.updateData(link: familyEndpoint, dataToUpdate: familyToUpdate) { familyUpdateSuccess in
+                            completion(familyUpdateSuccess)
+                        }
+                    }
+                } else {
+                    completion(false)
+                }
+            }
+        }
+    }
+
+
+    
+    func refreshData() {
+           UsersNtworkinDataService.shared.getData(link: "users/") { [weak self] (users: [UserModel]?) in
+               guard let self = self, let users = users else { return }
+               DispatchQueue.main.async {
+                   self.currentUser = users.first(where: { $0.id == self.userId })
+                   self.familyMembers = users.filter({ $0.familyId == self.currentUser?.familyId })
+               }
+           }
+           
+           UsersNtworkinDataService.shared.getData(link: "families/" + userFamilyId) { [weak self] (family: FamilyModel?) in
+               guard let self = self, let family = family else { return }
+               DispatchQueue.main.async {
+                   self.familyCard = family.virtualcard
+               }
+           }
+       }
+    
+    
 }
+
+
 

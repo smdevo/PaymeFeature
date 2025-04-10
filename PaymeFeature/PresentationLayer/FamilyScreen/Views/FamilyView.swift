@@ -14,7 +14,6 @@ struct FamilyView: View {
     @State private var showFamilyCardAddSheet: Bool = false
     @State private var showAddFamilyMemberSheet: Bool = false
     
-    
     var familyCards: [BankCard] = [
         BankCard(
             name: "Personal Debit Card",
@@ -27,28 +26,6 @@ struct FamilyView: View {
             iconName: "creditcard.fill",
             isFamilyCard: false
         )
-//        BankCard(
-//            name: "Family Virtual Card",
-//            ownerName: "Johnson Family",
-//            sum: "5000",
-//            cardNumber: "5555 4444 3333 2222",
-//            type: .uzcard,
-//            expirationDate: "11/26",
-//            cardColor: Color.blue,
-//            iconName: "house.fill",
-//            isFamilyCard: true
-//        ),
-//        BankCard(
-//            name: "Business Credit Card",
-//            ownerName: "Alice Johnson",
-//            sum: "10000",
-//            cardNumber: "7777 8888 9999 0000",
-//            type: .mastercard,
-//            expirationDate: "10/27",
-//            cardColor: Color.purple,
-//            iconName: "briefcase.fill",
-//            isFamilyCard: true
-//        )
     ]
     
     var body: some View {
@@ -56,7 +33,6 @@ struct FamilyView: View {
             VStack {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
-                    
                         ForEach(viewModel.familyMembers) { member in
                             VStack {
                                 Circle()
@@ -70,11 +46,10 @@ struct FamilyView: View {
                                 Text(member.name)
                                     .font(.caption)
                             }
-                        }//Foreach
+                        }
                     }
                     .padding(.horizontal)
                 }
-                
                 
                 if ((viewModel.currentUser?.invitation) != false) {
                     HStack {
@@ -91,7 +66,6 @@ struct FamilyView: View {
                 } else {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 16) {
-                            
                             if let famCard = viewModel.familyCard {
                                 CardView(bankCard:
                                             BankCard(
@@ -114,9 +88,7 @@ struct FamilyView: View {
                 
                 Spacer()
                 
-                if let user = viewModel.currentUser,
-                   user.role
-                {
+                if let user = viewModel.currentUser, user.role {
                     Button(action: {
                         showFamilyCardAddSheet = true
                     }) {
@@ -129,35 +101,40 @@ struct FamilyView: View {
                             .cornerRadius(10)
                     }
                     .padding()
-                    //                }
                 }
-                    
-            }//Vstack
+            }
             .navigationTitle("Моя семья")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                // Кнопка обновления данных
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        viewModel.refreshData()
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if let user = viewModel.currentUser, user.role {
+                        Button(action: {
+                            showAddFamilyMemberSheet.toggle()
+                        }) {
+                            Image(systemName: "plus.circle")
+                        }
+                        .sheet(isPresented: $showAddFamilyMemberSheet) {
+                            AddFamilyMember(viewModel: viewModel)
+                                .presentationDetents([.medium])
+                                .presentationDragIndicator(.hidden)
+                        }
+                    }
+                }
+            }
             .sheet(isPresented: $showFamilyCardAddSheet) {
                 FamilyCardAddView()
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if let user = viewModel.currentUser,
-                       user.role  {
-                        Button(action: {
-                            showAddFamilyMemberSheet.toggle()
-                        }) {
-                            Image(systemName: "plus.circle")
-                        }.sheet(isPresented: $showAddFamilyMemberSheet) {
-                            AddFamilyMember()
-                                .presentationDetents([.medium])
-                                .presentationDragIndicator(.hidden)
-                        }
-                        //                    }
-                    }
-                }
-                
-            }//toolbar
         }
     }
 }
