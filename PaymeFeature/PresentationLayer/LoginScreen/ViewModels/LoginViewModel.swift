@@ -28,7 +28,7 @@ class LoginViewModel: ObservableObject {
         }) {
             LoginManager.shared.loggedNetUser = user
             
-            UserDefaults.standard.set(user.id, forKey: "idUser")
+            UserDefaults.standard.set(user.id, forKey: "userId")
             
             onLoginSuccess?()
         } else {
