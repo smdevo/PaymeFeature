@@ -40,9 +40,6 @@ struct LoginView: View {
                 
             }
         }
-        .onAppear {
-            LoginManager.shared.loadUsersFromJSON()
-        }
         .onReceive(viewModel.$errorMessage) { err in
             if let err = err {
                 print("Ошибка логина: \(err)")

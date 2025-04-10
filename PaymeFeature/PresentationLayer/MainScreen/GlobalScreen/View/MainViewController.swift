@@ -8,6 +8,12 @@
 import UIKit
 import SwiftUI
 
+
+protocol CardsButtonDelegate: AnyObject {
+    func tapForCards()
+}
+
+
 protocol MainViewProtocol: AnyObject {
     
     func showCurrencies(currencies: [Currency])
@@ -15,7 +21,21 @@ protocol MainViewProtocol: AnyObject {
 }
 
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, CardsButtonDelegate {
+    
+    
+    func tapForCards() {
+        print("Hello working")
+        
+        let cardsView = CardsView()
+        
+        let hostingController = UIHostingController(rootView: cardsView)
+        
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
+    
+    
+    
 
     //MARK: -Dependency
     let interactor: MainInteractorProtocol
@@ -59,6 +79,8 @@ final class MainViewController: UIViewController {
         view.addSubview(balanceView)
         view.addSubview(quickPayView)
         view.addSubview(currencyView)
+        
+        quickPayView.delegate = self
         
         setUPCurrencyScrollView()
        
@@ -110,6 +132,8 @@ final class MainViewController: UIViewController {
         
     }
     
+   
+
     
     @objc func hideShowBalance() {
             

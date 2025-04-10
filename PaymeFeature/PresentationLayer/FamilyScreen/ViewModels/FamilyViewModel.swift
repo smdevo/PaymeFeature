@@ -9,6 +9,9 @@ import SwiftUI
 
 class FamilyViewModel: ObservableObject {
     
+    let networkingService = UsersNtworkinDataService.shared
+    
+    
     @Published var currentUser: UserModel?
     
     @Published var familyMembers: [UserModel] = []
@@ -21,6 +24,12 @@ class FamilyViewModel: ObservableObject {
     
     
     init() {
+        getCurrentUserAndFamily()
+    }
+    
+    
+    
+    func getCurrentUserAndFamily() {
         
         UsersNtworkinDataService.shared.getData(link: "users/") { [weak self] (users: [UserModel]?) in
             guard let users else { return }
@@ -34,7 +43,10 @@ class FamilyViewModel: ObservableObject {
                 
             self?.familyCard = family.virtualcard
             }
+        
     }
+    
+    
 
 }
 

@@ -76,7 +76,8 @@ class CircleView: UIView {
         
         imageView.centerYAnchor.constraint(equalTo: backView.centerYAnchor).isActive = true
         imageView.centerXAnchor.constraint(equalTo: backView.centerXAnchor).isActive = true
-            
+    
+
         
         addSubview(stackCust)
         

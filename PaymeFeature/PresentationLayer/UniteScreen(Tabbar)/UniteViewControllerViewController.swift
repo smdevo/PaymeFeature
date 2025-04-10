@@ -22,7 +22,7 @@ class UniteViewController: UITabBarController {
         
         setupTabBarAppearance()
         
-        let main = Assembly().giveMAinViewController()
+        let main = UINavigationController(rootViewController: (Assembly().giveMAinViewController()))
         main.tabBarItem = UITabBarItem(title: "Main", image: UIImage(systemName: "house"), tag: 0)
 
         let transfers = UIHostingController(rootView: TransfersView())
