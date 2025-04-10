@@ -17,37 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        
-        
-        
-//        if let userId = UserDefaults.standard.string(forKey: "idUser"), !userId.isEmpty {
-//            let mainVC = Assembly().giveMAinViewController()
-//            let navigationController = UINavigationController(rootViewController: mainVC)
-//            window?.rootViewController = navigationController
-//        } else {
-//            let loginView = LoginView()
-//            window?.rootViewController = UIHostingController(rootView: loginView)
-//        }
-//        window?.makeKeyAndVisible()
-//        
-        
-        
-        
         if window == nil {
             window = UIWindow()
-            
-            if let id = UserDefaults.standard.string(forKey: "idUser"), !id.isEmpty {
-                
+            if let id = UserDefaults.standard.string(forKey: "userId"), !id.isEmpty {
                 window?.rootViewController = UniteViewController()
-                
             }else {
                 let hostingController = UIHostingController(rootView: LoginView())
-                
-               window?.rootViewController = hostingController
-                
+                window?.rootViewController = hostingController
             }
-            
-           
            window?.makeKeyAndVisible()
         }
         

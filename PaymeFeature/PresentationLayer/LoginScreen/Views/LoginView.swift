@@ -14,14 +14,7 @@ struct LoginView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            if let loggedUser = LoginManager.shared.loggedInUser {
-                Text("Вы уже авторизованы как \(loggedUser.name)")
-                    .font(.title)
-                Button("Выйти") {
-                    logout()
-                }
-                .foregroundColor(.red)
-            } else {
+            
                 Text("Авторизация")
                     .font(.largeTitle)
                 
@@ -43,7 +36,7 @@ struct LoginView: View {
                 if let error = viewModel.errorMessage {
                     Text(error)
                         .foregroundColor(.red)
-                }
+                
             }
         }
         .onAppear {
