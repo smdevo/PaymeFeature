@@ -17,9 +17,7 @@ class UniteViewController: UITabBarController {
     }
     
     func createOtherVCs() {
-        
-        let sharedCardsVM = CardsViewModel()
-        
+
         setupTabBarAppearance()
         
         let cardsVM = CardsViewModel()

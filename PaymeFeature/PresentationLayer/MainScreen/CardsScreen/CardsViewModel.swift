@@ -9,11 +9,6 @@ import SwiftUI
 
 class CardsViewModel: ObservableObject {
     
-    @Published var transactions: [TransactionModel] = [
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "33000"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "100000")
-    ]
-    
     @Published var currentUser: UserModel?
     
     @Published var currentFamily: FamilyModel?
