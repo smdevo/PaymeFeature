@@ -14,19 +14,19 @@ struct FamilyView: View {
     @State private var showFamilyCardAddSheet: Bool = false
     @State private var showAddFamilyMemberSheet: Bool = false
     
-    var familyCards: [BankCard] = [
-        BankCard(
-            name: "Personal Debit Card",
-            ownerName: "Alice Johnson",
-            sum: "2500",
-            cardNumber: "1111 2222 3333 4444",
-            type: .uzcard,
-            expirationDate: "12/25",
-            cardColor: Color.green,
-            iconName: "creditcard.fill",
-            isFamilyCard: false
-        )
-    ]
+//    var familyCards: [BankCard] = [
+//        BankCard(
+//            name: "Personal Debit Card",
+//            ownerName: "Alice Johnson",
+//            sum: "2500",
+//            cardNumber: "1111 2222 3333 4444",
+//            type: .uzcard,
+//            expirationDate: "12/25",
+//            cardColor: Color.green,
+//            iconName: "creditcard.fill",
+//            isFamilyCard: false
+//        )
+//    ]
     
     var body: some View {
         NavigationView {
@@ -78,9 +78,9 @@ struct FamilyView: View {
                                                 isFamilyCard: true))
                             }
                             
-                            ForEach(familyCards) { card in
-                                CardView(bankCard: card)
-                            }
+//                            ForEach(familyCards) { card in
+//                                CardView(bankCard: card)
+//                            }
                         }
                         .padding()
                     }

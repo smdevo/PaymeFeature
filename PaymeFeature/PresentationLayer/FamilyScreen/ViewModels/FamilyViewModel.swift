@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import Combine
 
 class FamilyViewModel: ObservableObject {
     
     let networkingService = UsersNtworkinDataService.shared
+    
+//    let netcache = NetCache.shared
+//    
+//    var cancellables = Set<AnyCancellable>()
     
     
     @Published var currentUser: UserModel?
@@ -27,13 +32,50 @@ class FamilyViewModel: ObservableObject {
     
     init() {
         getCurrentUserAndFamily()
+        
+//        settingSubs()
+//        gettingMembers()
     }
     
+//    func settingSubs() {
+//        netcache.$users
+//            .sink { [weak self] users in
+//                self?.allUsers = users
+//            }
+//            .store(in: &cancellables)
+//        
+//        netcache.$currentUser
+//            .sink { [weak self] user in
+//                guard let user else {
+//                    print("Cant sub to user")
+//                    return
+//                }
+//                self?.currentUser = user
+//            }
+//            .store(in: &cancellables)
+//        
+//        netcache.$currentFamily
+//            .sink { [weak self] family in
+//                guard let family else {
+//                    print("Cant sub to family")
+//                    return
+//                }
+//                self?.familyCard = family.virtualcard
+//            }
+//            .store(in: &cancellables)
+//    }
+    
+    
+//    func gettingMembers() {
+//        
+//        familyMembers = allUsers.filter({$0.familyId == currentUser?.familyId})
+//        
+//    }
     
     
     func getCurrentUserAndFamily() {
         
-        UsersNtworkinDataService.shared.getData(link: "users/") { [weak self] (users: [UserModel]?) in
+        networkingService.getData(link: "users/") { [weak self] (users: [UserModel]?) in
             guard let users else { return }
             self?.allUsers = users
             self?.currentUser = users.first(where: {$0.id == self?.userId})
@@ -41,11 +83,11 @@ class FamilyViewModel: ObservableObject {
         }
         
         
-        UsersNtworkinDataService.shared.getData(link: "families/" + userFamilyId) { [weak self] (family: FamilyModel?) in
+        networkingService.getData(link: "families/" + userFamilyId) { [weak self] (family: FamilyModel?) in
             guard let family else { return }
                 
             self?.familyCard = family.virtualcard
-            }
+        }
         
     }
 

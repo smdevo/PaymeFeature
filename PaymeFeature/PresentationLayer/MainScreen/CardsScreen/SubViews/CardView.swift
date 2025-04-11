@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CardView: View {
     
+    @State private var showTransactionSheet = false
+    
     let bankCard: BankCard
     
     var body: some View {
@@ -67,6 +69,16 @@ struct CardView: View {
         .cornerRadius(16)
         .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
         .foregroundStyle(.white)
+        .sheet(isPresented: $showTransactionSheet, content: {
+            TransactionSheet()
+                .presentationDetents([.fraction(0.6)])
+                .presentationDragIndicator(.visible)
+        })
+        .onTapGesture {
+            if !bankCard.isFamilyCard {
+                showTransactionSheet.toggle()
+            }
+        }
         
     }
 }
