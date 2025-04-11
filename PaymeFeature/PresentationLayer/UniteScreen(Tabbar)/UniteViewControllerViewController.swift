@@ -20,6 +20,8 @@ class UniteViewController: UITabBarController {
     
     func createOtherVCs() {
         
+        let sharedCardsVM = CardsViewModel()
+        
         setupTabBarAppearance()
         
         let main = UINavigationController(rootViewController: (Assembly().giveMAinViewController()))
@@ -34,7 +36,7 @@ class UniteViewController: UITabBarController {
         let service = UIHostingController(rootView: ServiceView())
         service.tabBarItem = UITabBarItem(title: "Services", image: UIImage(systemName: "square.grid.2x2"), tag: 3)
 
-        let monitoring = UIHostingController(rootView: MonitoringView())
+        let monitoring = UIHostingController(rootView: MonitoringView(viewModel: CardsViewModel()))
         monitoring.tabBarItem = UITabBarItem(title: "Monitoring", image: UIImage(systemName: "chart.bar"), tag: 4)
 
         let payment = UIHostingController(rootView: PaymentsView())

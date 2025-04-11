@@ -47,7 +47,7 @@ class FamilyViewModel: ObservableObject {
         netcache.$currentUser
             .sink { [weak self] user in
                 guard let user else {
-                    print("Cant sub to user")
+//                    print("Cant sub to user")
                     return
                 }
                 self?.currentUser = user
@@ -57,7 +57,7 @@ class FamilyViewModel: ObservableObject {
         netcache.$currentFamily
             .sink { [weak self] family in
                 guard let family else {
-                    print("Cant sub to family")
+//                    print("Cant sub to family")
                     return
                 }
                 self?.familyCard = family.virtualcard
@@ -98,7 +98,6 @@ class FamilyViewModel: ObservableObject {
         
         UsersNtworkinDataService.shared.getData(link: usersEndpoint) { (users: [UserModel]?) in
             guard let users = users, let userToUpdate = users.first else {
-                print("Пользователь не найден для номера: \(phoneNumber)")
                 completion(false)
                 return
             }
@@ -116,6 +115,11 @@ class FamilyViewModel: ObservableObject {
                             completion(false)
                             return
                         }
+                        
+                        if userToUpdate.familyId == adminUser.familyId {
+                                 completion(false)
+                                 return
+                             }
                         
                         if !familyToUpdate.members.contains(updatedUser.id) {
                             familyToUpdate.members.append(updatedUser.id)
@@ -178,7 +182,6 @@ class FamilyViewModel: ObservableObject {
         
         UsersNtworkinDataService.shared.getData(link: usersEndpoint) { (users: [UserModel]?) in
             guard let users = users, var userToInvite = users.first else {
-                print("Пользователь не найден для номера: \(phoneNumber)")
                 completion(false)
                 return
             }
@@ -188,11 +191,6 @@ class FamilyViewModel: ObservableObject {
             
             let userUpdateEndpoint = "/users/\(userToInvite.id)"
             UsersNtworkinDataService.shared.updateData(link: userUpdateEndpoint, dataToUpdate: userToInvite) { success in
-                if success {
-                    print("Приглашение отправлено пользователю с номером: \(phoneNumber)")
-                } else {
-                    print("Ошибка при отправке приглашения пользователю с номером: \(phoneNumber)")
-                }
                 completion(success)
             }
         }

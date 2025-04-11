@@ -17,11 +17,8 @@ struct TransactionModel: Identifiable {
 }
 
 struct MonitoringView: View {
-    
-    @State private var transactions: [TransactionModel] = [
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "хххххх"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "хххххх")
-    ]
+    //TODO: mock
+    @ObservedObject var viewModel: CardsViewModel
     
     var body: some View {
         NavigationView {
@@ -30,7 +27,7 @@ struct MonitoringView: View {
                 summarySection
                 
                 // MARK: - Список транзакций или пустое состояние
-                if transactions.isEmpty {
+                if viewModel.transactions.isEmpty {
                     emptyHistoryView
                 } else {
                     transactionsListView
@@ -50,7 +47,7 @@ struct MonitoringView: View {
                 Text("Поступление")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text("хххххх")
+                Text("4000000")
                     .font(.headline)
                     .foregroundColor(.green)
             }
@@ -59,7 +56,7 @@ struct MonitoringView: View {
                 Text("Расход")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text("хххххх")
+                Text("1000000")
                     .font(.headline)
                     .foregroundColor(.red)
             }
@@ -87,7 +84,7 @@ struct MonitoringView: View {
     
     private var transactionsListView: some View {
         List {
-            ForEach(transactions) { transaction in
+            ForEach(viewModel.transactions) { transaction in
                 TransactionRow(transaction: transaction)
             }
         }

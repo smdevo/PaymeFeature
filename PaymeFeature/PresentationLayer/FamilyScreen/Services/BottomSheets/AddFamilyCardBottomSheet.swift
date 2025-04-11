@@ -47,7 +47,7 @@ struct FamilyCardAddView: View {
                             guard !phoneNumber.isEmpty else { return }
                             
                             isButtonLoading = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                                 viewModel.addFamilyCard(cardName: "Семейная карта", ownerPhoneNumber: phoneNumber) { success in
                                     isButtonLoading = false
                                     

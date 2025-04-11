@@ -46,11 +46,7 @@ class LoginViewModel: ObservableObject {
             return
         }
         errorMessage = ""
-        
-        for user in users {
-            print("Пользователь: \(user.name), пароль: \(user.password)")
-        }
-        
+
         if let user = users.first(where: {
             $0.name.lowercased() == trimmedUserName && $0.password == trimmedPassword
         }) {

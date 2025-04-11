@@ -10,6 +10,11 @@ import SwiftUI
 
 class CardsViewModel: ObservableObject {
     
+    @Published var transactions: [TransactionModel] = [
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "33000"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "100000")
+    ]
+    
     @Published var currentUser: UserModel?
     
     @Published var currentFamily: FamilyModel?
@@ -89,6 +94,10 @@ class CardsViewModel: ObservableObject {
         let updatedUserBalance = String(userSum - amountSum)
         let updatedFamilyBalance = String(famCardSum + amountSum)
         
+        //TODO: mock monitoring
+        let senderCardNumber = currentUser.cardNumber
+        guard let receiverCardNumber = currentFamily.virtualcard?.number else { return }
+        
         let updatedUser = UserModel(
             name: currentUser.name,
             number: currentUser.number,
@@ -138,8 +147,30 @@ class CardsViewModel: ObservableObject {
             self?.cards.removeAll()
             self?.loadUserAndFamily()
         }
+        
+        addHistoryMonitoring(from: senderCardNumber, to: receiverCardNumber, amount: amountSum)
     }
     
+    
+    func addHistoryMonitoring(from sender: String, to receiver: String, amount: Double) {
+        let now = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm:ss"
+        
+        let dateString = dateFormatter.string(from: now)
+        let timeString = timeFormatter.string(from: now)
+        let amountString = String(amount)
+        let transaction = TransactionModel(date: dateString, time: timeString, amount: amountString)
+        
+        DispatchQueue.main.async {
+            self.transactions.append(transaction)
+            print(self.transactions)
+        }
+    }
+
+
 }
 
 
