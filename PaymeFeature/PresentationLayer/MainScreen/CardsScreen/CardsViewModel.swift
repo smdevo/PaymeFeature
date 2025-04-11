@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 class CardsViewModel: ObservableObject {
     
     @Published var transactions: [TransactionModel] = [
@@ -21,8 +20,12 @@ class CardsViewModel: ObservableObject {
     
     @Published var cards: [BankCard] = []
     
-    let netService = UsersNtworkinDataService.shared
+    @Published var transactions: [TransactionModel] = [
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "300000", description: "перевод и услуги"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "500000", description: "перевод и услуги")
+    ]
     
+    let netService = UsersNtworkinDataService.shared
     
     let userID = UserDefaults.standard.string(forKey: "userId") ?? "1"
     let familyId = UserDefaults.standard.string(forKey: "userFamilyId") ?? "1"
@@ -30,7 +33,6 @@ class CardsViewModel: ObservableObject {
     init() {
         loadUserAndFamily()
     }
-    
     
     func loadUserAndFamily() {
         let group = DispatchGroup()
@@ -86,17 +88,27 @@ class CardsViewModel: ObservableObject {
     
     func sendMoney(amount: String, completion: @escaping (Bool) -> Void) {
         
-        guard let amountSum = Double(amount), amountSum > 0 else { return }
-        guard let balance = currentUser?.balance, let userSum = Double(balance), amountSum < userSum else { return }
-        guard let famBalance = currentFamily?.virtualcard?.balance, let famCardSum = Double(famBalance) else { return }
-        guard let currentUser = currentUser, let currentFamily = currentFamily else { return }
+        guard let amountSum = Double(amount), amountSum > 0 else {
+            completion(false)
+            return
+        }
+        guard let balance = currentUser?.balance,
+              let userSum = Double(balance), amountSum < userSum else {
+            completion(false)
+            return
+        }
+        guard let famBalance = currentFamily?.virtualcard?.balance,
+                let famCardSum = Double(famBalance) else {
+            completion(false)
+            return
+        }
+        guard let currentUser = currentUser, let currentFamily = currentFamily else {
+            completion(false)
+            return
+        }
         
         let updatedUserBalance = String(userSum - amountSum)
         let updatedFamilyBalance = String(famCardSum + amountSum)
-        
-        //TODO: mock monitoring
-        let senderCardNumber = currentUser.cardNumber
-        guard let receiverCardNumber = currentFamily.virtualcard?.number else { return }
         
         let updatedUser = UserModel(
             name: currentUser.name,
@@ -144,33 +156,21 @@ class CardsViewModel: ObservableObject {
         
         group.notify(queue: .main) { [weak self] in
             completion(successUserUpdate && successFamilyUpdate)
+            
+            self?.saveHistoryMonitoring(sender: currentUser.cardNumber, receiver: famCard?.number ?? "", amount: String(amountSum))
+            
             self?.cards.removeAll()
             self?.loadUserAndFamily()
         }
-        
-        addHistoryMonitoring(from: senderCardNumber, to: receiverCardNumber, amount: amountSum)
     }
     
     
-    func addHistoryMonitoring(from sender: String, to receiver: String, amount: Double) {
-        let now = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let timeFormatter = DateFormatter()
-        timeFormatter.dateFormat = "HH:mm:ss"
-        
-        let dateString = dateFormatter.string(from: now)
-        let timeString = timeFormatter.string(from: now)
-        let amountString = String(amount)
-        let transaction = TransactionModel(date: dateString, time: timeString, amount: amountString)
-        
-        DispatchQueue.main.async {
-            self.transactions.append(transaction)
-            print(self.transactions)
-        }
+    
+    func saveHistoryMonitoring(sender: String, receiver: String, amount: String) {
+        transactions.append(TransactionModel(date: "date", time: "date", amount: amount, description: "Transaction to family card"))
     }
-
-
+    
+    
 }
 
 

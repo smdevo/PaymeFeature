@@ -10,8 +10,6 @@ import SwiftUI
 
 struct CardsView: View {
     
-   // @StateObject var vm = CardsViewModel()
-    
     @EnvironmentObject var vm: CardsViewModel
     
     @State var controllerTab: Int = 0
@@ -22,7 +20,7 @@ struct CardsView: View {
         VStack {
             ScrollView(.horizontal) {
                 HStack {
-                    HeadLineView(title: "Barcha kartalar",
+                    HeadLineView(title: "All cards",
                                  isOn: controllerTab == 0
                     )
                     .onTapGesture {
@@ -69,9 +67,9 @@ struct CardsView: View {
         }
         .overlay(alignment: .bottom) {
             plusButton
-        }//overlay
+        }
         .padding(5)
-    }//
+    }
 }
 
 #Preview {
@@ -81,7 +79,6 @@ struct CardsView: View {
 extension CardsView {
     
     private var plusButton: some View {
-        
        
         Button {
             showAddCardSheet.toggle()

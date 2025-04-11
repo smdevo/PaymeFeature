@@ -5,112 +5,7 @@
 //  Created by Samandar on 09/04/25.
 //
 
-
-struct UserModel: Codable, Identifiable, Equatable {
-    let name: String
-    let number: String
-    let password: String
-    let date: Int
-    var familyId: String
-    let role: Bool
-    let balance: String
-    let id: String
-    var invitation: Bool
-    var invitedFamilyId: String?
-    let cardNumber: String
-}
-
-struct FamilyModel: Codable {
-    let name: String
-    var members: [String]
-    var virtualcard: VirtualCardModel?
-    let id: String
-}
-
-struct VirtualCardModel: Codable {
-    var id: String = ""
-    var name: String = ""
-    var number: String = ""
-    var ownerPhoneNumber: String = ""
-    var balance: String = ""
-}
-
-
 import Foundation
-
-//NO NEED
-final class NetService {
-    
-    static var shared: NetService = NetService()
-    
-    @Published var users: [UserModel] = []
-    @Published var families: [FamilyModel] = []
-    
-    @Published var neededFamily: FamilyModel?
-    
-
-    
-    init() {
-        
-        refreshBase()
-        
-    }
-    
-    func refreshBase() {
-        gettingUsers()
-        gettingFamilies()
-    }
-    
-    
-    func gettingUsers() {
-        //isLoading = true
-        
-        NetManager.shared.get(url: NetManager.API_Users) { [weak self] (result: Result<[UserModel],Error>)  in
-            switch result {
-                
-            case .success(let users):
-                self?.users = users
-                
-            case .failure(let error):
-                print("Error \(error.localizedDescription)")
-            }
-        }
-        
-    }
-    
-    func gettingFamilies()  {
-        
-        NetManager.shared.get(url: NetManager.API_Families) { [weak self] (result: Result<[FamilyModel],Error>)  in
-            switch result {
-                
-            case .success(let families):
-                self?.families = families
-                
-            case .failure(let error):
-                print("Error \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func getFamily(id: String) {
-        
-        NetManager.shared.get(url: NetManager.API_Families) { [weak self] (result: Result<FamilyModel,Error>)  in
-            switch result {
-                
-            case .success(let family):
-                self?.neededFamily = family
-                
-            case .failure(let error):
-                print("Error \(error.localizedDescription)")
-            }
-        }
-        
-    }
-    
-}
-//NO NEED
-
-
 
 final class UsersNtworkinDataService {
     
@@ -120,7 +15,6 @@ final class UsersNtworkinDataService {
     
     
     static let shared = UsersNtworkinDataService()
-    
     
     func getData<T: Codable>(link: String, completion: @escaping (T?) -> Void) {
         
@@ -196,35 +90,7 @@ final class UsersNtworkinDataService {
         }
     }
 
-    
-    
-    func patchData<T: Codable>(link: String, dataToUpdate: T, completion: @escaping (Bool) -> Void) {
-        guard let url = URL(string: serVerLink + link) else {
-            completion(false)
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "PATCH" 
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        do {
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = .prettyPrinted
-            let jsonData = try encoder.encode(dataToUpdate)
-       
-            request.httpBody = jsonData
-            
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                DispatchQueue.main.async { completion(true) }
-            }.resume()
-        } catch {
-            completion(false)
-        }
-    }
-    
-    
-    
+
     func postData<T: Codable>(link: String, dataToSend: T, completion: @escaping (Bool) -> Void) {
         guard let url = URL(string: serVerLink + link) else {
             completion(false)
@@ -259,74 +125,5 @@ final class UsersNtworkinDataService {
     
 }
         
-//}
-
-
-
-
-
-final class NetCache {
-    
-    @Published var users: [UserModel] = []
-    @Published var families: [FamilyModel] = []
-    @Published var currentUser: UserModel?
-    @Published var currentFamily: FamilyModel?
-    
-    
-    static let shared = NetCache()
-    
-    let netserVice = UsersNtworkinDataService.shared
-    
-    init() {
-        setUsers()
-        setFamilies()
-    }
-    
-    func setUsers() {
-        netserVice.getData(link: "users/") { [weak self] (users: [UserModel]?) in
-            guard let users else {
-                print("Cant get users")
-                return
-            }
-            
-            self?.users = users
-        }
-    }
-    
-    func setFamilies() {
-        
-        netserVice.getData(link: "families/") { [weak self] (families: [FamilyModel]?) in
-            guard let families else {
-                print("Cant get families")
-                return
-            }
-            
-            self?.families = families
-        }
-    }
-    
-    func setCurrentUser(id: String) {
-        netserVice.getData(link: "users/" + id) { [weak self] (user: UserModel?) in
-            guard let user else {
-                print("Cant get user")
-                return
-            }
-            
-            self?.currentUser = user
-        }
-    }
-    
-    func setCurrentFamily(id: String) {
-        netserVice.getData(link: "families/" + id) { [weak self] (family: FamilyModel?) in
-            guard let family else {
-                print("Cant get user")
-                return
-            }
-            
-            self?.currentFamily = family
-        }
-    }
-    
-}
 
 
