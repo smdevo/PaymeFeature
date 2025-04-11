@@ -11,6 +11,8 @@ import SwiftUI
 struct FamilyView: View {
     @ObservedObject var viewModel: FamilyViewModel = FamilyViewModel()
     
+    
+    
     @State private var showFamilyCardAddSheet: Bool = false
     @State private var showAddFamilyMemberSheet: Bool = false
     
@@ -60,16 +62,16 @@ struct FamilyView: View {
                     }
                     .alert("Подтверждение приглашения", isPresented: $showInvitationAlert) {
                         TextField("Введите код", text: $invitationCode)
-                        Button("Подтвердить") {
+                        Button("Confirm") {
                             viewModel.confirmInvitation(enteredCode: invitationCode) { success in
                                 if success {
                                     print("Success")
                                 } else {
-                                    print("Неверный код или ошибка")
+                                    print("Failure")
                                 }
                             }
                         }
-                        Button("Отмена", role: .cancel) { }
+                        Button("Cancel", role: .cancel) { }
                     } message: {
                         Text("Введите код подтверждения, который вы получили")
                     }

@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 class CardsViewModel: ObservableObject {
     
     @Published var currentUser: UserModel?
@@ -16,8 +15,12 @@ class CardsViewModel: ObservableObject {
     
     @Published var cards: [BankCard] = []
     
-    let netService = UsersNtworkinDataService.shared
+    @Published var transactions: [TransactionModel] = [
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "300000", description: "перевод и услуги"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "500000", description: "перевод и услуги")
+    ]
     
+    let netService = UsersNtworkinDataService.shared
     
     let userID = UserDefaults.standard.string(forKey: "userId") ?? "1"
     let familyId = UserDefaults.standard.string(forKey: "userFamilyId") ?? "1"
@@ -25,7 +28,6 @@ class CardsViewModel: ObservableObject {
     init() {
         loadUserAndFamily()
     }
-    
     
     func loadUserAndFamily() {
         let group = DispatchGroup()
@@ -81,10 +83,24 @@ class CardsViewModel: ObservableObject {
     
     func sendMoney(amount: String, completion: @escaping (Bool) -> Void) {
         
-        guard let amountSum = Double(amount), amountSum > 0 else { return }
-        guard let balance = currentUser?.balance, let userSum = Double(balance), amountSum < userSum else { return }
-        guard let famBalance = currentFamily?.virtualcard?.balance, let famCardSum = Double(famBalance) else { return }
-        guard let currentUser = currentUser, let currentFamily = currentFamily else { return }
+        guard let amountSum = Double(amount), amountSum > 0 else {
+            completion(false)
+            return
+        }
+        guard let balance = currentUser?.balance,
+              let userSum = Double(balance), amountSum < userSum else {
+            completion(false)
+            return
+        }
+        guard let famBalance = currentFamily?.virtualcard?.balance,
+                let famCardSum = Double(famBalance) else {
+            completion(false)
+            return
+        }
+        guard let currentUser = currentUser, let currentFamily = currentFamily else {
+            completion(false)
+            return
+        }
         
         let updatedUserBalance = String(userSum - amountSum)
         let updatedFamilyBalance = String(famCardSum + amountSum)
@@ -135,10 +151,20 @@ class CardsViewModel: ObservableObject {
         
         group.notify(queue: .main) { [weak self] in
             completion(successUserUpdate && successFamilyUpdate)
+            
+            self?.saveHistoryMonitoring(sender: currentUser.cardNumber, receiver: famCard?.number ?? "", amount: String(amountSum))
+            
             self?.cards.removeAll()
             self?.loadUserAndFamily()
         }
     }
+    
+    
+    
+    func saveHistoryMonitoring(sender: String, receiver: String, amount: String) {
+        transactions.append(TransactionModel(date: "date", time: "date", amount: amount, description: "Transaction to family card"))
+    }
+    
     
 }
 

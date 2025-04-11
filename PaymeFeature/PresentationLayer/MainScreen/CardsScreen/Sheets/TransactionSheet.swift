@@ -9,18 +9,16 @@ import SwiftUI
 
 struct TransactionSheet: View {
     
-    //@StateObject var vm = TransactionViewModel()
-    
     @State private var sum: String = ""
     @State private var isSending = false
     @State private var showConfirmation = false
-    
+    @State private var isSuccesFull = false
+
     @EnvironmentObject var evm: CardsViewModel
     
     @Environment(\.dismiss) private var dismiss
     
     @FocusState var foc: Bool
-    
     
     var isAmountValid: Bool {
         if let amount = Double(sum), amount > 0 {
@@ -58,25 +56,13 @@ struct TransactionSheet: View {
                 isSending = true
                 
                 evm.sendMoney(amount: sum) { res in
-                    
-                    if res {
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now()) {
                             isSending = false
                             showConfirmation = true
                             sum = ""
+                            isSuccesFull = res
                         }
-                        
-                    }else {
-                        
-                    }
-                    
-                    
-                    
                 }
-                
-                
-                
             } label: {
                 Text(isSending ? "Sending..." : "Send")
                     .frame(maxWidth: .infinity)
@@ -91,12 +77,12 @@ struct TransactionSheet: View {
             Spacer()
         }
         .padding()
-        .alert("Transaction Successful", isPresented: $showConfirmation) {
+        .alert(isSuccesFull ? "Transaction Successful" : "Something went wrong", isPresented: $showConfirmation) {
             Button("OK", role: .cancel) {
                 dismiss()
             }
         } message: {
-            Text("Your money has been sent to your family card.")
+            Text(isSuccesFull ? "Your money has been sent to your family card." : "Something went wrong please try again")
         }
     }
 }

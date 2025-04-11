@@ -15,7 +15,6 @@ struct LoginView: View {
     var body: some View {
         VStack(spacing: 20) {
             
-            
             Text("Авторизация")
                 .font(.largeTitle)
             
@@ -38,11 +37,6 @@ struct LoginView: View {
                 Text(error)
                     .foregroundColor(.red)
                 
-            }
-        }
-        .onReceive(viewModel.$errorMessage) { err in
-            if let err = err {
-                print("Ошибка логина: \(err)")
             }
         }
         .onAppear {
