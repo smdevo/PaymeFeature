@@ -53,11 +53,10 @@ struct CardView: View {
                 }
                 .foregroundColor(.white)
                 .font(.subheadline)
-            }
+            }.padding()
             
         }
-        .padding()
-        .background(bankCard.cardColor)
+//        .background(bankCard.cardColor)
         .cornerRadius(16)
         .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
         .foregroundStyle(.white)
@@ -75,11 +74,11 @@ struct CardView: View {
     }
 }
 
-#Preview {
-    VStack {
-        CardView(bankCard: BankCard(name: "Aloqabank", ownerName: "Samandar Toshpulatov", sum: "60400", cardNumber: "7789098756432118", type: .uzcard,expirationDate: "11/25"))
-            .padding()
-        }
-        .frame(height: 160)
-    }
+//#Preview {
+//    VStack {
+//        CardView(bankCard: BankCard(name: "Aloqabank", ownerName: "Samandar Toshpulatov", sum: "60400", cardNumber: "7789098756432118", type: .uzcard,expirationDate: "11/25"))
+//            .padding()
+//        }
+//        .frame(height: 160)
+//    }
 //}

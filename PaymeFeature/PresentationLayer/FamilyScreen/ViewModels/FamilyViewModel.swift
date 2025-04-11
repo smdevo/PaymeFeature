@@ -12,9 +12,9 @@ class FamilyViewModel: ObservableObject {
     
     let networkingService = UsersNtworkinDataService.shared
     
-//    let netcache = NetCache.shared
-//    
-//    var cancellables = Set<AnyCancellable>()
+    let netcache = NetCache.shared
+    
+    var cancellables = Set<AnyCancellable>()
     
     
     @Published var currentUser: UserModel?
@@ -33,44 +33,44 @@ class FamilyViewModel: ObservableObject {
     init() {
         getCurrentUserAndFamily()
         
-//        settingSubs()
-//        gettingMembers()
+        settingSubs()
+        gettingMembers()
     }
     
-//    func settingSubs() {
-//        netcache.$users
-//            .sink { [weak self] users in
-//                self?.allUsers = users
-//            }
-//            .store(in: &cancellables)
-//        
-//        netcache.$currentUser
-//            .sink { [weak self] user in
-//                guard let user else {
-//                    print("Cant sub to user")
-//                    return
-//                }
-//                self?.currentUser = user
-//            }
-//            .store(in: &cancellables)
-//        
-//        netcache.$currentFamily
-//            .sink { [weak self] family in
-//                guard let family else {
-//                    print("Cant sub to family")
-//                    return
-//                }
-//                self?.familyCard = family.virtualcard
-//            }
-//            .store(in: &cancellables)
-//    }
+    func settingSubs() {
+        netcache.$users
+            .sink { [weak self] users in
+                self?.allUsers = users
+            }
+            .store(in: &cancellables)
+        
+        netcache.$currentUser
+            .sink { [weak self] user in
+                guard let user else {
+                    print("Cant sub to user")
+                    return
+                }
+                self?.currentUser = user
+            }
+            .store(in: &cancellables)
+        
+        netcache.$currentFamily
+            .sink { [weak self] family in
+                guard let family else {
+                    print("Cant sub to family")
+                    return
+                }
+                self?.familyCard = family.virtualcard
+            }
+            .store(in: &cancellables)
+    }
     
     
-//    func gettingMembers() {
-//        
-//        familyMembers = allUsers.filter({$0.familyId == currentUser?.familyId})
-//        
-//    }
+    func gettingMembers() {
+        
+        familyMembers = allUsers.filter({$0.familyId == currentUser?.familyId})
+        
+    }
     
     
     func getCurrentUserAndFamily() {
@@ -199,13 +199,11 @@ class FamilyViewModel: ObservableObject {
     }
 
     func confirmInvitation(enteredCode: String, completion: @escaping (Bool) -> Void) {
-        // Допустим, код подтверждения всегда "123456"
         guard enteredCode == "123456", var current = currentUser, let invitedFamilyId = current.invitedFamilyId else {
             completion(false)
             return
         }
         
-        // Обновляем familyId на значение приглашённой семьи и сбрасываем флаги приглашения
         current.familyId = invitedFamilyId
         current.invitation = false
         current.invitedFamilyId = nil
