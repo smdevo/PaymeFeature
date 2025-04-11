@@ -50,19 +50,17 @@ struct AddFamilyMember: View {
                             guard let currentUser = viewModel.currentUser else { return }
                             
                             isButtonLoading = true
-                            
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                viewModel.addUserToFamily(phoneNumber: phoneNumber, adminUser: currentUser) { success in
+                                viewModel.sendInvitation(phoneNumber: phoneNumber, adminUser: currentUser) { success in
                                     isButtonLoading = false
                                     if success {
                                         showSMSAlert = true
-                                    } else {
                                         dismiss()
                                     }
                                 }
                             }
                         }) {
-                            Text("Добавить участника в семью")
+                            Text("Пригласить в семью")
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding()
@@ -72,6 +70,7 @@ struct AddFamilyMember: View {
                         }
                         .padding(.horizontal)
                         .padding(.top, 10)
+
                     }
                 }
                 .padding()

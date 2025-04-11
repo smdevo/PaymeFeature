@@ -15,7 +15,8 @@ struct UserModel: Codable, Identifiable, Equatable {
     let role: Bool
     let balance: String
     let id: String
-    let invitation: Bool
+    var invitation: Bool
+    var invitedFamilyId: String?
     let cardNumber: String
 }
 
@@ -211,27 +212,13 @@ final class UsersNtworkinDataService {
             let encoder = JSONEncoder()
             encoder.outputFormatting = .prettyPrinted
             let jsonData = try encoder.encode(dataToUpdate)
-            
-            // Вывод для отладки
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print("Отправляем JSON (PATCH): \(jsonString)")
-            }
-            
+       
             request.httpBody = jsonData
             
             URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    print("Ошибка PATCH: \(error.localizedDescription)")
-                    DispatchQueue.main.async { completion(false) }
-                    return
-                }
-                if let httpResponse = response as? HTTPURLResponse {
-                    print("PATCH HTTP статус-код: \(httpResponse.statusCode)")
-                }
                 DispatchQueue.main.async { completion(true) }
             }.resume()
         } catch {
-            print("Ошибка кодирования при PATCH: \(error.localizedDescription)")
             completion(false)
         }
     }
@@ -245,36 +232,22 @@ final class UsersNtworkinDataService {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"  // Используем POST
+        request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
             let encoder = JSONEncoder()
             encoder.outputFormatting = .prettyPrinted
             let jsonData = try encoder.encode(dataToSend)
-            
-            // Вывод для отладки
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print("Отправляем JSON (POST): \(jsonString)")
-            }
+
             
             request.httpBody = jsonData
             
             URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    print("Ошибка POST: \(error.localizedDescription)")
-                    DispatchQueue.main.async { completion(false) }
-                    return
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse {
-                    print("POST HTTP статус-код: \(httpResponse.statusCode)")
-                }
                 
                 DispatchQueue.main.async { completion(true) }
             }.resume()
         } catch {
-            print("Ошибка кодирования при POST: \(error.localizedDescription)")
             completion(false)
         }
     }
@@ -286,7 +259,7 @@ final class UsersNtworkinDataService {
     
 }
         
-}
+//}
 
 
 

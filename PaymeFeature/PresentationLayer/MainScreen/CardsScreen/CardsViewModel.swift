@@ -70,7 +70,9 @@ class CardsViewModel: ObservableObject {
             print("Skipping getFamilyCard — missing data")
             return
         }
-        let cardFamily = currentFamily.virtualcard
+        guard let cardFamily = currentFamily.virtualcard else {
+            return
+        }
         
         let familyCardUser = BankCard(name: cardFamily.name, ownerName: currentUser.name, sum: cardFamily.balance, cardNumber: cardFamily.number, type: .humo, expirationDate: "11/28",isFamilyCard: true)
         cards.append(familyCardUser)
@@ -81,7 +83,18 @@ class CardsViewModel: ObservableObject {
         
         guard let amountSum = Int(amount), amountSum > 0 else { return }
         guard let balance = currentUser?.balance, let userSum = Int(balance), amountSum < userSum else { return }
-        guard let famBalance = currentFamily?.virtualcard.balance, let famCardSum = Int(famBalance) else { return }
+        
+        
+        
+        
+        guard let famBalance = currentFamily?.virtualcard?.balance,
+              
+                let famCardSum = Int(famBalance)
+        
+        else { return }
+        
+        
+        
         guard let currentUser = currentUser, let currentFamily = currentFamily else { return }
         
         let updatedUserBalance = String(userSum - amountSum)
@@ -106,10 +119,10 @@ class CardsViewModel: ObservableObject {
             name: currentFamily.name,
             members: currentFamily.members,
             virtualcard: VirtualCardModel(
-                id: famCard.id,
-                name: famCard.name,
-                number: famCard.number,
-                ownerPhoneNumber: famCard.ownerPhoneNumber,
+                id: famCard?.id ?? "",
+                name: famCard?.name ?? "",
+                number: famCard?.number ?? "",
+                ownerPhoneNumber: famCard?.ownerPhoneNumber ?? "",
                 balance: updatedFamilyBalance
             ),
             id: currentFamily.id
@@ -133,7 +146,6 @@ class CardsViewModel: ObservableObject {
         
         group.notify(queue: .main) {
             completion(successUserUpdate && successFamilyUpdate)
-            
          //   loadUserAndFamily()
         }
     }

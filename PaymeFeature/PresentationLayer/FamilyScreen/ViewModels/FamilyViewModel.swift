@@ -161,24 +161,64 @@ class FamilyViewModel: ObservableObject {
             if familyToUpdate.virtualcard == nil || familyToUpdate.virtualcard?.id.isEmpty == true {
                 familyToUpdate.virtualcard = newCard
                 UsersNtworkinDataService.shared.patchData(link: familyEndpoint, dataToUpdate: familyToUpdate) { success in
-                    if success {
-                        print("Семейная карта успешно создана")
-                    } else {
-                        print("Ошибка при создании семейной карты")
-                    }
                     completion(success)
                 }
             } else {
                 familyToUpdate.virtualcard = newCard
                 UsersNtworkinDataService.shared.patchData(link: familyEndpoint, dataToUpdate: familyToUpdate) { success in
-                    if success {
-                        print("Семейная карта успешно обновлена")
-                    } else {
-                        print("Ошибка при обновлении семейной карты")
-                    }
                     completion(success)
                 }
             }
+        }
+    }
+
+    
+    func sendInvitation(phoneNumber: String, adminUser: UserModel, completion: @escaping (Bool) -> Void) {
+        let usersEndpoint = "/users?number=\(phoneNumber)"
+        
+        UsersNtworkinDataService.shared.getData(link: usersEndpoint) { (users: [UserModel]?) in
+            guard let users = users, var userToInvite = users.first else {
+                print("Пользователь не найден для номера: \(phoneNumber)")
+                completion(false)
+                return
+            }
+            
+            userToInvite.invitation = true
+            userToInvite.invitedFamilyId = adminUser.familyId
+            
+            let userUpdateEndpoint = "/users/\(userToInvite.id)"
+            UsersNtworkinDataService.shared.updateData(link: userUpdateEndpoint, dataToUpdate: userToInvite) { success in
+                if success {
+                    print("Приглашение отправлено пользователю с номером: \(phoneNumber)")
+                } else {
+                    print("Ошибка при отправке приглашения пользователю с номером: \(phoneNumber)")
+                }
+                completion(success)
+            }
+        }
+    }
+
+    func confirmInvitation(enteredCode: String, completion: @escaping (Bool) -> Void) {
+        // Допустим, код подтверждения всегда "123456"
+        guard enteredCode == "123456", var current = currentUser, let invitedFamilyId = current.invitedFamilyId else {
+            completion(false)
+            return
+        }
+        
+        // Обновляем familyId на значение приглашённой семьи и сбрасываем флаги приглашения
+        current.familyId = invitedFamilyId
+        current.invitation = false
+        current.invitedFamilyId = nil
+        
+        let userUpdateEndpoint = "/users/\(current.id)"
+        UsersNtworkinDataService.shared.updateData(link: userUpdateEndpoint, dataToUpdate: current) { success in
+            if success {
+                print("Приглашение подтверждено, familyId обновлён на \(invitedFamilyId)")
+                self.currentUser = current
+            } else {
+                print("Ошибка при подтверждении приглашения")
+            }
+            completion(success)
         }
     }
 
