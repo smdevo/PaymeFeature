@@ -25,9 +25,10 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
     
     
     func tapForCards() {
-        print("Hello working")
         
-        let cardsView = CardsView()
+        let vm = CardsViewModel()
+        
+        let cardsView = CardsView().environmentObject(vm)
         
         let hostingController = UIHostingController(rootView: cardsView)
         
