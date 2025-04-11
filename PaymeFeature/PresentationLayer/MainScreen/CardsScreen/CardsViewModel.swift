@@ -81,9 +81,9 @@ class CardsViewModel: ObservableObject {
     
     func sendMoney(amount: String, completion: @escaping (Bool) -> Void) {
         
-        guard let amountSum = Int(amount), amountSum > 0 else { return }
-        guard let balance = currentUser?.balance, let userSum = Int(balance), amountSum < userSum else { return }
-        guard let famBalance = currentFamily?.virtualcard?.balance, let famCardSum = Int(famBalance) else { return }
+        guard let amountSum = Double(amount), amountSum > 0 else { return }
+        guard let balance = currentUser?.balance, let userSum = Double(balance), amountSum < userSum else { return }
+        guard let famBalance = currentFamily?.virtualcard?.balance, let famCardSum = Double(famBalance) else { return }
         guard let currentUser = currentUser, let currentFamily = currentFamily else { return }
         
         let updatedUserBalance = String(userSum - amountSum)
@@ -133,10 +133,10 @@ class CardsViewModel: ObservableObject {
             group.leave()
         }
         
-        group.notify(queue: .main) {
+        group.notify(queue: .main) { [weak self] in
             completion(successUserUpdate && successFamilyUpdate)
-            
-            self.loadUserAndFamily()
+            self?.cards.removeAll()
+            self?.loadUserAndFamily()
         }
     }
     
