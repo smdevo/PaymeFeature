@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct FamilyCardAddView: View {
+    
+    @ObservedObject var viewModel: FamilyViewModel
+    
     @State private var passport: String = ""
     @State private var address: String = ""
     @State private var phoneNumber: String = ""
@@ -41,10 +44,18 @@ struct FamilyCardAddView: View {
                             .frame(maxWidth: .infinity)
                     } else {
                         Button(action: {
+                            guard !phoneNumber.isEmpty else { return }
+                            
                             isButtonLoading = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                isButtonLoading = false
-                                showOrderAlert = true
+                                viewModel.addFamilyCard(cardName: "Семейная карта", ownerPhoneNumber: phoneNumber) { success in
+                                    isButtonLoading = false
+                                    
+                                    if success {
+                                        viewModel.refreshData()
+                                        showOrderAlert = true
+                                    }
+                                }
                             }
                         }) {
                             Text("Заказать семейную карту")
@@ -57,6 +68,7 @@ struct FamilyCardAddView: View {
                         }
                         .padding(.horizontal)
                         .padding(.top, 10)
+
                     }
                 }
                 .padding()
