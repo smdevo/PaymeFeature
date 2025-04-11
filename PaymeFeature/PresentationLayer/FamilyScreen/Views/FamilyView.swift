@@ -14,19 +14,10 @@ struct FamilyView: View {
     @State private var showFamilyCardAddSheet: Bool = false
     @State private var showAddFamilyMemberSheet: Bool = false
     
-    var familyCards: [BankCard] = [
-        BankCard(
-            name: "Personal Debit Card",
-            ownerName: "Alice Johnson",
-            sum: "2500",
-            cardNumber: "1111 2222 3333 4444",
-            type: .uzcard,
-            expirationDate: "12/25",
-            cardColor: Color.green,
-            iconName: "creditcard.fill",
-            isFamilyCard: false
-        )
-    ]
+    @State private var showInvitationAlert: Bool = false
+    @State private var invitationCode: String = ""
+
+    var familyCards: [BankCard] = []
     
     var body: some View {
         NavigationView {
@@ -51,19 +42,39 @@ struct FamilyView: View {
                     .padding(.horizontal)
                 }
                 
-                if ((viewModel.currentUser?.invitation) != false) {
-                    HStack {
-                        Image(systemName: "exclamationmark.triangle.fill")
-                            .foregroundColor(.yellow)
-                        Text("Вас приглашают в семью")
-                            .font(.subheadline)
-                            .foregroundColor(.orange)
+                if let user = viewModel.currentUser, user.invitation {
+                    Button(action: {
+                        showInvitationAlert = true
+                    }) {
+                        HStack {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundColor(.yellow)
+                            Text("Подтвердите приглашение в семью")
+                                .font(.subheadline)
+                                .foregroundColor(.orange)
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal)
                     }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                    .padding(.horizontal)
-                } else {
+                    .alert("Подтверждение приглашения", isPresented: $showInvitationAlert) {
+                        TextField("Введите код", text: $invitationCode)
+                        Button("Подтвердить") {
+                            viewModel.confirmInvitation(enteredCode: invitationCode) { success in
+                                if success {
+                                    print("Success")
+                                } else {
+                                    print("Неверный код или ошибка")
+                                }
+                            }
+                        }
+                        Button("Отмена", role: .cancel) { }
+                    } message: {
+                        Text("Введите код подтверждения, который вы получили")
+                    }
+                }
+                else {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 16) {
                             if let famCard = viewModel.familyCard {
