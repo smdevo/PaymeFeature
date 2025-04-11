@@ -14,14 +14,12 @@ struct TransactionModel: Identifiable {
     let date: String
     let time: String
     let amount: String
+    let description: String
 }
 
 struct MonitoringView: View {
     
-    @State private var transactions: [TransactionModel] = [
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "хххххх"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "хххххх")
-    ]
+    @EnvironmentObject var eVm: CardsViewModel
     
     var body: some View {
         NavigationView {
@@ -30,7 +28,7 @@ struct MonitoringView: View {
                 summarySection
                 
                 // MARK: - Список транзакций или пустое состояние
-                if transactions.isEmpty {
+                if eVm.transactions.isEmpty {
                     emptyHistoryView
                 } else {
                     transactionsListView
@@ -50,7 +48,7 @@ struct MonitoringView: View {
                 Text("Поступление")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text("хххххх")
+                Text("4000000")
                     .font(.headline)
                     .foregroundColor(.green)
             }
@@ -59,7 +57,7 @@ struct MonitoringView: View {
                 Text("Расход")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text("хххххх")
+                Text("1000000")
                     .font(.headline)
                     .foregroundColor(.red)
             }
@@ -87,7 +85,7 @@ struct MonitoringView: View {
     
     private var transactionsListView: some View {
         List {
-            ForEach(transactions) { transaction in
+            ForEach(eVm.transactions) { transaction in
                 TransactionRow(transaction: transaction)
             }
         }
@@ -105,7 +103,7 @@ struct TransactionRow: View {
                 .foregroundColor(.secondary)
             
             HStack {
-                Text("перевод и услуги")
+                Text(transaction.description)
                     .font(.subheadline)
                 Spacer()
                 Text(transaction.amount)

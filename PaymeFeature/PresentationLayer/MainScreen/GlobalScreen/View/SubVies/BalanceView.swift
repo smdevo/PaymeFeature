@@ -9,11 +9,18 @@ import UIKit
 
 class BalanceView: UIView {
     
+    
+//    init(balance: String) {
+//        super.init(frame: .zero)
+//        
+//        sumLabel.text = balance
+//    }
+    
     //MARK: -UI elements
     let balanceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Umumiy balans"
+        label.text = "Balance"
         label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
         label.textColor = UIColor.theme.labelC
         return label
@@ -23,7 +30,7 @@ class BalanceView: UIView {
     let sumLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "280 045"
+        label.text = "150 000"
         label.font = UIFont.systemFont(ofSize: .spacing(.x9), weight: .semibold)
         label.textColor = UIColor.theme.labelC
         return label
@@ -32,7 +39,7 @@ class BalanceView: UIView {
     let currencyNaminglabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "so'm"
+        label.text = "sum"
         label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
         label.textColor = UIColor.theme.labelC
         return label
@@ -52,7 +59,7 @@ class BalanceView: UIView {
     let expenseLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Chiqim -"
+        label.text = "Expense"
         label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
         label.textColor = UIColor.theme.labelC
         return label
@@ -61,7 +68,7 @@ class BalanceView: UIView {
     let currencyNamingForExpenselabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "so'm"
+        label.text = "sum"
         label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
         label.textColor = UIColor.theme.labelC
         return label

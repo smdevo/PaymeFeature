@@ -37,7 +37,6 @@ struct CardsTableView: View {
             cardNumber: "4444 3333 2222 1111",
             type: .visa,
             expirationDate: "09/25",
-//            cardColor: .purple,
             iconName: "creditcard.fill"
         ),
     ])

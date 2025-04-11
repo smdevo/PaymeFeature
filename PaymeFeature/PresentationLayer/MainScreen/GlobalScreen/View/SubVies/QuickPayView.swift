@@ -10,18 +10,17 @@ import UIKit
 class QuickPayView: UIView {
     
     //MARK: -UI elements
-    let balanceBtn = CircleView(imageName: "creditcard", strLabel: "Kartalarim")
+    let balanceBtn = CircleView(imageName: "creditcard", strLabel: "My cards")
     
     let goBtn = CircleView(imageName: "circle.hexagongrid.circle.fill", strLabel: "Payme Go")
     
-    let qrBtn = CircleView(imageName: "qrcode.viewfinder", strLabel: "QR To'lov")
+    let qrBtn = CircleView(imageName: "qrcode.viewfinder", strLabel: "QR Payment")
 
     
     let wholeQuickStack: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        //stackView.spacing = 30
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
         return stackView
@@ -31,7 +30,6 @@ class QuickPayView: UIView {
     
     init() {
         super.init(frame: .zero)
-        
         
         translatesAutoresizingMaskIntoConstraints = false
         
@@ -58,14 +56,10 @@ class QuickPayView: UIView {
     
     
     @objc private func balanceBtnTapped() {
-        print("Balance button tapped")
-        
         delegate?.tapForCards()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("Touches began in QuickPayView")
-        
         delegate?.tapForCards()
     }
 
