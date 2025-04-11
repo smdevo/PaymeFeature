@@ -55,7 +55,6 @@ struct AddFamilyMember: View {
                                     isButtonLoading = false
                                     if success {
                                         showSMSAlert = true
-                                        dismiss()
                                     }
                                 }
                             }

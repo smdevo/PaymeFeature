@@ -74,7 +74,7 @@ class CardsViewModel: ObservableObject {
             return
         }
         
-        let familyCardUser = BankCard(name: cardFamily?.name ?? "", ownerName: currentUser.name, sum: cardFamily?.balance ?? "", cardNumber: cardFamily?.number ?? "", type: .humo, expirationDate: "11/28",isFamilyCard: true)
+        let familyCardUser = BankCard(name: cardFamily.name, ownerName: currentUser.name, sum: cardFamily.balance, cardNumber: cardFamily.number, type: .humo, expirationDate: "11/28",isFamilyCard: true)
         cards.append(familyCardUser)
     }
     
