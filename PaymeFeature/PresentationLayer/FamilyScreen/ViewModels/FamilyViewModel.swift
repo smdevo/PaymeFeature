@@ -97,8 +97,10 @@ class FamilyViewModel: ObservableObject {
         }
         
         let familyEndpoint = "families/\(familyId)"
+        
         UsersNtworkinDataService.shared.getData(link: familyEndpoint) { (family: FamilyModel?) in
             guard var familyToUpdate = family else {
+                print("Семья с id \(familyId) не найдена")
                 completion(false)
                 return
             }
@@ -110,22 +112,34 @@ class FamilyViewModel: ObservableObject {
                 name: cardName,
                 number: randomCardNumber,
                 ownerPhoneNumber: ownerPhoneNumber,
-                balance: "0" 
+                balance: "0"
             )
             
-            if familyToUpdate.virtualcard == nil {
+            if familyToUpdate.virtualcard == nil || familyToUpdate.virtualcard?.id.isEmpty == true {
                 familyToUpdate.virtualcard = newCard
-                UsersNtworkinDataService.shared.postData(link: familyEndpoint, dataToSend: familyToUpdate) { success in
+                UsersNtworkinDataService.shared.patchData(link: familyEndpoint, dataToUpdate: familyToUpdate) { success in
+                    if success {
+                        print("Семейная карта успешно создана")
+                    } else {
+                        print("Ошибка при создании семейной карты")
+                    }
                     completion(success)
                 }
             } else {
                 familyToUpdate.virtualcard = newCard
                 UsersNtworkinDataService.shared.patchData(link: familyEndpoint, dataToUpdate: familyToUpdate) { success in
+                    if success {
+                        print("Семейная карта успешно обновлена")
+                    } else {
+                        print("Ошибка при обновлении семейной карты")
+                    }
                     completion(success)
                 }
             }
         }
     }
+
+
 
 
 

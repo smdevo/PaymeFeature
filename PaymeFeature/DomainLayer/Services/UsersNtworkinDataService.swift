@@ -27,11 +27,11 @@ struct FamilyModel: Codable {
 }
 
 struct VirtualCardModel: Codable {
-    let id: String
-    let name: String
-    let number: String
-    let ownerPhoneNumber: String
-    var balance: String
+    var id: String = ""
+    var name: String = ""
+    var number: String = ""
+    var ownerPhoneNumber: String = ""
+    var balance: String = ""
 }
 
 
