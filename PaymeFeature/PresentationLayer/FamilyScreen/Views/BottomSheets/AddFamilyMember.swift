@@ -14,9 +14,9 @@ struct AddFamilyMember: View {
     @State private var phoneNumber: String = ""
     @State private var showSMSAlert: Bool = false
     @State private var isButtonLoading: Bool = false
-
+    
     @Environment(\.dismiss) var dismiss
-
+    
     var body: some View {
         VStack(spacing: 0) {
             ScrollView {
@@ -28,10 +28,10 @@ struct AddFamilyMember: View {
                         keyboardType: .phonePad
                     )
                     .onChange(of: phoneNumber) { newValue, _ in
-                                            var result = ""
-                                            if let firstChar = newValue.first, firstChar == "+" {
-                                                result = "+"
-                                            }
+                        var result = ""
+                        if let firstChar = newValue.first, firstChar == "+" {
+                            result = "+"
+                        }
                         let digits = newValue.filter { $0.isNumber }
                         let limitedDigits = String(digits.prefix(12))
                         let formatted = result + limitedDigits
@@ -69,7 +69,7 @@ struct AddFamilyMember: View {
                         }
                         .padding(.horizontal)
                         .padding(.top, 10)
-
+                        
                     }
                 }
                 .padding()

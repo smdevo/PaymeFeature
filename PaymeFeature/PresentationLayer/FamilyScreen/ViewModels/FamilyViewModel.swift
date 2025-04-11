@@ -72,6 +72,11 @@ class FamilyViewModel: ObservableObject {
                             return
                         }
                         
+                        if userToUpdate.familyId == adminUser.familyId {
+                                 completion(false)
+                                 return
+                             }
+                        
                         if !familyToUpdate.members.contains(updatedUser.id) {
                             familyToUpdate.members.append(updatedUser.id)
                         }

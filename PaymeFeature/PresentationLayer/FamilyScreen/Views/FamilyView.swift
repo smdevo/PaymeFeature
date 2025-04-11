@@ -101,9 +101,8 @@ struct FamilyView: View {
                 
                 Spacer()
                 
-                if let user = viewModel.currentUser, user.role {
+                if let user = viewModel.currentUser, user.role, viewModel.familyCard == nil {
                     Button(action: {
-                        
                         showFamilyCardAddSheet = true
                     }) {
                         Text("Заказать виртуальную карту")
@@ -135,19 +134,22 @@ struct FamilyView: View {
                         }) {
                             Image(systemName: "plus.circle")
                         }
-                        .sheet(isPresented: $showAddFamilyMemberSheet) {
-                            AddFamilyMember(viewModel: viewModel)
-                                .presentationDetents([.medium])
-                                .presentationDragIndicator(.hidden)
-                        }
+                        
                     }
                 }
+            }
+            .sheet(isPresented: $showAddFamilyMemberSheet) {
+                AddFamilyMember(viewModel: viewModel)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.hidden)
             }
             .sheet(isPresented: $showFamilyCardAddSheet) {
                 FamilyCardAddView(viewModel: viewModel)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
             }
+        }.onAppear{
+            viewModel.refreshData()
         }
     }
 }

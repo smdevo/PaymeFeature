@@ -85,11 +85,11 @@ extension CardsView {
         } label: {
             Circle()
                 .fill(.paymeC)
-                .frame(width: 80)
+                .frame(width: 60)
                 .overlay {
                     Image(systemName: "plus")
                         .resizable()
-                        .padding(22)
+                        .padding(16)
                         .foregroundStyle(.white)
                 }
         }.sheet(isPresented: $showAddCardSheet) {
