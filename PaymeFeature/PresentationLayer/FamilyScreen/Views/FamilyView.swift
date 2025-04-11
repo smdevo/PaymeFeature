@@ -90,6 +90,7 @@ struct FamilyView: View {
                 
                 if let user = viewModel.currentUser, user.role {
                     Button(action: {
+                        
                         showFamilyCardAddSheet = true
                     }) {
                         Text("Заказать виртуальную карту")
@@ -106,7 +107,6 @@ struct FamilyView: View {
             .navigationTitle("Моя семья")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                // Кнопка обновления данных
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
                         viewModel.refreshData()
@@ -131,7 +131,7 @@ struct FamilyView: View {
                 }
             }
             .sheet(isPresented: $showFamilyCardAddSheet) {
-                FamilyCardAddView()
+                FamilyCardAddView(viewModel: viewModel)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
             }

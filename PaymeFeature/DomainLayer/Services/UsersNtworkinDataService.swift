@@ -22,16 +22,16 @@ struct UserModel: Codable, Identifiable, Equatable {
 struct FamilyModel: Codable {
     let name: String
     var members: [String]
-    let virtualcard: VirtualCardModel
+    var virtualcard: VirtualCardModel?
     let id: String
 }
 
 struct VirtualCardModel: Codable {
-    let id: String
-    let name: String
-    let number: String
-    let ownerPhoneNumber: String
-    var balance: String
+    var id: String = ""
+    var name: String = ""
+    var number: String = ""
+    var ownerPhoneNumber: String = ""
+    var balance: String = ""
 }
 
 
@@ -164,7 +164,7 @@ final class UsersNtworkinDataService {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "PATCH" // или "PATCH", если обновление происходит частично
+        request.httpMethod = "PATCH"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
@@ -194,6 +194,97 @@ final class UsersNtworkinDataService {
             completion(false)
         }
     }
+
+    
+    
+    func patchData<T: Codable>(link: String, dataToUpdate: T, completion: @escaping (Bool) -> Void) {
+        guard let url = URL(string: serVerLink + link) else {
+            completion(false)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH" 
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let jsonData = try encoder.encode(dataToUpdate)
+            
+            // Вывод для отладки
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                print("Отправляем JSON (PATCH): \(jsonString)")
+            }
+            
+            request.httpBody = jsonData
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print("Ошибка PATCH: \(error.localizedDescription)")
+                    DispatchQueue.main.async { completion(false) }
+                    return
+                }
+                if let httpResponse = response as? HTTPURLResponse {
+                    print("PATCH HTTP статус-код: \(httpResponse.statusCode)")
+                }
+                DispatchQueue.main.async { completion(true) }
+            }.resume()
+        } catch {
+            print("Ошибка кодирования при PATCH: \(error.localizedDescription)")
+            completion(false)
+        }
+    }
+    
+    
+    
+    func postData<T: Codable>(link: String, dataToSend: T, completion: @escaping (Bool) -> Void) {
+        guard let url = URL(string: serVerLink + link) else {
+            completion(false)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"  // Используем POST
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let jsonData = try encoder.encode(dataToSend)
+            
+            // Вывод для отладки
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                print("Отправляем JSON (POST): \(jsonString)")
+            }
+            
+            request.httpBody = jsonData
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print("Ошибка POST: \(error.localizedDescription)")
+                    DispatchQueue.main.async { completion(false) }
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse {
+                    print("POST HTTP статус-код: \(httpResponse.statusCode)")
+                }
+                
+                DispatchQueue.main.async { completion(true) }
+            }.resume()
+        } catch {
+            print("Ошибка кодирования при POST: \(error.localizedDescription)")
+            completion(false)
+        }
+    }
+
+
+    
+    
+    
+    
+}
         
 }
 
