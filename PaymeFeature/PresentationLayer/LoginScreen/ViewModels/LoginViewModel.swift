@@ -8,6 +8,11 @@
 import SwiftUI
 
 class LoginViewModel: ObservableObject {
+    
+    let netSerVice = UsersNtworkinDataService.shared
+    
+    @Published var users: [UserModel] = []
+    
     //TODO: MOCK
     @Published var userName: String = "John Smith"
     @Published var password: String = "john123"
@@ -15,24 +20,44 @@ class LoginViewModel: ObservableObject {
     
     var onLoginSuccess: (() -> Void)?
     
+    init() {
+        getUsers()
+    }
+    
+    
+    func getUsers() {
+        netSerVice.getData(link: "users") { [weak self] (users: [UserModel]?) in
+            guard let users else {
+                print("Cant get users in login Page")
+                return
+            }
+            self?.users = users
+        }
+    }
+    
+    
     func login() {
+        
         let trimmedUserName = userName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
-//        
-//        for user in LoginManager.shared.users {
-//            print("Пользователь: \(user.userName), пароль: \(user.password)")
-//        }
+
+        guard !users.isEmpty else {
+            errorMessage = "No Internet"
+            return
+        }
+        errorMessage = ""
         
-        for user in LoginManager.shared.netUsers {
+        for user in users {
             print("Пользователь: \(user.name), пароль: \(user.password)")
         }
         
-        if let user = LoginManager.shared.netUsers.first(where: {
+        if let user = users.first(where: {
             $0.name.lowercased() == trimmedUserName && $0.password == trimmedPassword
         }) {
-            LoginManager.shared.loggedNetUser = user
             
-            UserDefaults.standard.set(user.id, forKey: "idUser")
+            UserDefaults.standard.set(user.id, forKey: "userId")
+            UserDefaults.standard.set(user.familyId, forKey: "userFamilyId")
+
             
             onLoginSuccess?()
         } else {

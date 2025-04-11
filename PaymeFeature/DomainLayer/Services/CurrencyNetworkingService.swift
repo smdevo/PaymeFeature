@@ -11,7 +11,10 @@ final class CurrencyNetworkingService {
     
     private let linkUrl = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
     
-    func fetchSelectedCurrencies(codes: [String] = ["USD","EUR","RUB"], all: Bool = false, completion: @escaping ([Currency]?) -> Void) {
+    func fetchSelectedCurrencies(
+        codes: [String] = ["USD","EUR","RUB"],
+        all: Bool = false,
+        completion: @escaping ([Currency]?) -> Void) {
         guard let url = URL(string: linkUrl) else {
             completion(nil)
             return
@@ -42,9 +45,6 @@ final class CurrencyNetworkingService {
             }
         }.resume()
     }
-    
-    
-    
 }
 
 

@@ -22,7 +22,7 @@ class UniteViewController: UITabBarController {
         
         setupTabBarAppearance()
         
-        let main = Assembly().giveMAinViewController()
+        let main = UINavigationController(rootViewController: (Assembly().giveMAinViewController()))
         main.tabBarItem = UITabBarItem(title: "Main", image: UIImage(systemName: "house"), tag: 0)
 
         let transfers = UIHostingController(rootView: TransfersView())
@@ -34,8 +34,8 @@ class UniteViewController: UITabBarController {
         let service = UIHostingController(rootView: ServiceView())
         service.tabBarItem = UITabBarItem(title: "Services", image: UIImage(systemName: "square.grid.2x2"), tag: 3)
 
-        let support = UIHostingController(rootView: SupportView())
-        support.tabBarItem = UITabBarItem(title: "Support", image: UIImage(systemName: "person.crop.circle"), tag: 4)
+        let monitoring = UIHostingController(rootView: MonitoringView())
+        monitoring.tabBarItem = UITabBarItem(title: "Monitoring", image: UIImage(systemName: "chart.bar"), tag: 4)
 
         let payment = UIHostingController(rootView: PaymentsView())
         payment.tabBarItem = UITabBarItem(title: "Payment", image: UIImage(systemName: "wallet.bifold.fill"), tag: 5)
@@ -43,7 +43,7 @@ class UniteViewController: UITabBarController {
         let login = UIHostingController(rootView: LoginView())
         login.tabBarItem = UITabBarItem(title: "Login", image: UIImage(systemName: "wallet.bifold.fill"), tag: 6)
         
-        viewControllers = [main, transfers,family, service, support, login, payment]
+        viewControllers = [main,family,payment, service, monitoring]
         
     }
     

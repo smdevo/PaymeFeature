@@ -10,7 +10,6 @@ import SwiftUI
 
 struct CardsView: View {
     
-    
     @StateObject var vm = CardsViewModel()
     
     @State var controllerTab: Int = 0
@@ -35,12 +34,12 @@ struct CardsView: View {
                         .onTapGesture {
                             controllerTab = 2
                         }
-                    HeadLineView(title: "FamilyCard", isOn: controllerTab == 3)
+                    HeadLineView(title: "Family", isOn: controllerTab == 3)
                         .onTapGesture {
                             controllerTab = 3
                         }
                 }
-            }//scrollView
+            }.scrollDisabled(true)
             
             
             TabView(selection: $controllerTab) {

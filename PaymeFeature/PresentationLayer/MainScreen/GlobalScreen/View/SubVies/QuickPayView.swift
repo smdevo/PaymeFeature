@@ -15,6 +15,7 @@ class QuickPayView: UIView {
     let goBtn = CircleView(imageName: "circle.hexagongrid.circle.fill", strLabel: "Payme Go")
     
     let qrBtn = CircleView(imageName: "qrcode.viewfinder", strLabel: "QR To'lov")
+
     
     let wholeQuickStack: UIStackView = {
         let stackView = UIStackView()
@@ -26,7 +27,7 @@ class QuickPayView: UIView {
         return stackView
     }()
     
-    
+    weak var delegate: CardsButtonDelegate?
     
     init() {
         super.init(frame: .zero)
@@ -40,6 +41,15 @@ class QuickPayView: UIView {
         
         addSubview(wholeQuickStack)
         
+        balanceBtn.isUserInteractionEnabled = true
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(balanceBtnTapped))
+        balanceBtn.addGestureRecognizer(tapGesture)
+        balanceBtn.isUserInteractionEnabled = true
+        
+        
+        balanceBtn.backgroundColor = .red.withAlphaComponent(0.3)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -47,5 +57,16 @@ class QuickPayView: UIView {
     }
     
     
+    @objc private func balanceBtnTapped() {
+        print("Balance button tapped")
+        
+        delegate?.tapForCards()
+    }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("Touches began in QuickPayView")
+        
+        delegate?.tapForCards()
+    }
+
 }

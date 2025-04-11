@@ -8,6 +8,12 @@
 import UIKit
 import SwiftUI
 
+
+protocol CardsButtonDelegate: AnyObject {
+    func tapForCards()
+}
+
+
 protocol MainViewProtocol: AnyObject {
     
     func showCurrencies(currencies: [Currency])
@@ -15,7 +21,21 @@ protocol MainViewProtocol: AnyObject {
 }
 
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, CardsButtonDelegate {
+    
+    
+    func tapForCards() {
+        print("Hello working")
+        
+        let cardsView = CardsView()
+        
+        let hostingController = UIHostingController(rootView: cardsView)
+        
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
+    
+    
+    
 
     //MARK: -Dependency
     let interactor: MainInteractorProtocol
@@ -60,6 +80,8 @@ final class MainViewController: UIViewController {
         view.addSubview(quickPayView)
         view.addSubview(currencyView)
         
+        quickPayView.delegate = self
+        
         setUPCurrencyScrollView()
        
         setUpConstraints()
@@ -80,7 +102,7 @@ final class MainViewController: UIViewController {
             hostingController.view.topAnchor.constraint(equalTo: currencyView.topAnchor,constant: .spacing(.x5)),
             hostingController.view.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor),
             hostingController.view.widthAnchor.constraint(equalTo: currencyView.widthAnchor),
-            hostingController.view.heightAnchor.constraint(equalToConstant: 100)
+            hostingController.view.heightAnchor.constraint(equalToConstant: 140)
         ])
         
         hostingController.didMove(toParent: self)
@@ -110,6 +132,8 @@ final class MainViewController: UIViewController {
         
     }
     
+   
+
     
     @objc func hideShowBalance() {
             
