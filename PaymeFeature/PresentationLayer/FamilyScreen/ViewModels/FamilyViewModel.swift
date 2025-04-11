@@ -11,7 +11,6 @@ class FamilyViewModel: ObservableObject {
     
     let networkingService = UsersNtworkinDataService.shared
     
-    
     @Published var currentUser: UserModel?
     
     @Published var familyMembers: [UserModel] = []
@@ -40,8 +39,7 @@ class FamilyViewModel: ObservableObject {
             self?.familyMembers = users.filter({$0.familyId == self?.currentUser?.familyId})
         }
         
-        
-        UsersNtworkinDataService.shared.getData(link: "families/" + userFamilyId) { [weak self] (family: FamilyModel?) in
+            UsersNtworkinDataService.shared.getData(link: "families/" + userFamilyId) { [weak self] (family: FamilyModel?) in
             guard let family else { return }
                 
             self?.familyCard = family.virtualcard
@@ -90,6 +88,45 @@ class FamilyViewModel: ObservableObject {
             }
         }
     }
+
+    
+    func addFamilyCard(cardName: String, ownerPhoneNumber: String, completion: @escaping (Bool) -> Void) {
+        guard let familyId = currentUser?.familyId else {
+            completion(false)
+            return
+        }
+        
+        let familyEndpoint = "families/\(familyId)"
+        UsersNtworkinDataService.shared.getData(link: familyEndpoint) { (family: FamilyModel?) in
+            guard var familyToUpdate = family else {
+                completion(false)
+                return
+            }
+            
+            let randomCardNumber = String((0..<16).map { _ in "0123456789".randomElement()! })
+            
+            let newCard = VirtualCardModel(
+                id: UUID().uuidString,
+                name: cardName,
+                number: randomCardNumber,
+                ownerPhoneNumber: ownerPhoneNumber,
+                balance: "0" 
+            )
+            
+            if familyToUpdate.virtualcard == nil {
+                familyToUpdate.virtualcard = newCard
+                UsersNtworkinDataService.shared.postData(link: familyEndpoint, dataToSend: familyToUpdate) { success in
+                    completion(success)
+                }
+            } else {
+                familyToUpdate.virtualcard = newCard
+                UsersNtworkinDataService.shared.patchData(link: familyEndpoint, dataToUpdate: familyToUpdate) { success in
+                    completion(success)
+                }
+            }
+        }
+    }
+
 
 
     

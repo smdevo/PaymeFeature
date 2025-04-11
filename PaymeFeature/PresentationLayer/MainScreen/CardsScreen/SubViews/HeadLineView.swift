@@ -8,28 +8,19 @@
 import SwiftUI
 
 struct HeadLineView: View {
-    
     let title: String
     let isOn: Bool
     
-    init(title: String, isOn: Bool) {
-        self.title = title
-        self.isOn = isOn
-    }
-    
     var body: some View {
-        VStack {
-            Text(title)
-                .font(.title3)
-
-
-            Rectangle()
-                .fill(isOn ?  Color.paymeC : .clear)
-                .frame(height: .spacing(.x2))
-        }
+        Text(title)
+            .font(.headline)
+            .foregroundColor(isOn ? .blue : .gray)
+            .padding(.vertical, 8)
+            .padding(.horizontal, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(isOn ? Color.blue.opacity(0.1) : Color.clear)
+            )
+            .animation(.easeInOut, value: isOn)
     }
-}
-
-#Preview {
-    HeadLineView(title: "Kartalar", isOn: true)
 }

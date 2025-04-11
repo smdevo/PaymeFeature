@@ -34,12 +34,12 @@ struct CardsView: View {
                         .onTapGesture {
                             controllerTab = 2
                         }
-                    HeadLineView(title: "FamilyCard", isOn: controllerTab == 3)
+                    HeadLineView(title: "Family", isOn: controllerTab == 3)
                         .onTapGesture {
                             controllerTab = 3
                         }
                 }
-            }//scrollView
+            }.scrollDisabled(true)
             
             
             TabView(selection: $controllerTab) {
