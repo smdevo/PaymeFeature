@@ -82,4 +82,4 @@ struct CardView: View {
         }
         .frame(height: 160)
     }
-}
+//}
