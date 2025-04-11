@@ -10,7 +10,9 @@ import SwiftUI
 
 struct CardsView: View {
     
-    @StateObject var vm = CardsViewModel()
+   // @StateObject var vm = CardsViewModel()
+    
+    @EnvironmentObject var vm: CardsViewModel
     
     @State var controllerTab: Int = 0
     
@@ -41,22 +43,26 @@ struct CardsView: View {
                 }
             }.scrollDisabled(true)
             
-            
-            TabView(selection: $controllerTab) {
-                CardsTableView(cards: vm.cards)
-                    .tag(0)
+            if vm.cards.isEmpty {
+                ProgressView()
+            }else {
+                TabView(selection: $controllerTab) {
+                    CardsTableView(cards: vm.cards)
+                        .tag(0)
+                    
+                    CardsTableView(cards: vm.cards.filter { $0.type == .uzcard })
+                        .tag(1)
+                    
+                    CardsTableView(cards: vm.cards.filter { $0.type == .humo })
+                        .tag(2)
+                    
+                    CardsTableView(cards: vm.cards.filter { $0.isFamilyCard })
+                        .tag(3)
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .animation(.easeInOut(duration: 0.3), value: controllerTab)
                 
-                CardsTableView(cards: vm.cards.filter { $0.type == .uzcard })
-                    .tag(1)
-                
-                CardsTableView(cards: vm.cards.filter { $0.type == .humo })
-                    .tag(2)
-                
-                CardsTableView(cards: vm.cards.filter { $0.isFamilyCard })
-                    .tag(3)
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-            .animation(.easeInOut(duration: 0.3), value: controllerTab)
             
             Spacer()
             

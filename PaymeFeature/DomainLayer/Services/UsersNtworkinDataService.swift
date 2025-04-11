@@ -46,6 +46,7 @@ final class NetService {
     @Published var families: [FamilyModel] = []
     
     @Published var neededFamily: FamilyModel?
+    
 
     
     init() {
@@ -106,7 +107,7 @@ final class NetService {
     }
     
 }
-
+//NO NEED
 
 
 
@@ -284,3 +285,75 @@ final class UsersNtworkinDataService {
     
     
 }
+        
+}
+
+
+
+
+
+final class NetCache {
+    
+    @Published var users: [UserModel] = []
+    @Published var families: [FamilyModel] = []
+    @Published var currentUser: UserModel?
+    @Published var currentFamily: FamilyModel?
+    
+    
+    static let shared = NetCache()
+    
+    let netserVice = UsersNtworkinDataService.shared
+    
+    init() {
+        setUsers()
+        setFamilies()
+    }
+    
+    func setUsers() {
+        netserVice.getData(link: "users/") { [weak self] (users: [UserModel]?) in
+            guard let users else {
+                print("Cant get users")
+                return
+            }
+            
+            self?.users = users
+        }
+    }
+    
+    func setFamilies() {
+        
+        netserVice.getData(link: "families/") { [weak self] (families: [FamilyModel]?) in
+            guard let families else {
+                print("Cant get families")
+                return
+            }
+            
+            self?.families = families
+        }
+    }
+    
+    func setCurrentUser(id: String) {
+        netserVice.getData(link: "users/" + id) { [weak self] (user: UserModel?) in
+            guard let user else {
+                print("Cant get user")
+                return
+            }
+            
+            self?.currentUser = user
+        }
+    }
+    
+    func setCurrentFamily(id: String) {
+        netserVice.getData(link: "families/" + id) { [weak self] (family: FamilyModel?) in
+            guard let family else {
+                print("Cant get user")
+                return
+            }
+            
+            self?.currentFamily = family
+        }
+    }
+    
+}
+
+
