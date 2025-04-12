@@ -49,6 +49,8 @@ class CardsViewModel: ObservableObject {
         }
         
         group.notify(queue: .main) {
+            
+            self.cards.removeAll()
             self.getbalanceCard()
             self.getFamilyCard()
         }
