@@ -29,11 +29,6 @@
 			path = PaymeFeature;
 			sourceTree = "<group>";
 		};
-		7CE589EF2DA979AB006ED733 /* SupportScreen */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SupportScreen;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +47,6 @@
 			children = (
 				7C7CDEFA2D9D328F00A94584 /* PaymeFeature */,
 				7C7CDEF92D9D328F00A94584 /* Products */,
-				7CE589E52DA97997006ED733 /* SupportScreens */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,14 +56,6 @@
 				7C7CDEF82D9D328F00A94584 /* PaymeFeature.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		7CE589E52DA97997006ED733 /* SupportScreens */ = {
-			isa = PBXGroup;
-			children = (
-				7CE589EF2DA979AB006ED733 /* SupportScreen */,
-			);
-			path = SupportScreens;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -89,7 +75,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				7C7CDEFA2D9D328F00A94584 /* PaymeFeature */,
-				7CE589EF2DA979AB006ED733 /* SupportScreen */,
 			);
 			name = PaymeFeature;
 			packageProductDependencies = (

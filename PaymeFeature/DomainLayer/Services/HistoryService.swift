@@ -11,7 +11,7 @@ protocol HistoryDataServiseProtocol {
     
     func fetchHistory() -> [MessageEntity]
     
-    func saveMessage(message: String, type: Sender)
+//    func saveMessage(message: String, type: Sender)
 
 }
 
@@ -33,12 +33,12 @@ final class HistoryDataServise: HistoryDataServiseProtocol {
         return []
     }
     
-    func saveMessage(message: String, type: Sender) {
-        let newMessage = MessageEntity(context: context)
-        newMessage.message = message
-        newMessage.type = type.rawValue
-        finalSave()
-    }
+//    func saveMessage(message: String, type: Sender) {
+//        let newMessage = MessageEntity(context: context)
+//        newMessage.message = message
+//        newMessage.type = type.rawValue
+//        finalSave()
+//    }
     
     
     private func finalSave() {

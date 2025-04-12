@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct FamilyView: View {
-    @ObservedObject var viewModel: FamilyViewModel = FamilyViewModel()
+    @StateObject var viewModel: FamilyViewModel = FamilyViewModel()
     
     
     
@@ -91,9 +91,9 @@ struct FamilyView: View {
                                                 isFamilyCard: true))
                             }
                             
-                            ForEach(familyCards) { card in
-                                CardView(bankCard: card)
-                            }
+//                            ForEach(familyCards) { card in
+//                                CardView(bankCard: card)
+//                            }
                         }
                         .padding()
                     }
