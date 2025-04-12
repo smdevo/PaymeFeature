@@ -10,12 +10,6 @@ import UIKit
 class BalanceView: UIView {
     
     
-//    init(balance: String) {
-//        super.init(frame: .zero)
-//        
-//        sumLabel.text = balance
-//    }
-    
     //MARK: -UI elements
     let balanceLabel: UILabel = {
         let label = UILabel()
@@ -159,6 +153,10 @@ class BalanceView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    func getBalance(sum: String) {
+        
+        sumLabel.text = sum
+        
+    }
     
 }

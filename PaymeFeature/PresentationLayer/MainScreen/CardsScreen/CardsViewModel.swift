@@ -87,23 +87,41 @@ class CardsViewModel: ObservableObject {
             completion(false)
             return
         }
-        guard let balance = currentUser?.balance,
-              let userSum = Double(balance), amountSum < userSum else {
-            completion(false)
-            return
-        }
-        guard let famBalance = currentFamily?.virtualcard?.balance,
-                let famCardSum = Double(famBalance) else {
-            completion(false)
-            return
-        }
+        
         guard let currentUser = currentUser, let currentFamily = currentFamily else {
             completion(false)
             return
         }
         
-        let updatedUserBalance = String(userSum - amountSum)
-        let updatedFamilyBalance = String(famCardSum + amountSum)
+        guard
+            let userSum = Double(currentUser.balance),
+            let famBalance = currentFamily.virtualcard?.balance,
+            let famCardSum = Double(famBalance)
+        else {
+            completion(false)
+            return
+        }
+        
+        
+        let isParent = currentUser.role
+        
+        guard
+            isParent ? userSum > amountSum : famCardSum > amountSum
+        else {
+            completion(false)
+            return
+        }
+       
+        
+        
+        
+      
+        
+        let updatedUserBalance = isParent ?
+        String(userSum - amountSum) : String(userSum + amountSum)
+        
+        let updatedFamilyBalance = isParent ?
+        String(famCardSum + amountSum) : String(famCardSum - amountSum)
         
         let updatedUser = UserModel(
             name: currentUser.name,
