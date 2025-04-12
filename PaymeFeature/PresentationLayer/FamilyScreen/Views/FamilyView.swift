@@ -116,28 +116,6 @@ struct FamilyView: View {
                     .padding()
                 }
             }
-            .navigationTitle("Моя семья")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        viewModel.refreshData()
-                    }) {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if let user = viewModel.currentUser, user.role {
-                        Button(action: {
-                            showAddFamilyMemberSheet.toggle()
-                        }) {
-                            Image(systemName: "plus.circle")
-                        }
-                        
-                    }
-                }
-            }
             .sheet(isPresented: $showAddFamilyMemberSheet) {
                 AddFamilyMember(viewModel: viewModel)
                     .presentationDetents([.medium])
@@ -150,6 +128,37 @@ struct FamilyView: View {
             }
         }.onAppear{
             viewModel.refreshData()
+        }
+        .refreshable{
+            viewModel.refreshData()
+        }
+        .navigationTitle("Моя семья")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if let user = viewModel.currentUser {
+                    Button(action: {
+                        //TODO: 
+                        //Change role
+                    }) {
+                        Image(systemName: viewModel.currentUser?.role ?? false ? "person.fill" : "person")
+                    }
+                    
+                }
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if let user = viewModel.currentUser, user.role {
+                    Button(action: {
+                        showAddFamilyMemberSheet.toggle()
+                    }) {
+                        Image(systemName: "plus.circle")
+                    }
+                    
+                }
+            }
+           
         }
     }
 }

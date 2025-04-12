@@ -25,12 +25,12 @@ class UniteViewController: UITabBarController {
         let main = UINavigationController(rootViewController: (Assembly().giveMAinViewController(enObj: cardsVM)))
         main.tabBarItem = UITabBarItem(title: "Main", image: UIImage(systemName: "house"), tag: 0)
 
-//        let transfers = UIHostingController(rootView: TransfersView().environmentObject(cardsVM))
-//        transfers.tabBarItem = UITabBarItem(title: "Transfers", image: UIImage(systemName: "arrow.left.arrow.right"), tag: 1)
+        let transfers = UIHostingController(rootView: TransfersView().environmentObject(cardsVM))
+        transfers.tabBarItem = UITabBarItem(title: "Transfers", image: UIImage(systemName: "arrow.left.arrow.right"), tag: 1)
 
-        let family = UIHostingController(rootView: FamilyView().environmentObject(cardsVM))
-        family.tabBarItem = UITabBarItem(title: "Family", image: UIImage(systemName: "person.2.fill"), tag: 2)
-        
+//        let family = UIHostingController(rootView: FamilyView().environmentObject(cardsVM))
+//        family.tabBarItem = UITabBarItem(title: "Family", image: UIImage(systemName: "person.2.fill"), tag: 2)
+//        
         let service = UIHostingController(rootView: ServiceView().environmentObject(cardsVM))
         service.tabBarItem = UITabBarItem(title: "Services", image: UIImage(systemName: "square.grid.2x2"), tag: 3)
 
@@ -40,7 +40,7 @@ class UniteViewController: UITabBarController {
         let payment = UIHostingController(rootView: PaymentsView().environmentObject(cardsVM))
         payment.tabBarItem = UITabBarItem(title: "Payment", image: UIImage(systemName: "wallet.bifold.fill"), tag: 5)
 
-        viewControllers = [main,family,payment, service, monitoring]
+        viewControllers = [main,transfers,payment, service, monitoring]
         
     }
     
