@@ -13,6 +13,7 @@ struct SetScrollView: View {
     
     @StateObject var vm =  SetScrollViewModel()
     
+    @EnvironmentObject var evm: CardsViewModel
     
     
     var body: some View {
@@ -91,7 +92,7 @@ struct SetScrollView: View {
             .padding(.horizontal)
         }
         
-        NavigationLink(destination: FamilyView()) {
+        NavigationLink(destination: FamilyView().environmentObject(evm)) {
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.theme.paymeC)

@@ -99,7 +99,8 @@ final class MainViewController: UIViewController {
     
     private func setUPCurrencyScrollView() {
         
-        let hostingController = UIHostingController(rootView: currencyScrollView)
+        
+        let hostingController = UIHostingController(rootView: currencyScrollView.environmentObject(enObj))
         
         addChild(hostingController)
         view.addSubview(hostingController.view)
