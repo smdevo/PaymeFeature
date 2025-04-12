@@ -12,7 +12,7 @@ struct CardView: View {
             RoundedRectangle(cornerRadius: 16)
                 .fill(
                     LinearGradient(
-                        gradient: Gradient(colors: [.blue, .blue.opacity(0.6)]),
+                        gradient: Gradient(colors: [.black.opacity(0.7), .paymeC]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )

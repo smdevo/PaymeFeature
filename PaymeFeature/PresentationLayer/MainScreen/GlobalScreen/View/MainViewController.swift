@@ -101,7 +101,7 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
             hostingController.view.topAnchor.constraint(equalTo: currencyView.topAnchor,constant: .spacing(.x5)),
             hostingController.view.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor),
             hostingController.view.widthAnchor.constraint(equalTo: currencyView.widthAnchor),
-            hostingController.view.heightAnchor.constraint(equalToConstant: 140)
+//            hostingController.view.heightAnchor.constraint(equalToConstant: 140)
         ])
         
         hostingController.didMove(toParent: self)

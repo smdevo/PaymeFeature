@@ -18,28 +18,17 @@ struct CardsView: View {
     
     var body: some View {
         VStack {
-            ScrollView(.horizontal) {
-                HStack {
-                    HeadLineView(title: "All cards",
-                                 isOn: controllerTab == 0
-                    )
-                    .onTapGesture {
-                        controllerTab = 0
-                    }
-                    HeadLineView(title: "Uzcard", isOn: controllerTab == 1)
+            HStack {
+                ForEach(0..<4) { index in
+                    let titles = ["All", "Uzcard", "Humo", "Family"]
+                    HeadLineView(title: titles[index], isOn: controllerTab == index)
                         .onTapGesture {
-                            controllerTab = 1
+                            controllerTab = index
                         }
-                    HeadLineView(title: "Humo", isOn: controllerTab == 2)
-                        .onTapGesture {
-                            controllerTab = 2
-                        }
-                    HeadLineView(title: "Family", isOn: controllerTab == 3)
-                        .onTapGesture {
-                            controllerTab = 3
-                        }
+                        .frame(maxWidth: .infinity)
                 }
-            }.scrollDisabled(true)
+            }
+            .padding(.horizontal)
             
             if vm.cards.isEmpty {
                 ProgressView()
