@@ -8,18 +8,20 @@
 import SwiftUI
 
 
-struct FamilyViewNavigator: View {
+struct FamilyViewScene: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color.theme.paymeC)
                 .frame(height: 100)
                 .padding(.horizontal, .spacing(.x2))
+            
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Семейная карта")
                         .font(.title2)
                         .bold()
+                        .foregroundColor(.black)
                     Text("Одна карта — для всей семьи\nОдна карта — несколько пользователей")
                         .font(.caption)
                         .foregroundColor(.black.opacity(0.8))
@@ -37,11 +39,12 @@ struct FamilyViewNavigator: View {
                     .colorMultiply(.black)
             }
         }
+        .padding(.vertical, .spacing(.x1))
        
     }
 }
 
 
 #Preview {
-    FamilyViewNavigator()
+    FamilyViewScene().environmentObject(CardsViewModel())
 }
