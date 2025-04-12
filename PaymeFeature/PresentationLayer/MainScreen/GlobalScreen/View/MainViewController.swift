@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 
 protocol CardsButtonDelegate: AnyObject {
@@ -21,22 +22,16 @@ protocol MainViewProtocol: AnyObject {
 }
 
 
-final class MainViewController: UIViewController, CardsButtonDelegate {
+final class MainViewController: UIViewController {
     
     
-    func tapForCards() {
-    
-        let cardsView = CardsView().environmentObject(enObj)
-        
-        let hostingController = UIHostingController(rootView: cardsView)
-        
-        navigationController?.pushViewController(hostingController, animated: true)
-    }
     
     //MARK: -Dependency
     let interactor: MainInteractorProtocol
     
     let enObj: CardsViewModel
+    
+    var cancellables = Set<AnyCancellable>()
     
     //var currencies: [Currency] = []
     
@@ -59,6 +54,9 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
         setUpView()
         interactor.onviewDidLoad()
     }
+    
+    
+   
     
     init(interactor: MainInteractor, enObj: CardsViewModel) {
         self.interactor = interactor
@@ -84,8 +82,20 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
         setUPCurrencyScrollView()
        
         setUpConstraints()
+        
+        setSubs()
     }
     
+    private func setSubs() {
+        
+        enObj.$currentUser
+            .sink { [weak self] user in
+                self?.balanceView.getBalance(sum: user?.balance ?? "0")
+            }
+            .store(in: &cancellables)
+        
+        
+    }
     
     private func setUPCurrencyScrollView() {
         
@@ -134,9 +144,20 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
     }
     
    
-
-    
     @objc func hideShowBalance() {}
+    
+}
+
+extension MainViewController: CardsButtonDelegate {
+    
+    func tapForCards() {
+    
+        let cardsView = CardsView().environmentObject(enObj)
+        
+        let hostingController = UIHostingController(rootView: cardsView)
+        
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
     
 }
 

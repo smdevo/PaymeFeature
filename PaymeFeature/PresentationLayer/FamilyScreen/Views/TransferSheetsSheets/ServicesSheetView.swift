@@ -1,27 +1,37 @@
 //
-//  Untitled.swift
+//  ServicesSheetView.swift
 //  PaymeFeature
 //
 //  Created by Samandar on 11/04/25.
 //
 
+enum ServicesType: String {
+    case transfertoFamilyCard = "Transfer the money into family Card"
+    case transferFromFamilyCard = "Tranfer Money from Family Card"
+    case setDailySpending = "Set Daily Spending"
+    case chooseLocatiion = "Choose Location"
+    case block = "Block Card"
+}
+
+struct UserService: Identifiable {
+    let id = UUID()
+    let type: ServicesType
+    let icon: String
+}
+
 import SwiftUI
 
-struct ServicesSheetViewForChild: View {
+struct ServicesSheetViewForParent: View {
+
+    @State private var showTransactionSheet = false
     
     @Environment(\.dismiss) var dismiss
     
-    struct Service: Identifiable {
-        let id = UUID()
-        let title: String
-        let icon: String
-    }
-    
-    let services: [Service] = [
-        .init(title: "Receive Money From Family Card", icon: "arrow.down.circle"),
-//        .init(title: "Set Daily Spending", icon: "calendar.badge.clock"),
-//        .init(title: "Choose Location", icon: "mappin.and.ellipse"),
-//        .init(title: "Block Card", icon: "lock.shield")
+    let services: [UserService] = [
+        .init(type: .transfertoFamilyCard, icon: "arrow.down.circle"),
+        .init(type: .setDailySpending, icon: "calendar.badge.clock"),
+        .init(type: .chooseLocatiion, icon: "mappin.and.ellipse"),
+        .init(type: .block, icon: "lock.shield")
     ]
     
     var body: some View {
@@ -52,10 +62,10 @@ struct ServicesSheetViewForChild: View {
                 VStack(spacing: 16) {
                     ForEach(services) { service in
                         Button(action: {
-                            handleServiceTap(service.title)
+                            handleServiceTap(service.type)
                         }) {
                             HStack {
-                                Label(service.title, systemImage: service.icon)
+                                Label(service.type.rawValue, systemImage: service.icon)
                                     .font(.body)
                                     .foregroundColor(.primary)
                                 Spacer()
@@ -76,18 +86,23 @@ struct ServicesSheetViewForChild: View {
         .background(Color(.systemBackground))
         .cornerRadius(20)
         .edgesIgnoringSafeArea(.bottom)
+        .sheet(isPresented: $showTransactionSheet) {
+            TransactionSheet()
+                .presentationDetents([.fraction(0.6)])
+                .presentationDragIndicator(.visible)
+        }
     }
     
-    func handleServiceTap(_ service: String) {
+    func handleServiceTap(_ service: ServicesType) {
         switch service {
-        case "Receive Money":
-            print("→ Receive Money tapped")
-//        case "Set Daily Spending":
-//            print("→ Set Daily Spending tapped")
-//        case "Choose Location":
-//            print("→ Choose Location tapped")
-//        case "Block Card":
-//            print("→ Block Card tapped")
+        case .transfertoFamilyCard:
+            showTransactionSheet.toggle()
+        case .setDailySpending:
+            print("→ Set Daily Spending tapped")
+        case .chooseLocatiion:
+            print("→ Choose Location tapped")
+        case .block:
+            print("→ Block Card tapped")
         default:
             break
         }

@@ -1,17 +1,17 @@
 //
-//  ServicesSheetView.swift
+//  Untitled.swift
 //  PaymeFeature
 //
 //  Created by Samandar on 11/04/25.
 //
 
+
 import SwiftUI
 
-struct ServicesSheetViewForParent: View {
-
-    @State private var showTransactionSheet = false
+struct ServicesSheetViewForChild: View {
     
     @Environment(\.dismiss) var dismiss
+    @State private var showTransactionSheet = false
     
     struct Service: Identifiable {
         let id = UUID()
@@ -19,11 +19,8 @@ struct ServicesSheetViewForParent: View {
         let icon: String
     }
     
-    let services: [Service] = [
-        .init(title: "Receive Money", icon: "arrow.down.circle"),
-        .init(title: "Set Daily Spending", icon: "calendar.badge.clock"),
-        .init(title: "Choose Location", icon: "mappin.and.ellipse"),
-        .init(title: "Block Card", icon: "lock.shield")
+    let services: [UserService] = [
+        .init(type: .transferFromFamilyCard, icon: "arrow.up.circle")
     ]
     
     var body: some View {
@@ -54,10 +51,10 @@ struct ServicesSheetViewForParent: View {
                 VStack(spacing: 16) {
                     ForEach(services) { service in
                         Button(action: {
-                            handleServiceTap(service.title)
+                            handleServiceTap(service.type)
                         }) {
                             HStack {
-                                Label(service.title, systemImage: service.icon)
+                                Label(service.type.rawValue, systemImage: service.icon)
                                     .font(.body)
                                     .foregroundColor(.primary)
                                 Spacer()
@@ -85,16 +82,10 @@ struct ServicesSheetViewForParent: View {
         }
     }
     
-    func handleServiceTap(_ service: String) {
+    func handleServiceTap(_ service: ServicesType) {
         switch service {
-        case "Receive Money":
+        case .transferFromFamilyCard:
             showTransactionSheet.toggle()
-        case "Set Daily Spending":
-            print("→ Set Daily Spending tapped")
-        case "Choose Location":
-            print("→ Choose Location tapped")
-        case "Block Card":
-            print("→ Block Card tapped")
         default:
             break
         }

@@ -20,6 +20,7 @@ struct TransactionSheet: View {
     
     @FocusState var foc: Bool
     
+    
     var isAmountValid: Bool {
         if let amount = Double(sum), amount > 0 {
             return true
@@ -30,11 +31,15 @@ struct TransactionSheet: View {
     var body: some View {
         VStack(spacing: 20) {
             
-            Text("Transfer to Family Card")
+            Text(evm.currentUser?.role ?? false ?
+                 "Transfer to Family Card" :
+                 "Transfer from Family Card")
                 .font(.title2)
                 .bold()
             
-            Text("Do you want to send money to your family card?")
+            Text(evm.currentUser?.role ?? false ?
+                 "Do you want to send money to your family card?" :
+                 "Do you want to receive money from your family card?")
                 .font(.callout)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -79,6 +84,7 @@ struct TransactionSheet: View {
         .padding()
         .alert(isSuccesFull ? "Transaction Successful" : "Something went wrong", isPresented: $showConfirmation) {
             Button("OK", role: .cancel) {
+                foc = false
                 dismiss()
             }
         } message: {
@@ -87,6 +93,6 @@ struct TransactionSheet: View {
     }
 }
 
-#Preview {
-    TransactionSheet()
-}
+//#Preview {
+//    TransactionSheet()
+//}
