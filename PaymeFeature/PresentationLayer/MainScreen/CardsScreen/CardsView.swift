@@ -58,11 +58,14 @@ struct CardsView: View {
             plusButton
         }
         .padding(5)
+        .refreshable {
+            vm.loadUserAndFamily()
+        }
     }
 }
 
 #Preview {
-    CardsView()
+    CardsView().environmentObject(CardsViewModel())
 }
 
 extension CardsView {
