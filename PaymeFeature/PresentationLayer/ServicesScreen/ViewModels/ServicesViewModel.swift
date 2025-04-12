@@ -16,6 +16,7 @@ class ServicesViewModel: ObservableObject {
     
     private func loadServices() {
         services = [
+            Service(id: UUID(), name: "Моя семья", description: "Семейная карта", iconName: "person", iconColor: .gray),
             Service(id: UUID(), name: "Заказ еды", description: "Закажите еду онлайн", iconName: "fork.knife", iconColor: .red),
             Service(id: UUID(), name: "Кредит", description: "Получите кредит от TBC Bank онлайн", iconName: "doc.text.fill", iconColor: .yellow),
             Service(id: UUID(), name: "payme plus", description: "Одна подписка — много возможностей", iconName: "plus.circle.fill", iconColor: .orange),

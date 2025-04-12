@@ -2,6 +2,12 @@
 import SwiftUI
 
 struct CardView: View {
+    
+    @State private var showParentServiceSheet = false
+    @State private var showChildServiceSheet = false
+    
+    @EnvironmentObject var vm: CardsViewModel
+
     let bankCard: BankCard
     
     var body: some View {
@@ -9,7 +15,7 @@ struct CardView: View {
             RoundedRectangle(cornerRadius: 16)
                 .fill(
                     LinearGradient(
-                        gradient: Gradient(colors: [.blue, .blue.opacity(0.6)]),
+                        gradient: Gradient(colors: [.black.opacity(0.7), .paymeC]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -50,9 +56,34 @@ struct CardView: View {
                 }
                 .foregroundColor(.white)
                 .font(.subheadline)
-            }
-            .padding()
+            }.padding()
+            
         }
-        .frame(height: 160)
+        .cornerRadius(16)
+        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+        .foregroundStyle(.white)
+        .sheet(isPresented: $showParentServiceSheet, content: {
+            ServicesSheetViewForParent()
+                .presentationDetents([.fraction(0.6)])
+                .presentationDragIndicator(.visible)
+        })
+        .sheet(isPresented: $showChildServiceSheet, content: {
+            ServicesSheetViewForChild()
+                .presentationDetents([.fraction(0.6)])
+                .presentationDragIndicator(.visible)
+        })
+        .onTapGesture {
+            if bankCard.isFamilyCard {
+                guard let cUser = vm.currentUser else { return }
+                
+                if cUser.role {
+                    showParentServiceSheet.toggle()
+                }else {
+                    showChildServiceSheet.toggle()
+                }
+            }
+        }
+        
     }
 }
+

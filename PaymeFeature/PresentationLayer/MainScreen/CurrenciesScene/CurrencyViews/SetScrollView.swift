@@ -12,7 +12,7 @@ import UIKit
 struct SetScrollView: View {
     
     @StateObject var vm =  SetScrollViewModel()
-
+    
     
     
     var body: some View {
@@ -34,7 +34,6 @@ struct SetScrollView: View {
                                     Circle()
                                         .fill(Color.white)
                                         .frame(width: 50)
-                                    
                                     
                                     Text(currency.flag)
                                         .padding()
@@ -62,15 +61,16 @@ struct SetScrollView: View {
                             .background {
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(Color.theme.backgroundColor)
-                                    .shadow(radius: 10)
+                                    .shadow(radius: 5)
                             }
-                            .padding()
+                            .padding(.spacing(.x2))
                             
-                        }//FOREACH
+                            
+                        }
                         
-                    }//else
-                }
-            }//ScrollView
+                    }
+                }.padding(.top, .spacing(.x7))
+            }
             .scrollIndicators(.hidden)
             
             HStack {
@@ -81,40 +81,70 @@ struct SetScrollView: View {
                     logOut()
                     
                 } label: {
-                    
                     HStack(spacing: 0) {
-                        Text("Log Out")
+                        Text("all currencies")
                         Image(systemName: "chevron.right")
                     }
                     .foregroundStyle(.unselectedTabbarItem)
                 }
-                
             }
             .padding(.horizontal)
-            
-    
-
-        }//Vstack
-    }//body
-    
-    func logOut() {
-        UserDefaults.standard.removeObject(forKey: "userId")
-        UserDefaults.standard.removeObject(forKey: "userFamilyId")
-        
-        switchToLogin()
-    }
-    
-    func switchToLogin() {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
-            let hostingController = UIHostingController(rootView: LoginView())
-            window.rootViewController = hostingController
-            window.makeKeyAndVisible()
         }
+        
+        NavigationLink(destination: FamilyView()) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.theme.paymeC)
+                    .frame(height: 100)
+                    .padding(.horizontal, .spacing(.x2))
+                
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Семейная карта")
+                            .font(.title2)
+                            .bold()
+                            .foregroundColor(.black)
+                        Text("Одна карта — для всей семьи\nОдна карта — несколько пользователей")
+                            .font(.caption)
+                            .foregroundColor(.black.opacity(0.8))
+                    }
+                    .padding(.leading, .spacing(.x5))
+                    .padding(.vertical, .spacing(.x2))
+                    
+                    Spacer()
+                    
+                    Image(uiImage: UIImage(named: "family_illustration") ?? UIImage())
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .padding(.trailing, .spacing(.x4))
+                        .colorMultiply(.black)
+                }
+            }
+            .padding(.vertical, .spacing(.x1))
+        }
+        .buttonStyle(PlainButtonStyle())
     }
+}
+
+func logOut() {
+    UserDefaults.standard.removeObject(forKey: "userId")
+    UserDefaults.standard.removeObject(forKey: "userFamilyId")
+    
+    switchToLogin()
+}
+
+func switchToLogin() {
+    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+       let window = windowScene.windows.first {
+        let hostingController = UIHostingController(rootView: LoginView())
+        window.rootViewController = hostingController
+        window.makeKeyAndVisible()
+    }
+    
 }//Class
 
 
 #Preview {
-            SetScrollView()
+    SetScrollView()
 }

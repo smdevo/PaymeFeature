@@ -14,7 +14,7 @@ class FamilyViewModel: ObservableObject {
     @Published var currentUser: UserModel?
     
     @Published var familyMembers: [UserModel] = []
-
+    
     @Published var allUsers: [UserModel] = []
     
     @Published var familyCard: VirtualCardModel?
@@ -22,40 +22,38 @@ class FamilyViewModel: ObservableObject {
     let userId = UserDefaults.standard.string(forKey: "userId") ?? "1"
     let userFamilyId = UserDefaults.standard.string(forKey: "userFamilyId") ?? "1"
     
-    
-    
     init() {
         getCurrentUserAndFamily()
     }
     
-    
+    func gettingMembers() {
+        
+        familyMembers = allUsers.filter({$0.familyId == currentUser?.familyId})
+        
+    }
     
     func getCurrentUserAndFamily() {
         
-        UsersNtworkinDataService.shared.getData(link: "users/") { [weak self] (users: [UserModel]?) in
+        networkingService.getData(link: "users/") { [weak self] (users: [UserModel]?) in
             guard let users else { return }
             self?.allUsers = users
             self?.currentUser = users.first(where: {$0.id == self?.userId})
             self?.familyMembers = users.filter({$0.familyId == self?.currentUser?.familyId})
         }
         
-            UsersNtworkinDataService.shared.getData(link: "families/" + userFamilyId) { [weak self] (family: FamilyModel?) in
+        networkingService.getData(link: "families/" + userFamilyId) { [weak self] (family: FamilyModel?) in
             guard let family else { return }
-                
+            
             self?.familyCard = family.virtualcard
-            }
+        }
         
     }
-
     
-    
-   
     func addUserToFamily(phoneNumber: String, adminUser: UserModel, completion: @escaping (Bool) -> Void) {
         let usersEndpoint = "/users?number=\(phoneNumber)"
         
         UsersNtworkinDataService.shared.getData(link: usersEndpoint) { (users: [UserModel]?) in
             guard let users = users, let userToUpdate = users.first else {
-                print("Пользователь не найден для номера: \(phoneNumber)")
                 completion(false)
                 return
             }
@@ -74,6 +72,11 @@ class FamilyViewModel: ObservableObject {
                             return
                         }
                         
+                        if userToUpdate.familyId == adminUser.familyId {
+                                 completion(false)
+                                 return
+                             }
+                        
                         if !familyToUpdate.members.contains(updatedUser.id) {
                             familyToUpdate.members.append(updatedUser.id)
                         }
@@ -88,7 +91,7 @@ class FamilyViewModel: ObservableObject {
             }
         }
     }
-
+    
     
     func addFamilyCard(cardName: String, ownerPhoneNumber: String, completion: @escaping (Bool) -> Void) {
         guard let familyId = currentUser?.familyId else {
@@ -117,25 +120,19 @@ class FamilyViewModel: ObservableObject {
             
             if familyToUpdate.virtualcard == nil || familyToUpdate.virtualcard?.id.isEmpty == true {
                 familyToUpdate.virtualcard = newCard
-                UsersNtworkinDataService.shared.patchData(link: familyEndpoint, dataToUpdate: familyToUpdate) { success in
-                    completion(success)
-                }
-            } else {
-                familyToUpdate.virtualcard = newCard
-                UsersNtworkinDataService.shared.patchData(link: familyEndpoint, dataToUpdate: familyToUpdate) { success in
+                UsersNtworkinDataService.shared.updateData(link: familyEndpoint, dataToUpdate: familyToUpdate) { success in
                     completion(success)
                 }
             }
         }
     }
-
+    
     
     func sendInvitation(phoneNumber: String, adminUser: UserModel, completion: @escaping (Bool) -> Void) {
         let usersEndpoint = "/users?number=\(phoneNumber)"
         
         UsersNtworkinDataService.shared.getData(link: usersEndpoint) { (users: [UserModel]?) in
             guard let users = users, var userToInvite = users.first else {
-                print("Пользователь не найден для номера: \(phoneNumber)")
                 completion(false)
                 return
             }
@@ -145,24 +142,17 @@ class FamilyViewModel: ObservableObject {
             
             let userUpdateEndpoint = "/users/\(userToInvite.id)"
             UsersNtworkinDataService.shared.updateData(link: userUpdateEndpoint, dataToUpdate: userToInvite) { success in
-                if success {
-                    print("Приглашение отправлено пользователю с номером: \(phoneNumber)")
-                } else {
-                    print("Ошибка при отправке приглашения пользователю с номером: \(phoneNumber)")
-                }
                 completion(success)
             }
         }
     }
-
+    
     func confirmInvitation(enteredCode: String, completion: @escaping (Bool) -> Void) {
-        // Допустим, код подтверждения всегда "123456"
         guard enteredCode == "123456", var current = currentUser, let invitedFamilyId = current.invitedFamilyId else {
             completion(false)
             return
         }
         
-        // Обновляем familyId на значение приглашённой семьи и сбрасываем флаги приглашения
         current.familyId = invitedFamilyId
         current.invitation = false
         current.invitedFamilyId = nil
@@ -170,7 +160,6 @@ class FamilyViewModel: ObservableObject {
         let userUpdateEndpoint = "/users/\(current.id)"
         UsersNtworkinDataService.shared.updateData(link: userUpdateEndpoint, dataToUpdate: current) { success in
             if success {
-                print("Приглашение подтверждено, familyId обновлён на \(invitedFamilyId)")
                 self.currentUser = current
             } else {
                 print("Ошибка при подтверждении приглашения")
@@ -178,28 +167,23 @@ class FamilyViewModel: ObservableObject {
             completion(success)
         }
     }
-
-
-
-
-
     
     func refreshData() {
-           UsersNtworkinDataService.shared.getData(link: "users/") { [weak self] (users: [UserModel]?) in
-               guard let self = self, let users = users else { return }
-               DispatchQueue.main.async {
-                   self.currentUser = users.first(where: { $0.id == self.userId })
-                   self.familyMembers = users.filter({ $0.familyId == self.currentUser?.familyId })
-               }
-           }
-           
-           UsersNtworkinDataService.shared.getData(link: "families/" + userFamilyId) { [weak self] (family: FamilyModel?) in
-               guard let self = self, let family = family else { return }
-               DispatchQueue.main.async {
-                   self.familyCard = family.virtualcard
-               }
-           }
-       }
+        networkingService.getData(link: "users/") { [weak self] (users: [UserModel]?) in
+            guard let self = self, let users = users else { return }
+            DispatchQueue.main.async {
+                self.currentUser = users.first(where: { $0.id == self.userId })
+                self.familyMembers = users.filter({ $0.familyId == self.currentUser?.familyId })
+            }
+        }
+        
+        networkingService.getData(link: "families/" + userFamilyId) { [weak self] (family: FamilyModel?) in
+            guard let self = self, let family = family else { return }
+            DispatchQueue.main.async {
+                self.familyCard = family.virtualcard
+            }
+        }
+    }
     
     
 }

@@ -15,10 +15,8 @@ struct BankCard: Identifiable {
     let cardNumber: String
     let type: CardType
     let expirationDate: String
-    let cardColor: Color
     let iconName: String
     let isFamilyCard: Bool
-    
     
     init(name: String,
          ownerName: String,
@@ -26,7 +24,6 @@ struct BankCard: Identifiable {
          cardNumber: String,
          type: CardType,
          expirationDate: String,
-         cardColor: Color = Color(.green),
          iconName: String = "star.fill",
          isFamilyCard: Bool = false
     ) {
@@ -36,7 +33,6 @@ struct BankCard: Identifiable {
         self.cardNumber = cardNumber
         self.type = type
         self.expirationDate = expirationDate
-        self.cardColor = cardColor
         self.iconName = iconName
         self.isFamilyCard = isFamilyCard
     }

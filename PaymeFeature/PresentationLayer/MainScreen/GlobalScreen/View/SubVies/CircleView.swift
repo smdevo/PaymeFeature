@@ -67,7 +67,6 @@ class CircleView: UIView {
         stackCust.addArrangedSubview(nameLabel)
     
         widthAnchor.constraint(equalToConstant: 120).isActive = true
-       // heightAnchor.constraint(equalToConstant: 60).isActive = true
         backView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         backView.widthAnchor.constraint(equalToConstant: 70).isActive = true
         

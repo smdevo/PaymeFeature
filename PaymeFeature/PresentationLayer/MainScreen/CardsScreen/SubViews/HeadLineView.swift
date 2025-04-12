@@ -15,8 +15,8 @@ struct HeadLineView: View {
         Text(title)
             .font(.headline)
             .foregroundColor(isOn ? .blue : .gray)
-            .padding(.vertical, 8)
-            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .padding(.horizontal, 10)
             .background(
                 RoundedRectangle(cornerRadius: 12)
                     .fill(isOn ? Color.blue.opacity(0.1) : Color.clear)

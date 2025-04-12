@@ -43,7 +43,6 @@ struct PaymentsView: View {
                                 }
                                 .padding()
                             }
-                            .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(12)
                             .padding(.horizontal)
                         }
@@ -64,7 +63,6 @@ struct PaymentsView: View {
                                 }
                                 .padding()
                             }
-                            .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(12)
                             .padding(.horizontal)
                         } header: {
@@ -120,16 +118,57 @@ struct PaymentsView: View {
                                 .padding(.horizontal)
                                 .padding(.vertical, 8)
                             }
-                            .background(Color(UIColor.secondarySystemBackground))
+                            .cornerRadius(12)
+                            .padding(.horizontal)
+                            Divider()
+                            VStack {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("TM BARBER")
+                                            .font(.subheadline)
+                                            .foregroundColor(.primary)
+                                        Text("улица Абдулы Кадыри, 1")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    Spacer()
+                                    Text("20 м")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                .padding(.horizontal)
+                                .padding(.vertical, 8)
+                            }
+                            .cornerRadius(12)
+                            .padding(.horizontal)
+                            Divider()
+                            VStack {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("TM BARBER")
+                                            .font(.subheadline)
+                                            .foregroundColor(.primary)
+                                        Text("улица Абдулы Кадыри, 1")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    Spacer()
+                                    Text("20 м")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                .padding(.horizontal)
+                                .padding(.vertical, 8)
+                            }
                             .cornerRadius(12)
                             .padding(.horizontal)
                         }
-                        
+                        Divider()
                         Spacer(minLength: 32)
                     }
                     .navigationBarTitle("Оплата", displayMode: .inline)
                 }
-            }
+            }.background(Color(UIColor.secondarySystemBackground))
         }
     }
 }
@@ -163,7 +202,7 @@ struct GenericItemView: View {
                 }
             }
         }
-        .frame(width: showButton ? 100 : 80, height: showButton ? 120 : 80)
+        .frame(width: showButton ? 120 : 100, height: showButton ? 140 : 100)
         .background(Color(UIColor.tertiarySystemBackground))
         .cornerRadius(8)
     }

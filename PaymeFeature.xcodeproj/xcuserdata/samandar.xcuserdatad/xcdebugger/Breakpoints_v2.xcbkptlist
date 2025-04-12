@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2F3DFB54-9330-418A-BB4A-5628722BC384"
+            uuid = "2B7ED48A-9767-4C03-8791-A5283D4934A8"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PaymeFeature/DomainLayer/Services/UsersNtworkinDataService.swift"
+            filePath = "PaymeFeature/PresentationLayer/MainScreen/CardsScreen/CardsViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "init()"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "sendMoney(amount:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

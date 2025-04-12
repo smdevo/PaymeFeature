@@ -47,9 +47,6 @@ class LoginViewModel: ObservableObject {
         }
         errorMessage = ""
         
-        for user in users {
-            print("Пользователь: \(user.name), пароль: \(user.password)")
-        }
         
         if let user = users.first(where: {
             $0.name.lowercased() == trimmedUserName && $0.password == trimmedPassword
@@ -57,11 +54,10 @@ class LoginViewModel: ObservableObject {
             
             UserDefaults.standard.set(user.id, forKey: "userId")
             UserDefaults.standard.set(user.familyId, forKey: "userFamilyId")
-
-            
             onLoginSuccess?()
         } else {
             errorMessage = "Неверный логин или пароль"
         }
     }
 }
+

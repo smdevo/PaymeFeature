@@ -11,6 +11,8 @@ import SwiftUI
 struct FamilyView: View {
     @ObservedObject var viewModel: FamilyViewModel = FamilyViewModel()
     
+    
+    
     @State private var showFamilyCardAddSheet: Bool = false
     @State private var showAddFamilyMemberSheet: Bool = false
     
@@ -60,16 +62,16 @@ struct FamilyView: View {
                     }
                     .alert("Подтверждение приглашения", isPresented: $showInvitationAlert) {
                         TextField("Введите код", text: $invitationCode)
-                        Button("Подтвердить") {
+                        Button("Confirm") {
                             viewModel.confirmInvitation(enteredCode: invitationCode) { success in
                                 if success {
                                     print("Success")
                                 } else {
-                                    print("Неверный код или ошибка")
+                                    print("Failure")
                                 }
                             }
                         }
-                        Button("Отмена", role: .cancel) { }
+                        Button("Cancel", role: .cancel) { }
                     } message: {
                         Text("Введите код подтверждения, который вы получили")
                     }
@@ -99,9 +101,8 @@ struct FamilyView: View {
                 
                 Spacer()
                 
-                if let user = viewModel.currentUser, user.role {
+                if let user = viewModel.currentUser, user.role, viewModel.familyCard == nil {
                     Button(action: {
-                        
                         showFamilyCardAddSheet = true
                     }) {
                         Text("Заказать виртуальную карту")
@@ -115,37 +116,49 @@ struct FamilyView: View {
                     .padding()
                 }
             }
-            .navigationTitle("Моя семья")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        viewModel.refreshData()
-                    }) {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if let user = viewModel.currentUser, user.role {
-                        Button(action: {
-                            showAddFamilyMemberSheet.toggle()
-                        }) {
-                            Image(systemName: "plus.circle")
-                        }
-                        .sheet(isPresented: $showAddFamilyMemberSheet) {
-                            AddFamilyMember(viewModel: viewModel)
-                                .presentationDetents([.medium])
-                                .presentationDragIndicator(.hidden)
-                        }
-                    }
-                }
+            .sheet(isPresented: $showAddFamilyMemberSheet) {
+                AddFamilyMember(viewModel: viewModel)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.hidden)
             }
             .sheet(isPresented: $showFamilyCardAddSheet) {
                 FamilyCardAddView(viewModel: viewModel)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
             }
+        }.onAppear{
+            viewModel.refreshData()
+        }
+        .refreshable{
+            viewModel.refreshData()
+        }
+        .navigationTitle("Моя семья")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if let user = viewModel.currentUser {
+                    Button(action: {
+                        //TODO: 
+                        //Change role
+                    }) {
+                        Image(systemName: viewModel.currentUser?.role ?? false ? "person.fill" : "person")
+                    }
+                    
+                }
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if let user = viewModel.currentUser, user.role {
+                    Button(action: {
+                        showAddFamilyMemberSheet.toggle()
+                    }) {
+                        Image(systemName: "plus.circle")
+                    }
+                    
+                }
+            }
+           
         }
     }
 }

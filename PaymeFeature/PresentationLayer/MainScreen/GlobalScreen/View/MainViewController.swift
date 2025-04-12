@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 
 protocol CardsButtonDelegate: AnyObject {
@@ -21,24 +22,16 @@ protocol MainViewProtocol: AnyObject {
 }
 
 
-final class MainViewController: UIViewController, CardsButtonDelegate {
-    
-    
-    func tapForCards() {
-        print("Hello working")
-        
-        let cardsView = CardsView()
-        
-        let hostingController = UIHostingController(rootView: cardsView)
-        
-        navigationController?.pushViewController(hostingController, animated: true)
-    }
+final class MainViewController: UIViewController {
     
     
     
-
     //MARK: -Dependency
     let interactor: MainInteractorProtocol
+    
+    let enObj: CardsViewModel
+    
+    var cancellables = Set<AnyCancellable>()
     
     //var currencies: [Currency] = []
     
@@ -62,8 +55,12 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
         interactor.onviewDidLoad()
     }
     
-    init(interactor: MainInteractorProtocol) {
+    
+   
+    
+    init(interactor: MainInteractor, enObj: CardsViewModel) {
         self.interactor = interactor
+        self.enObj = enObj
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -85,8 +82,20 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
         setUPCurrencyScrollView()
        
         setUpConstraints()
+        
+        setSubs()
     }
     
+    private func setSubs() {
+        
+        enObj.$currentUser
+            .sink { [weak self] user in
+                self?.balanceView.getBalance(sum: user?.balance ?? "0")
+            }
+            .store(in: &cancellables)
+        
+        
+    }
     
     private func setUPCurrencyScrollView() {
         
@@ -102,7 +111,7 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
             hostingController.view.topAnchor.constraint(equalTo: currencyView.topAnchor,constant: .spacing(.x5)),
             hostingController.view.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor),
             hostingController.view.widthAnchor.constraint(equalTo: currencyView.widthAnchor),
-            hostingController.view.heightAnchor.constraint(equalToConstant: 140)
+//            hostingController.view.heightAnchor.constraint(equalToConstant: 140)
         ])
         
         hostingController.didMove(toParent: self)
@@ -114,6 +123,8 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
     
         balanceView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .spacing(.x10)).isActive = true
         balanceView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(.spacing(.x10))).isActive = true
+//        balanceView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        balanceView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         balanceView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
         balanceView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
     
@@ -133,23 +144,27 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
     }
     
    
-
+    @objc func hideShowBalance() {}
     
-    @objc func hideShowBalance() {
-            
+}
+
+extension MainViewController: CardsButtonDelegate {
+    
+    func tapForCards() {
+    
+        let cardsView = CardsView().environmentObject(enObj)
         
+        let hostingController = UIHostingController(rootView: cardsView)
+        
+        navigationController?.pushViewController(hostingController, animated: true)
     }
     
 }
 
 extension MainViewController: MainViewProtocol {
     
-    
     func showCurrencies(currencies: [Currency]) {
         
-        currencies.forEach { currency in
-            print(currency.flag)
-        }
         
     }
     
