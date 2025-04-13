@@ -20,24 +20,24 @@ class UniteViewController: UITabBarController {
 
         setupTabBarAppearance()
         
-        let cardsVM = CardsViewModel()
+        let globalVM = GlobalViewModel()
         
-        let main = UINavigationController(rootViewController: (Assembly().giveMAinViewController(enObj: cardsVM)))
+        let main = UINavigationController(rootViewController: (Assembly().giveMAinViewController(enObj: globalVM)))
         main.tabBarItem = UITabBarItem(title: "Main", image: UIImage(systemName: "house"), tag: 0)
 
-        let transfers = UIHostingController(rootView: TransfersView().environmentObject(cardsVM))
+        let transfers = UIHostingController(rootView: TransfersView().environmentObject(globalVM))
         transfers.tabBarItem = UITabBarItem(title: "Transfers", image: UIImage(systemName: "arrow.left.arrow.right"), tag: 1)
 
 //        let family = UIHostingController(rootView: FamilyView().environmentObject(cardsVM))
 //        family.tabBarItem = UITabBarItem(title: "Family", image: UIImage(systemName: "person.2.fill"), tag: 2)
 //        
-        let service = UIHostingController(rootView: ServiceView().environmentObject(cardsVM))
+        let service = UIHostingController(rootView: ServiceView().environmentObject(globalVM))
         service.tabBarItem = UITabBarItem(title: "Services", image: UIImage(systemName: "square.grid.2x2"), tag: 3)
 
-        let monitoring = UIHostingController(rootView: MonitoringView().environmentObject(cardsVM))
+        let monitoring = UIHostingController(rootView: MonitoringView().environmentObject(globalVM))
         monitoring.tabBarItem = UITabBarItem(title: "Monitoring", image: UIImage(systemName: "chart.bar"), tag: 4)
 
-        let payment = UIHostingController(rootView: PaymentsView().environmentObject(cardsVM))
+        let payment = UIHostingController(rootView: PaymentsView().environmentObject(globalVM))
         payment.tabBarItem = UITabBarItem(title: "Payment", image: UIImage(systemName: "wallet.bifold.fill"), tag: 5)
 
         viewControllers = [main,transfers,payment, service, monitoring]

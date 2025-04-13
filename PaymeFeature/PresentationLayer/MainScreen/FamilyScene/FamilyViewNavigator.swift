@@ -46,5 +46,5 @@ struct FamilyViewScene: View {
 
 
 #Preview {
-    FamilyViewScene().environmentObject(CardsViewModel())
+    FamilyViewScene().environmentObject(GlobalViewModel())
 }

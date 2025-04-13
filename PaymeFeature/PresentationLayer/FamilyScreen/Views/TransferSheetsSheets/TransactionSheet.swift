@@ -14,7 +14,7 @@ struct TransactionSheet: View {
     @State private var showConfirmation = false
     @State private var isSuccesFull = false
 
-    @EnvironmentObject var evm: CardsViewModel
+    @EnvironmentObject var evm: GlobalViewModel
     
     @EnvironmentObject var fEvm: FamilyViewModel
     

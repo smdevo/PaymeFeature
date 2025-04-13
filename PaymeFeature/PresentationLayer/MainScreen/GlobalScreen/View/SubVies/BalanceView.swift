@@ -7,11 +7,11 @@
 
 import UIKit
 
-class BalanceView: UIView {
+class BalanceView: UIStackView {
     
+    // MARK: - UI Elements
     
-    //MARK: -UI elements
-    let balanceLabel: UILabel = {
+    private let balanceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Balance"
@@ -20,17 +20,26 @@ class BalanceView: UIView {
         return label
     }()
     
-   
-    let sumLabel: UILabel = {
+    private let visibleBalanceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "150 000"
+        label.text = "Show Balance"
+        label.font = UIFont.systemFont(ofSize: .spacing(.x8), weight: .regular)
+        label.textColor = UIColor.theme.labelC
+        label.isHidden = true
+        return label
+    }()
+    
+    private let sumLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "0"
         label.font = UIFont.systemFont(ofSize: .spacing(.x9), weight: .semibold)
         label.textColor = UIColor.theme.labelC
         return label
     }()
     
-    let currencyNaminglabel: UILabel = {
+    private let currencyNamingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "sum"
@@ -39,18 +48,17 @@ class BalanceView: UIView {
         return label
     }()
     
-    
-    let stackSum: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        stackView.alignment = .bottom
-        stackView.distribution = .fillProportionally
-        return stackView
+    private let stackSum: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = 10
+        stack.alignment = .bottom
+        stack.distribution = .fillProportionally
+        return stack
     }()
     
-    let expenseLabel: UILabel = {
+    private let expenseLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Expense"
@@ -59,7 +67,16 @@ class BalanceView: UIView {
         return label
     }()
     
-    let currencyNamingForExpenselabel: UILabel = {
+    private let expenseSumLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "160 000"
+        label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
+        label.textColor = UIColor.theme.labelC
+        return label
+    }()
+    
+    private let currencyNamingForExpenseLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "sum"
@@ -68,36 +85,27 @@ class BalanceView: UIView {
         return label
     }()
     
-    let expenseSum: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "250 100"
-        label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
-        label.textColor = UIColor.theme.labelC
-        return label
+    private let stackExpense: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = 10
+        stack.alignment = .center
+        stack.distribution = .fillProportionally
+        return stack
     }()
     
-    let stackExpense: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        stackView.alignment = .center
-        stackView.distribution = .fillProportionally
-        return stackView
+    private let hidderStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 0
+        stack.alignment = .center
+        stack.distribution = .fillEqually
+        return stack
     }()
     
-    let hidderStack: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 0
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
-    
-    let hidderButton: UIButton = {
+    private let hidderButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "eye.slash.fill"), for: .normal)
@@ -105,8 +113,16 @@ class BalanceView: UIView {
         return button
     }()
     
+    private let showerButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "eye.fill"), for: .normal)
+        button.tintColor = UIColor.theme.labelC
+        button.isHidden = true
+        return button
+    }()
     
-    let showCardsButton: UIButton = {
+    private let showCardsButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
@@ -114,49 +130,101 @@ class BalanceView: UIView {
         return button
     }()
     
-    
-    let wholeBalanceStack: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 30
-        stackView.alignment = .center
-        stackView.distribution = .fillProportionally
-        return stackView
+    private let contentStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = 30
+        stack.alignment = .center
+        stack.distribution = .fillProportionally
+        return stack
     }()
+    
+    // MARK: - Initializer
     
     init() {
         super.init(frame: .zero)
-            
         translatesAutoresizingMaskIntoConstraints = false
-        
+        axis = .horizontal
+        alignment = .fill
+        distribution = .fill
+        spacing = 8
+                
+        setupViews()
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Public Method
+    
+    func getBalance(sum: String) {
+        sumLabel.text = sum
+    }
+    
+    // MARK: - Setup
+    
+    private func setupViews() {
         stackSum.addArrangedSubview(sumLabel)
-        stackSum.addArrangedSubview(currencyNaminglabel)
-
+        stackSum.addArrangedSubview(currencyNamingLabel)
+        
         stackExpense.addArrangedSubview(expenseLabel)
-        stackExpense.addArrangedSubview(expenseSum)
-        stackExpense.addArrangedSubview(currencyNamingForExpenselabel)
-
+        stackExpense.addArrangedSubview(expenseSumLabel)
+        stackExpense.addArrangedSubview(currencyNamingForExpenseLabel)
+        
         hidderStack.addArrangedSubview(balanceLabel)
         hidderStack.addArrangedSubview(stackSum)
         hidderStack.addArrangedSubview(stackExpense)
         
-        wholeBalanceStack.addArrangedSubview(hidderButton)
-        wholeBalanceStack.addArrangedSubview(hidderStack)
-        wholeBalanceStack.addArrangedSubview(showCardsButton)
+        addArrangedSubview(hidderButton)
+        addArrangedSubview(showerButton)
+        addArrangedSubview(visibleBalanceLabel)
+        addArrangedSubview(hidderStack)
+        addArrangedSubview(showCardsButton)
         
-        addSubview(wholeBalanceStack)
-        
+        hidderButton.addTarget(self, action: #selector(hideTheBalance), for: .touchUpInside)
+        showerButton.addTarget(self, action: #selector(hideTheBalance), for: .touchUpInside)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    @objc func hideTheBalance() {
+        if showerButton.isHidden {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.hidderStack.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+                self.hidderStack.alpha = 0
+            }, completion: { _ in
+                self.hidderStack.isHidden = true
+                self.hidderStack.transform = .identity
+                self.hidderStack.alpha = 1
+
+                self.visibleBalanceLabel.alpha = 0
+                self.visibleBalanceLabel.isHidden = false
+                self.hidderButton.isHidden = true
+                self.showerButton.isHidden = false
+
+                UIView.animate(withDuration: 0.2) {
+                    self.visibleBalanceLabel.alpha = 1
+                }
+            })
+        } else {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.visibleBalanceLabel.alpha = 0
+            }, completion: { _ in
+                self.visibleBalanceLabel.isHidden = true
+
+                self.hidderStack.alpha = 0
+                self.hidderStack.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+                self.hidderStack.isHidden = false
+                self.showerButton.isHidden = true
+                self.hidderButton.isHidden = false
+
+                UIView.animate(withDuration: 0.2) {
+                    self.hidderStack.alpha = 1
+                    self.hidderStack.transform = .identity
+                }
+            })
+        }
     }
-    
-    func getBalance(sum: String) {
-        
-        sumLabel.text = sum
-        
-    }
-    
+
+
 }

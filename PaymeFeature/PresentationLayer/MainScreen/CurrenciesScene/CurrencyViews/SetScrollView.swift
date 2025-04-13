@@ -13,7 +13,7 @@ struct SetScrollView: View {
     
     @StateObject var vm =  SetScrollViewModel()
     
-    @EnvironmentObject var evm: CardsViewModel
+    @EnvironmentObject var evm: GlobalViewModel
     
     
     var body: some View {
@@ -118,5 +118,5 @@ func switchToLogin() {
 
 
 #Preview {
-    SetScrollView().environmentObject(CardsViewModel())
+    SetScrollView().environmentObject(GlobalViewModel())
 }

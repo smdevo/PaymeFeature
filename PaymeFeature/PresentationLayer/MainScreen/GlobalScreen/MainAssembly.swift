@@ -10,7 +10,7 @@ import SwiftUI
 
 final class Assembly {
     
-    func giveMAinViewController(enObj: CardsViewModel) -> MainViewController {
+    func giveMAinViewController(enObj: GlobalViewModel) -> MainViewController {
         
         let presenter = MainPresenter()
         

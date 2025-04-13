@@ -25,6 +25,7 @@ struct ColorTheme {
     let paymeC = Color("paymeC")
     let unselectedTabbarItem = Color("unselectedTabbarItem")
     let labelC = Color("labelC")
+    let quickPayColor = Color("quickPayColor")
 
 }
 
@@ -34,6 +35,7 @@ struct ColorThemeK {
     let paymeC = UIColor(named: "paymeC") ?? .green
     let unselectedTabbarItem = UIColor(named: "unselectedTabbarItem") ?? .gray
     let labelC = UIColor(named: "labelC") ?? .white
+    let quickPayColor = UIColor(named: "quickPayColor") ?? .gray
   
 }
 

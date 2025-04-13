@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class CardsViewModel: ObservableObject {
+class GlobalViewModel: ObservableObject {
     
     @Published var currentUser: UserModel?
     

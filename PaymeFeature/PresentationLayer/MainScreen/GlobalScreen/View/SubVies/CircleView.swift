@@ -7,10 +7,10 @@
 
 import UIKit
 
-class CircleView: UIView {
+class CircleButton: UIButton {
     
-    //MARK: -UI elements
-    let nameLabel: UILabel = {
+    // MARK: - UI Elements
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Kartalarim"
@@ -19,66 +19,51 @@ class CircleView: UIView {
         return label
     }()
     
-   
-    let backView: UIView = {
-        let bView = UIView()
-        bView.translatesAutoresizingMaskIntoConstraints = false
-        bView.backgroundColor = UIColor.white
-        bView.layer.cornerRadius = 35
-        return bView
+    private let backView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 35
+        return view
     }()
     
-    
-    let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(systemName: "creditcard.fill")?.withRenderingMode(.alwaysTemplate)
-        imageView.tintColor = UIColor.theme.unselectedTabbarItem
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    private let myimageView: UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.image = UIImage(systemName: "creditcard.fill")?.withRenderingMode(.alwaysTemplate)
+        iv.tintColor = UIColor.theme.quickPayColor
+        iv.contentMode = .scaleAspectFit
+        return iv
     }()
     
-    
-    let stackCust: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.alignment = .center
-        stackView.distribution = .fillProportionally
-        return stackView
+    private let stackCust: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 10
+        stack.alignment = .center
+        stack.distribution = .fillProportionally
+        return stack
     }()
     
+    weak var delegate: CardsButtonDelegate?
     
+    // MARK: - Initializer
     init(imageName: String, strLabel: String) {
         super.init(frame: .zero)
         
-        translatesAutoresizingMaskIntoConstraints = false
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.backgroundColor = .clear  // Make background clear for custom views
         
-        imageView.image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
-
-        
+        myimageView.image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
         nameLabel.text = strLabel
         
-        
-        backView.addSubview(imageView)
-        
+        backView.addSubview(myimageView)
         stackCust.addArrangedSubview(backView)
         stackCust.addArrangedSubview(nameLabel)
-    
-        widthAnchor.constraint(equalToConstant: 120).isActive = true
-        backView.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        backView.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        
-        imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        imageView.centerYAnchor.constraint(equalTo: backView.centerYAnchor).isActive = true
-        imageView.centerXAnchor.constraint(equalTo: backView.centerXAnchor).isActive = true
-    
-
         
         addSubview(stackCust)
+        setupConstraints()
         
     }
     
@@ -86,6 +71,27 @@ class CircleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Constraints
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalToConstant: 120),
+            
+            backView.heightAnchor.constraint(equalToConstant: 70),
+            backView.widthAnchor.constraint(equalToConstant: 70),
+            
+            myimageView.heightAnchor.constraint(equalToConstant: 50),
+            myimageView.widthAnchor.constraint(equalToConstant: 50),
+            myimageView.centerXAnchor.constraint(equalTo: backView.centerXAnchor),
+            myimageView.centerYAnchor.constraint(equalTo: backView.centerYAnchor),
+            
+            stackCust.centerXAnchor.constraint(equalTo: centerXAnchor),
+            stackCust.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+    }
     
-    
+    // MARK: - Button Action (Example)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        delegate?.tapForCards()
+    }
 }

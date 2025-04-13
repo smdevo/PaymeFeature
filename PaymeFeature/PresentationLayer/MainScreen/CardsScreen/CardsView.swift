@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CardsView: View {
     
-    @EnvironmentObject var vm: CardsViewModel
+    @EnvironmentObject var vm: GlobalViewModel
     
     @State var controllerTab: Int = 0
     
@@ -65,7 +65,7 @@ struct CardsView: View {
 }
 
 #Preview {
-    CardsView().environmentObject(CardsViewModel())
+    CardsView().environmentObject(GlobalViewModel())
 }
 
 extension CardsView {
