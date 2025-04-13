@@ -6,6 +6,116 @@
 //
 
 
+//@objc func hideTheBalance() {
+//    var perspective = CATransform3DIdentity
+//    perspective.m34 = -1.0 / 500.0 // Add perspective effect
+//
+//    if showerButton.isHidden {
+//        // Animate going deep away
+//        UIView.animate(withDuration: 0.2, animations: {
+//            self.hidderStack.layer.transform = CATransform3DConcat(perspective,
+//                CATransform3DMakeScale(0.1, 0.1, 0.1)) // Zoom out
+//            self.hidderStack.alpha = 0
+//        }, completion: { _ in
+//            self.hidderStack.isHidden = true
+//            self.visibleBalanceLabel.alpha = 0
+//            self.visibleBalanceLabel.isHidden = false
+//            self.hidderButton.isHidden = true
+//            self.showerButton.isHidden = false
+//            
+//            // Animate visible label appearing
+//            UIView.animate(withDuration: 0.2) {
+//                self.visibleBalanceLabel.alpha = 1
+//            }
+//        })
+//    } else {
+//        // Animate visible label hiding
+//        UIView.animate(withDuration: 0.2, animations: {
+//            self.visibleBalanceLabel.alpha = 0
+//        }, completion: { _ in
+//            self.visibleBalanceLabel.isHidden = true
+//            self.hidderStack.alpha = 0
+//            self.hidderStack.isHidden = false
+//            self.hidderStack.layer.transform = CATransform3DConcat(perspective,
+//                CATransform3DMakeScale(0.1, 0.1, 0.1))
+//            self.showerButton.isHidden = true
+//            self.hidderButton.isHidden = false
+//            
+//            // Animate coming back from deep
+//            UIView.animate(withDuration: 0.2) {
+//                self.hidderStack.layer.transform = CATransform3DIdentity
+//                self.hidderStack.alpha = 1
+//            }
+//        })
+//    }
+//}
+
+
+//
+//class QuickPayView2: UIView {
+//
+//    //MARK: -UI elements
+//    let balanceBtn = CircleView(imageName: "creditcard", strLabel: "My cards")
+//
+//    let goBtn = CircleView(imageName: "circle.hexagongrid.circle.fill", strLabel: "Payme Go")
+//
+//    let qrBtn = CircleView(imageName: "qrcode.viewfinder", strLabel: "QR Payment")
+//
+//
+//
+//    let wholeQuickStack: UIStackView = {
+//        let stackView = UIStackView()
+//        stackView.translatesAutoresizingMaskIntoConstraints = false
+//        stackView.axis = .horizontal
+//        stackView.alignment = .center
+//        stackView.distribution = .equalSpacing
+//        return stackView
+//    }()
+//
+//    weak var delegate: CardsButtonDelegate?
+//
+//    init() {
+//        super.init(frame: .zero)
+//
+//        translatesAutoresizingMaskIntoConstraints = false
+//
+//        wholeQuickStack.addArrangedSubview(balanceBtn)
+//        wholeQuickStack.addArrangedSubview(goBtn)
+//        wholeQuickStack.addArrangedSubview(qrBtn)
+//
+//        addSubview(wholeQuickStack)
+//
+//        balanceBtn.isUserInteractionEnabled = true
+//
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(balanceBtnTapped))
+//        balanceBtn.addGestureRecognizer(tapGesture)
+//        balanceBtn.isUserInteractionEnabled = true
+//
+//
+//        balanceBtn.backgroundColor = .red.withAlphaComponent(0.3)
+//
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//
+//
+//    @objc private func balanceBtnTapped() {
+//        delegate?.tapForCards()
+//    }
+//
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        delegate?.tapForCards()
+//
+//        print("Hello")
+//    }
+//
+//}
+
+
+
+
 //final class NetCache {
 //    
 //    @Published var users: [UserModel] = []
