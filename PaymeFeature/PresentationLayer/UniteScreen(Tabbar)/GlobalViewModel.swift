@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class CardsViewModel: ObservableObject {
+class GlobalViewModel: ObservableObject {
     
     @Published var currentUser: UserModel?
     
@@ -49,6 +49,8 @@ class CardsViewModel: ObservableObject {
         }
         
         group.notify(queue: .main) {
+            
+            self.cards.removeAll()
             self.getbalanceCard()
             self.getFamilyCard()
         }

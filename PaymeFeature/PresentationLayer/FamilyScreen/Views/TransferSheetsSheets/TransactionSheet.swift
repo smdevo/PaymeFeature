@@ -14,7 +14,9 @@ struct TransactionSheet: View {
     @State private var showConfirmation = false
     @State private var isSuccesFull = false
 
-    @EnvironmentObject var evm: CardsViewModel
+    @EnvironmentObject var evm: GlobalViewModel
+    
+    @EnvironmentObject var fEvm: FamilyViewModel
     
     @Environment(\.dismiss) private var dismiss
     
@@ -85,6 +87,7 @@ struct TransactionSheet: View {
         .alert(isSuccesFull ? "Transaction Successful" : "Something went wrong", isPresented: $showConfirmation) {
             Button("OK", role: .cancel) {
                 foc = false
+                fEvm.refreshData()
                 dismiss()
             }
         } message: {

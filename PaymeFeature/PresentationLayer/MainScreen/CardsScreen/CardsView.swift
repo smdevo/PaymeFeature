@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CardsView: View {
     
-    @EnvironmentObject var vm: CardsViewModel
+    @EnvironmentObject var vm: GlobalViewModel
     
     @State var controllerTab: Int = 0
     
@@ -58,11 +58,14 @@ struct CardsView: View {
             plusButton
         }
         .padding(5)
+        .refreshable {
+            vm.loadUserAndFamily()
+        }
     }
 }
 
 #Preview {
-    CardsView()
+    CardsView().environmentObject(GlobalViewModel())
 }
 
 extension CardsView {

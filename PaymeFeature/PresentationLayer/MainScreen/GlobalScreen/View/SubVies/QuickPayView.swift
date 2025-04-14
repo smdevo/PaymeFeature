@@ -7,60 +7,48 @@
 
 import UIKit
 
-class QuickPayView: UIView {
+
+class QuickPayView: UIStackView {
     
     //MARK: -UI elements
-    let balanceBtn = CircleView(imageName: "creditcard", strLabel: "My cards")
     
-    let goBtn = CircleView(imageName: "circle.hexagongrid.circle.fill", strLabel: "Payme Go")
+    let balanceBtn = CircleButton(imageName: "creditcard", strLabel: "My cards")
     
-    let qrBtn = CircleView(imageName: "qrcode.viewfinder", strLabel: "QR Payment")
-
+    let goBtn = CircleButton(imageName: "circle.hexagongrid.circle.fill", strLabel: "Payme Go")
     
-    let wholeQuickStack: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        return stackView
-    }()
+    let qrBtn = CircleButton(imageName: "qrcode.viewfinder", strLabel: "QR Payment")
     
-    weak var delegate: CardsButtonDelegate?
     
     init() {
         super.init(frame: .zero)
         
         translatesAutoresizingMaskIntoConstraints = false
-        
-        wholeQuickStack.addArrangedSubview(balanceBtn)
-        wholeQuickStack.addArrangedSubview(goBtn)
-        wholeQuickStack.addArrangedSubview(qrBtn)
-        
-        addSubview(wholeQuickStack)
-        
-        balanceBtn.isUserInteractionEnabled = true
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(balanceBtnTapped))
-        balanceBtn.addGestureRecognizer(tapGesture)
-        balanceBtn.isUserInteractionEnabled = true
+        axis = .horizontal
+        alignment = .center
+        distribution = .equalSpacing
         
         
-        balanceBtn.backgroundColor = .red.withAlphaComponent(0.3)
+        addArrangedSubview(balanceBtn)
+        addArrangedSubview(goBtn)
+        addArrangedSubview(qrBtn)
         
+        goBtn.isUserInteractionEnabled = false
+        qrBtn.isUserInteractionEnabled = false
+        
+        
+        balanceBtn.addTarget(self, action: #selector(balanceBtnTapped), for: .touchUpInside)
     }
     
-    required init?(coder: NSCoder) {
+    required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     @objc private func balanceBtnTapped() {
-        delegate?.tapForCards()
+       // delegate?.tapForCards()
+        //why here is not working
+        print("Hi Balance")
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        delegate?.tapForCards()
-    }
-
+    
 }
+

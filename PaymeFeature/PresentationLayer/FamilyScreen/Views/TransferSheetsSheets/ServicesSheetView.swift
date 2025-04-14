@@ -5,12 +5,21 @@
 //  Created by Samandar on 11/04/25.
 //
 
+/*
+ 
+ Family Card (Team Card) -
+ It is not only family card it is the team card in which
+ we can do team spending and everybody see it
+ 
+ */
+
 enum ServicesType: String {
     case transfertoFamilyCard = "Transfer the money into family Card"
     case transferFromFamilyCard = "Tranfer Money from Family Card"
     case setDailySpending = "Set Daily Spending"
     case chooseLocatiion = "Choose Location"
     case block = "Block Card"
+    case selectApprovedMArkets = "Select approved markets"
 }
 
 struct UserService: Identifiable {
@@ -31,7 +40,8 @@ struct ServicesSheetViewForParent: View {
         .init(type: .transfertoFamilyCard, icon: "arrow.down.circle"),
         .init(type: .setDailySpending, icon: "calendar.badge.clock"),
         .init(type: .chooseLocatiion, icon: "mappin.and.ellipse"),
-        .init(type: .block, icon: "lock.shield")
+        .init(type: .block, icon: "lock.shield"),
+        .init(type: .selectApprovedMArkets, icon: "list.bullet.indent")
     ]
     
     var body: some View {
@@ -101,6 +111,8 @@ struct ServicesSheetViewForParent: View {
             print("→ Set Daily Spending tapped")
         case .chooseLocatiion:
             print("→ Choose Location tapped")
+        case .selectApprovedMArkets:
+            print("Approved markets tapped")
         case .block:
             print("→ Block Card tapped")
         default:

@@ -19,7 +19,7 @@ struct TransactionModel: Identifiable {
 
 struct MonitoringView: View {
     
-    @EnvironmentObject var eVm: CardsViewModel
+    @EnvironmentObject var eVm: GlobalViewModel
     
     var body: some View {
         NavigationView {

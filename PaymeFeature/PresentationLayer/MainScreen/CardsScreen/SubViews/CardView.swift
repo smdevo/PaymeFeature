@@ -6,7 +6,7 @@ struct CardView: View {
     @State private var showParentServiceSheet = false
     @State private var showChildServiceSheet = false
     
-    @EnvironmentObject var vm: CardsViewModel
+    @EnvironmentObject var vm: GlobalViewModel
 
     let bankCard: BankCard
     

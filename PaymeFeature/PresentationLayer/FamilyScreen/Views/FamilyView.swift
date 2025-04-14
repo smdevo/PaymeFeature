@@ -9,7 +9,9 @@
 import SwiftUI
 
 struct FamilyView: View {
-    @ObservedObject var viewModel: FamilyViewModel = FamilyViewModel()
+    
+    
+    @StateObject var viewModel: FamilyViewModel = FamilyViewModel()
     
     @EnvironmentObject var vm: CardsViewModel
     
@@ -24,108 +26,116 @@ struct FamilyView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(viewModel.familyMembers) { member in
-                            VStack {
-                                Circle()
-                                    .fill(member.role ? Color.green : Color.blue)
-                                    .frame(width: 60, height: 60)
-                                    .overlay(
-                                        Text(String(member.name.prefix(1)))
-                                            .foregroundColor(.white)
-                                            .font(.title)
-                                    )
-                                Text(member.name)
-                                    .font(.caption)
-                            }
-                        }
-                    }
-                    .padding(.horizontal)
-                }
+            
+            if viewModel.currentUser == nil {
+                ProgressView()
+            }else {
                 
-                if let user = viewModel.currentUser, user.invitation {
-                    Button(action: {
-                        showInvitationAlert = true
-                    }) {
-                        HStack {
-                            Image(systemName: "exclamationmark.triangle.fill")
-                                .foregroundColor(.yellow)
-                            Text("Подтвердите приглашение в семью")
-                                .font(.subheadline)
-                                .foregroundColor(.orange)
-                        }
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .padding(.horizontal)
-                    }
-                    .alert("Подтверждение приглашения", isPresented: $showInvitationAlert) {
-                        TextField("Введите код", text: $invitationCode)
-                        Button("Confirm") {
-                            viewModel.confirmInvitation(enteredCode: invitationCode) { success in
-                                if success {
-                                    print("Success")
-                                } else {
-                                    print("Failure")
+                VStack {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ForEach(viewModel.familyMembers) { member in
+                                VStack {
+                                    Circle()
+                                        .fill(member.role ? Color.green : Color.blue)
+                                        .frame(width: 60, height: 60)
+                                        .overlay(
+                                            Text(String(member.name.prefix(1)))
+                                                .foregroundColor(.white)
+                                                .font(.title)
+                                        )
+                                    Text(member.name)
+                                        .font(.caption)
                                 }
                             }
                         }
-                        Button("Cancel", role: .cancel) { }
-                    } message: {
-                        Text("Введите код подтверждения, который вы получили")
+                        .padding(.horizontal)
                     }
-                }
-                else {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        VStack(spacing: 16) {
-                            if let famCard = viewModel.familyCard {
-                                CardView(bankCard:
-                                            BankCard(
-                                                name: famCard.name,
-                                                ownerName: famCard.name,
-                                                sum: famCard.balance,
-                                                cardNumber: famCard.number,
-                                                type: .humo,
-                                                expirationDate: "11/27",
-                                                isFamilyCard: true))
+                    
+                    if let user = viewModel.currentUser, user.invitation {
+                        Button(action: {
+                            showInvitationAlert = true
+                        }) {
+                            HStack {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .foregroundColor(.yellow)
+                                Text("Подтвердите приглашение в семью")
+                                    .font(.subheadline)
+                                    .foregroundColor(.orange)
                             }
-                            
-                            ForEach(familyCards) { card in
-                                CardView(bankCard: card)
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.horizontal)
+                        }
+                        .alert("Подтверждение приглашения", isPresented: $showInvitationAlert) {
+                            TextField("Введите код", text: $invitationCode)
+                            Button("Confirm") {
+                                viewModel.confirmInvitation(enteredCode: invitationCode) { success in
+                                    if success {
+                                        print("Success")
+                                    } else {
+                                        print("Failure")
+                                    }
+                                }
                             }
+                            Button("Cancel", role: .cancel) { }
+                        } message: {
+                            Text("Введите код подтверждения, который вы получили")
+                        }
+                    }
+                    else {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack(spacing: 16) {
+                                if let famCard = viewModel.familyCard {
+                                    CardView(bankCard:
+                                                BankCard(
+                                                    name: famCard.name,
+                                                    ownerName: famCard.name,
+                                                    sum: famCard.balance,
+                                                    cardNumber: famCard.number,
+                                                    type: .humo,
+                                                    expirationDate: "11/27",
+                                                    isFamilyCard: true))
+                                    .environmentObject(viewModel)
+
+                                }
+                                
+                                //                            ForEach(familyCards) { card in
+                                //                                CardView(bankCard: card)
+                                //                            }
+                            }
+                            .padding()
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    if let user = viewModel.currentUser, user.role, viewModel.familyCard == nil {
+                        Button(action: {
+                            showFamilyCardAddSheet = true
+                        }) {
+                            Text("Заказать виртуальную карту")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .cornerRadius(10)
                         }
                         .padding()
                     }
                 }
-                
-                Spacer()
-                
-                if let user = viewModel.currentUser, user.role, viewModel.familyCard == nil {
-                    Button(action: {
-                        showFamilyCardAddSheet = true
-                    }) {
-                        Text("Заказать виртуальную карту")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .cornerRadius(10)
-                    }
-                    .padding()
+                .sheet(isPresented: $showAddFamilyMemberSheet) {
+                    AddFamilyMember(viewModel: viewModel)
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.hidden)
                 }
-            }
-            .sheet(isPresented: $showAddFamilyMemberSheet) {
-                AddFamilyMember(viewModel: viewModel)
-                    .presentationDetents([.medium])
-                    .presentationDragIndicator(.hidden)
-            }
-            .sheet(isPresented: $showFamilyCardAddSheet) {
-                FamilyCardAddView(viewModel: viewModel)
-                    .presentationDetents([.medium])
-                    .presentationDragIndicator(.hidden)
+                .sheet(isPresented: $showFamilyCardAddSheet) {
+                    FamilyCardAddView(viewModel: viewModel)
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.hidden)
+                }
             }
         }.onAppear{
             viewModel.refreshData()
@@ -143,7 +153,7 @@ struct FamilyView: View {
                         //TODO: 
                         //Change role
                     }) {
-                        Image(systemName: viewModel.currentUser?.role ?? false ? "person.fill" : "person")
+                        Image(systemName: user.role ? "person.fill" : "person")
                     }
                     
                 }

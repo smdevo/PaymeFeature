@@ -9,7 +9,13 @@ import SwiftUI
 
 struct TransfersView: View {
     var body: some View {
-        Text("Transfers")
+        NavigationStack {
+            Text("Soon...")
+                .navigationTitle("Transfers")
+                .navigationBarTitleDisplayMode(.inline)
+
+        }
+      
     }
 }
 

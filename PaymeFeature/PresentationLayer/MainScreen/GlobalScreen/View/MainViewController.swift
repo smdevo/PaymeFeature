@@ -29,7 +29,7 @@ final class MainViewController: UIViewController {
     //MARK: -Dependency
     let interactor: MainInteractorProtocol
     
-    let enObj: CardsViewModel
+    let enObj: GlobalViewModel
     
     var cancellables = Set<AnyCancellable>()
     
@@ -58,7 +58,7 @@ final class MainViewController: UIViewController {
     
    
     
-    init(interactor: MainInteractor, enObj: CardsViewModel) {
+    init(interactor: MainInteractor, enObj: GlobalViewModel) {
         self.interactor = interactor
         self.enObj = enObj
         super.init(nibName: nil, bundle: nil)
@@ -77,7 +77,7 @@ final class MainViewController: UIViewController {
         view.addSubview(quickPayView)
         view.addSubview(currencyView)
         
-        quickPayView.delegate = self
+        quickPayView.balanceBtn.delegate = self
         
         setUPCurrencyScrollView()
        
@@ -90,7 +90,7 @@ final class MainViewController: UIViewController {
         
         enObj.$currentUser
             .sink { [weak self] user in
-                self?.balanceView.getBalance(sum: user?.balance ?? "0")
+                self?.balanceView.getBalance(sum: user?.balance ?? "....")
             }
             .store(in: &cancellables)
         
@@ -99,7 +99,8 @@ final class MainViewController: UIViewController {
     
     private func setUPCurrencyScrollView() {
         
-        let hostingController = UIHostingController(rootView: currencyScrollView)
+        
+        let hostingController = UIHostingController(rootView: currencyScrollView.environmentObject(enObj))
         
         addChild(hostingController)
         view.addSubview(hostingController.view)
@@ -121,23 +122,22 @@ final class MainViewController: UIViewController {
     
     private func setUpConstraints() {
     
-        balanceView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .spacing(.x10)).isActive = true
-        balanceView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(.spacing(.x10))).isActive = true
-//        balanceView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        balanceView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        balanceView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
-        balanceView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
+        balanceView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        balanceView.topAnchor.constraint(equalTo: view.topAnchor, constant: .spacing(.x14)).isActive = true
+        balanceView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2).isActive = true
     
+        //balanceView.backgroundColor = .blue
         
-        quickPayView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .spacing(.x10)).isActive = true
-        quickPayView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(.spacing(.x10))).isActive = true
-        quickPayView.topAnchor.constraint(equalTo: balanceView.bottomAnchor, constant: 60).isActive = true
+        
+        quickPayView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        quickPayView.topAnchor.constraint(equalTo: balanceView.bottomAnchor, constant: .spacing(.x7)).isActive = true
         quickPayView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
         
+       // quickPayView.backgroundColor = .red
         
         currencyView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         currencyView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        currencyView.topAnchor.constraint(equalTo: quickPayView.bottomAnchor, constant: 50).isActive = true
+        currencyView.topAnchor.constraint(equalTo: quickPayView.bottomAnchor, constant: .spacing(.x10)).isActive = true
         currencyView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         
