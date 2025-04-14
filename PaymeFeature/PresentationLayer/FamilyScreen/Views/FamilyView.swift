@@ -13,7 +13,7 @@ struct FamilyView: View {
     
     @StateObject var viewModel: FamilyViewModel = FamilyViewModel()
     
-    @EnvironmentObject var vm: CardsViewModel
+    @EnvironmentObject var vm: GlobalViewModel
     
     
     @State private var showFamilyCardAddSheet: Bool = false
