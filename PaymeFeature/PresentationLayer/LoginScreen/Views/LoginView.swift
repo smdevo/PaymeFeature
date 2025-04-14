@@ -18,7 +18,7 @@ struct LoginView: View {
             Text("Авторизация")
                 .font(.largeTitle)
             
-            TextField("Username", text: $viewModel.userName)
+            TextField("Phone number", text: $viewModel.userName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
                 .focused($isUsernameFieldFocused)

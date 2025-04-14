@@ -52,7 +52,6 @@ struct FamilyCardAddView: View {
                                     isButtonLoading = false
                                     
                                     if success {
-                                        viewModel.refreshData()
                                         showOrderAlert = true
                                     }
                                 }

@@ -11,6 +11,7 @@ import SwiftUI
 struct FamilyView: View {
     @ObservedObject var viewModel: FamilyViewModel = FamilyViewModel()
     
+    @EnvironmentObject var vm: CardsViewModel
     
     
     @State private var showFamilyCardAddSheet: Bool = false
