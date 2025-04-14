@@ -17,7 +17,6 @@ protocol CardsButtonDelegate: AnyObject {
 
 protocol MainViewProtocol: AnyObject {
     
-    //func showCurrencies(currencies: [Currency])
     func showUpdatedBalance(balance: String)
     func showBaseView(enObj: GlobalViewModel)
     func showCardsView(enObj: GlobalViewModel)
@@ -30,12 +29,6 @@ final class MainViewController: UIViewController {
     
     //MARK: -Dependency
     let interactor: MainInteractorProtocol
-    
-  //  let enObj: GlobalViewModel
-    
-  //  var cancellables = Set<AnyCancellable>()
-    
-    //var currencies: [Currency] = []
     
     //MARK: -UI elements
     
@@ -82,20 +75,8 @@ final class MainViewController: UIViewController {
                
         setUpConstraints()
         
-        //setSubs()
     }
-    
-//    private func setSubs() {
-//        
-//        enObj.$currentUser
-//            .sink { [weak self] user in
-//                self?.balanceView.getBalance(sum: user?.balance ?? "....")
-//            }
-//            .store(in: &cancellables)
-//        
-//        
-//    }
-    
+
     
     
     private func setUpConstraints() {
@@ -104,14 +85,12 @@ final class MainViewController: UIViewController {
         balanceView.topAnchor.constraint(equalTo: view.topAnchor, constant: .spacing(.x14)).isActive = true
         balanceView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2).isActive = true
     
-        //balanceView.backgroundColor = .blue
         
         
         quickPayView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         quickPayView.topAnchor.constraint(equalTo: balanceView.bottomAnchor, constant: .spacing(.x7)).isActive = true
         quickPayView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
         
-       // quickPayView.backgroundColor = .red
         
         currencyView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         currencyView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -160,7 +139,6 @@ extension MainViewController: MainViewProtocol {
             hostingController.view.topAnchor.constraint(equalTo: currencyView.topAnchor,constant: .spacing(.x5)),
             hostingController.view.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor),
             hostingController.view.widthAnchor.constraint(equalTo: currencyView.widthAnchor),
-//            hostingController.view.heightAnchor.constraint(equalToConstant: 140)
         ])
         
         hostingController.didMove(toParent: self)
