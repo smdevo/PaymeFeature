@@ -14,9 +14,9 @@ final class Assembly {
         
         let presenter = MainPresenter()
         
-        let interactor = MainInteractor(presenter: presenter)
+        let interactor = MainInteractor(presenter: presenter, enObj: enObj)
         
-        let view = MainViewController(interactor: interactor, enObj: enObj)
+        let view = MainViewController(interactor: interactor)
         
         presenter.view = view
         

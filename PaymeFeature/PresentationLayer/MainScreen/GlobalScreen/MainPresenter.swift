@@ -9,8 +9,9 @@
 
 protocol MainPresenterProtocol {
     
-    func presentCurrencies(currencies: [Currency])
-    
+    func presentBalance(balance: String)
+    func presentBaseView(enObj: GlobalViewModel)
+    func presentCardsView(enObj: GlobalViewModel)
 }
 
 
@@ -25,10 +26,20 @@ final class MainPresenter {
 extension MainPresenter: MainPresenterProtocol {
     
     
-    func presentCurrencies(currencies: [Currency]) {
-        view?.showCurrencies(currencies: currencies)
+    func presentCardsView(enObj: GlobalViewModel) {
+        view?.showCardsView(enObj: enObj)
     }
     
     
     
+    func presentBaseView(enObj: GlobalViewModel) {
+        view?.showBaseView(enObj: enObj)
+    }
+    
+    
+    
+    func presentBalance(balance: String) {
+        view?.showUpdatedBalance(balance: balance)
+    }
+
 }
