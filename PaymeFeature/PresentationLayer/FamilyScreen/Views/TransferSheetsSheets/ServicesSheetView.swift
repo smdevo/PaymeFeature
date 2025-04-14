@@ -34,6 +34,8 @@ struct ServicesSheetViewForParent: View {
 
     @State private var showTransactionSheet = false
     
+    @State private var showLimitationSheet = false
+
     @Environment(\.dismiss) var dismiss
     
     let services: [UserService] = [
@@ -101,6 +103,11 @@ struct ServicesSheetViewForParent: View {
                 .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }
+        .sheet(isPresented: $showLimitationSheet) {
+            SettingLimitationSheet()
+                .presentationDetents([.fraction(0.6)])
+                .presentationDragIndicator(.visible)
+        }
     }
     
     func handleServiceTap(_ service: ServicesType) {
@@ -108,7 +115,7 @@ struct ServicesSheetViewForParent: View {
         case .transfertoFamilyCard:
             showTransactionSheet.toggle()
         case .setDailySpending:
-            print("→ Set Daily Spending tapped")
+            showLimitationSheet.toggle()
         case .chooseLocatiion:
             print("→ Choose Location tapped")
         case .selectApprovedMArkets:
