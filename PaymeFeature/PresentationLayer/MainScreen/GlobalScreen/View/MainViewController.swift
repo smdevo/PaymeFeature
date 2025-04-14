@@ -17,8 +17,10 @@ protocol CardsButtonDelegate: AnyObject {
 
 protocol MainViewProtocol: AnyObject {
     
-    func showCurrencies(currencies: [Currency])
-    
+    //func showCurrencies(currencies: [Currency])
+    func showUpdatedBalance(balance: String)
+    func showBaseView(enObj: GlobalViewModel)
+    func showCardsView(enObj: GlobalViewModel)
 }
 
 
@@ -29,9 +31,9 @@ final class MainViewController: UIViewController {
     //MARK: -Dependency
     let interactor: MainInteractorProtocol
     
-    let enObj: GlobalViewModel
+  //  let enObj: GlobalViewModel
     
-    var cancellables = Set<AnyCancellable>()
+  //  var cancellables = Set<AnyCancellable>()
     
     //var currencies: [Currency] = []
     
@@ -58,9 +60,8 @@ final class MainViewController: UIViewController {
     
    
     
-    init(interactor: MainInteractor, enObj: GlobalViewModel) {
+    init(interactor: MainInteractor) {
         self.interactor = interactor
-        self.enObj = enObj
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -78,46 +79,23 @@ final class MainViewController: UIViewController {
         view.addSubview(currencyView)
         
         quickPayView.balanceBtn.delegate = self
-        
-        setUPCurrencyScrollView()
-       
+               
         setUpConstraints()
         
-        setSubs()
+        //setSubs()
     }
     
-    private func setSubs() {
-        
-        enObj.$currentUser
-            .sink { [weak self] user in
-                self?.balanceView.getBalance(sum: user?.balance ?? "....")
-            }
-            .store(in: &cancellables)
-        
-        
-    }
+//    private func setSubs() {
+//        
+//        enObj.$currentUser
+//            .sink { [weak self] user in
+//                self?.balanceView.getBalance(sum: user?.balance ?? "....")
+//            }
+//            .store(in: &cancellables)
+//        
+//        
+//    }
     
-    private func setUPCurrencyScrollView() {
-        
-        
-        let hostingController = UIHostingController(rootView: currencyScrollView.environmentObject(enObj))
-        
-        addChild(hostingController)
-        view.addSubview(hostingController.view)
-        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        hostingController.view.backgroundColor = UIColor.theme.backgroundColor
-        
-        
-        NSLayoutConstraint.activate([
-            hostingController.view.topAnchor.constraint(equalTo: currencyView.topAnchor,constant: .spacing(.x5)),
-            hostingController.view.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor),
-            hostingController.view.widthAnchor.constraint(equalTo: currencyView.widthAnchor),
-//            hostingController.view.heightAnchor.constraint(equalToConstant: 140)
-        ])
-        
-        hostingController.didMove(toParent: self)
-        
-    }
     
     
     private func setUpConstraints() {
@@ -151,7 +129,15 @@ final class MainViewController: UIViewController {
 extension MainViewController: CardsButtonDelegate {
     
     func tapForCards() {
+        interactor.tapForCards()
+    }
     
+}
+
+extension MainViewController: MainViewProtocol {
+    
+    
+    func showCardsView(enObj: GlobalViewModel) {
         let cardsView = CardsView().environmentObject(enObj)
         
         let hostingController = UIHostingController(rootView: cardsView)
@@ -159,14 +145,29 @@ extension MainViewController: CardsButtonDelegate {
         navigationController?.pushViewController(hostingController, animated: true)
     }
     
-}
-
-extension MainViewController: MainViewProtocol {
     
-    func showCurrencies(currencies: [Currency]) {
+    func showBaseView(enObj: GlobalViewModel) {
+        
+        let hostingController = UIHostingController(rootView: currencyScrollView.environmentObject(enObj))
+        
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.backgroundColor = UIColor.theme.backgroundColor
         
         
+        NSLayoutConstraint.activate([
+            hostingController.view.topAnchor.constraint(equalTo: currencyView.topAnchor,constant: .spacing(.x5)),
+            hostingController.view.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor),
+            hostingController.view.widthAnchor.constraint(equalTo: currencyView.widthAnchor),
+//            hostingController.view.heightAnchor.constraint(equalToConstant: 140)
+        ])
+        
+        hostingController.didMove(toParent: self)
+    }
+
+    func showUpdatedBalance(balance: String) {
+        balanceView.getBalance(sum: balance)
     }
     
-
 }
