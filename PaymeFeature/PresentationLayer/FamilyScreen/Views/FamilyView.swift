@@ -100,10 +100,6 @@ struct FamilyView: View {
                                     .environmentObject(viewModel)
 
                                 }
-                                
-                                //                            ForEach(familyCards) { card in
-                                //                                CardView(bankCard: card)
-                                //                            }
                             }
                             .padding()
                         }

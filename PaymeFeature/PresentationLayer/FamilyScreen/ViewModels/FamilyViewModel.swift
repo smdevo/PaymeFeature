@@ -103,7 +103,6 @@ class FamilyViewModel: ObservableObject {
         
         UsersNtworkinDataService.shared.getData(link: familyEndpoint) { (family: FamilyModel?) in
             guard var familyToUpdate = family else {
-                print("Семья с id \(familyId) не найдена")
                 completion(false)
                 return
             }

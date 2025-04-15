@@ -14,8 +14,8 @@ class LoginViewModel: ObservableObject {
     @Published var users: [UserModel] = []
     
     //TODO: MOCK
-    @Published var userName: String = "John Smith"
-    @Published var password: String = "john123"
+    @Published var userName: String = ""
+    @Published var password: String = ""
     @Published var errorMessage: String?
     
     var onLoginSuccess: (() -> Void)?
@@ -49,7 +49,7 @@ class LoginViewModel: ObservableObject {
         
         
         if let user = users.first(where: {
-            $0.name.lowercased() == trimmedUserName && $0.password == trimmedPassword
+            $0.number.lowercased() == trimmedUserName && $0.password == trimmedPassword
         }) {
             
             UserDefaults.standard.set(user.id, forKey: "userId")
