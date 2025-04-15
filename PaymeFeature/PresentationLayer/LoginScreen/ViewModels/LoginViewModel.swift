@@ -14,7 +14,7 @@ class LoginViewModel: ObservableObject {
     @Published var users: [UserModel] = []
     
     //TODO: MOCK
-    @Published var userName: String = ""
+    @Published var phoneNumber: String = ""
     @Published var password: String = ""
     @Published var errorMessage: String?
     
@@ -38,7 +38,7 @@ class LoginViewModel: ObservableObject {
     
     func login() {
         
-        let trimmedUserName = userName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let trimmedUserName = phoneNumber.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !users.isEmpty else {

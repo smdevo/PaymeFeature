@@ -7,8 +7,6 @@
 import SwiftUI
 
 struct FamilyModel: Codable {
-    let name: String
-    var members: [String]
-    var virtualcard: VirtualCardModel?
+    var cards: [VirtualCardModel?]
     let id: String
 }

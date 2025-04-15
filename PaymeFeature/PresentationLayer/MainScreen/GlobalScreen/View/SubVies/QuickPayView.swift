@@ -12,11 +12,11 @@ class QuickPayView: UIStackView {
     
     //MARK: -UI elements
     
-    let balanceBtn = CircleButton(imageName: "creditcard", strLabel: "My cards")
+    let balanceBtn = CircleButton(imageName: "creditcard", strLabel: "Мои карты")
     
     let goBtn = CircleButton(imageName: "circle.hexagongrid.circle.fill", strLabel: "Payme Go")
     
-    let qrBtn = CircleButton(imageName: "qrcode.viewfinder", strLabel: "QR Payment")
+    let qrBtn = CircleButton(imageName: "qrcode.viewfinder", strLabel: "QR оплата")
     
     
     init() {
@@ -46,7 +46,7 @@ class QuickPayView: UIStackView {
     @objc private func balanceBtnTapped() {
        // delegate?.tapForCards()
         //why here is not working
-        print("Hi Balance")
+//        print("Hi Balance")
     }
     
     

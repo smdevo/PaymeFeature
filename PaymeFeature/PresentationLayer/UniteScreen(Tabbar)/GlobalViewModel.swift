@@ -41,7 +41,7 @@ class GlobalViewModel: ObservableObject {
         }
         
         group.enter()
-        netService.getData(link: "families/" + familyId) { [weak self] (family: FamilyModel?) in
+        netService.getData(link: "childCards/" + familyId) { [weak self] (family: FamilyModel?) in
             DispatchQueue.main.async {
                 self?.currentFamily = family
                 group.leave()
@@ -74,7 +74,11 @@ class GlobalViewModel: ObservableObject {
             print("Skipping getFamilyCard — missing data")
             return
         }
-        guard let cardFamily = currentFamily.virtualcard else {
+        guard let cardFamily1 = currentFamily.cards.first else {
+            return
+        }
+        
+        guard let cardFamily = cardFamily1 else {
             return
         }
         
@@ -97,7 +101,9 @@ class GlobalViewModel: ObservableObject {
         
         guard
             let userSum = Double(currentUser.balance),
-            let famBalance = currentFamily.virtualcard?.balance,
+            let card = currentFamily.cards.first,
+            let famBalance = card?.balance,
+            
             let famCardSum = Double(famBalance)
         else {
             completion(false)
@@ -114,10 +120,6 @@ class GlobalViewModel: ObservableObject {
             return
         }
        
-        
-        
-        
-      
         
         let updatedUserBalance = isParent ?
         String(userSum - amountSum) : String(userSum + amountSum)
@@ -138,20 +140,20 @@ class GlobalViewModel: ObservableObject {
             cardNumber: currentUser.cardNumber
         )
         
-        let famCard = currentFamily.virtualcard
+        guard let famCard = currentFamily.cards.first else {
+            return
+        }
         
-        let updatedFamily = FamilyModel(
-            name: currentFamily.name,
-            members: currentFamily.members,
-            virtualcard: VirtualCardModel(
+        let updatedFamily = FamilyModel(cards: [
+            VirtualCardModel(
                 id: famCard?.id ?? "",
                 name: famCard?.name ?? "",
                 number: famCard?.number ?? "",
                 ownerPhoneNumber: famCard?.ownerPhoneNumber ?? "",
                 balance: updatedFamilyBalance
-            ),
-            id: currentFamily.id
-        )
+            )
+        ], id: currentFamily.id)
+        
         
         let group = DispatchGroup()
         var successUserUpdate = false
@@ -164,7 +166,7 @@ class GlobalViewModel: ObservableObject {
         }
         
         group.enter()
-        netService.updateData(link: "families/" + familyId, dataToUpdate: updatedFamily) { res2 in
+        netService.updateData(link: "childCards/" + familyId, dataToUpdate: updatedFamily) { res2 in
             successFamilyUpdate = res2
             group.leave()
         }

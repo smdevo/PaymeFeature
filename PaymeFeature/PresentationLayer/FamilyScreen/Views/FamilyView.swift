@@ -87,27 +87,27 @@ struct FamilyView: View {
                     else {
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 16) {
-                                if let famCard = viewModel.familyCard {
+                                ForEach(viewModel.familyCards, id: \.id) { card in
                                     CardView(bankCard:
                                                 BankCard(
-                                                    name: famCard.name,
-                                                    ownerName: famCard.name,
-                                                    sum: famCard.balance,
-                                                    cardNumber: famCard.number,
+                                                    name: card.name,
+                                                    ownerName: card.name,
+                                                    sum: card.balance,
+                                                    cardNumber: card.number,
                                                     type: .humo,
                                                     expirationDate: "11/27",
                                                     isFamilyCard: true))
                                     .environmentObject(viewModel)
-
                                 }
                             }
                             .padding()
                         }
+
                     }
                     
                     Spacer()
                     
-                    if let user = viewModel.currentUser, user.role, viewModel.familyCard == nil {
+                    if let user = viewModel.currentUser, user.role {
                         Button(action: {
                             showFamilyCardAddSheet = true
                         }) {
@@ -122,6 +122,7 @@ struct FamilyView: View {
                         .padding()
                     }
                 }
+                .background(.backgroundC)
                 .sheet(isPresented: $showAddFamilyMemberSheet) {
                     AddFamilyMember(viewModel: viewModel)
                         .presentationDetents([.medium])
@@ -167,5 +168,8 @@ struct FamilyView: View {
             }
            
         }
+      
     }
 }
+
+

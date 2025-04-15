@@ -83,7 +83,7 @@ struct SetScrollView: View {
                     
                 } label: {
                     HStack(spacing: 0) {
-                        Text("all currencies")
+                        Text("все")
                         Image(systemName: "chevron.right")
                     }
                     .foregroundStyle(.unselectedTabbarItem)
