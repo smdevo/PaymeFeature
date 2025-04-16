@@ -39,7 +39,7 @@ struct MonitoringView: View {
             }, label: {
                 Image(systemName: "slider.horizontal.3")
             }))
-        }
+        }.background(.backgroundC)
     }
     
     private var summarySection: some View {
@@ -63,7 +63,7 @@ struct MonitoringView: View {
             }
         }
         .padding()
-        .background(Color(UIColor.secondarySystemBackground))
+        .background(.backgroundC)
     }
     
     private var emptyHistoryView: some View {
@@ -90,6 +90,7 @@ struct MonitoringView: View {
             }
         }
         .listStyle(PlainListStyle())
+        .background(.backgroundC)
     }
 }
 
@@ -111,6 +112,7 @@ struct TransactionRow: View {
             }
         }
         .padding(.vertical, 6)
+        .background(.backgroundC)
     }
 }
 

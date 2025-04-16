@@ -13,6 +13,7 @@ struct FamilyView: View {
     
     @StateObject var viewModel: FamilyViewModel = FamilyViewModel()
     
+    @EnvironmentObject var vm: GlobalViewModel
     
     
     @State private var showFamilyCardAddSheet: Bool = false
@@ -20,7 +21,7 @@ struct FamilyView: View {
     
     @State private var showInvitationAlert: Bool = false
     @State private var invitationCode: String = ""
-
+    
     var familyCards: [BankCard] = []
     
     var body: some View {
@@ -86,31 +87,51 @@ struct FamilyView: View {
                     else {
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 16) {
-                                if let famCard = viewModel.familyCard {
-                                    CardView(bankCard:
-                                                BankCard(
-                                                    name: famCard.name,
-                                                    ownerName: famCard.name,
-                                                    sum: famCard.balance,
-                                                    cardNumber: famCard.number,
-                                                    type: .humo,
-                                                    expirationDate: "11/27",
-                                                    isFamilyCard: true))
-                                    .environmentObject(viewModel)
-
+                                if viewModel.currentUser?.role == true {
+                                    ForEach(viewModel.familyCards, id: \.id) { card in
+                                        
+                                        CardView(bankCard:
+                                                    BankCard(
+                                                        name: card.name,
+                                                        ownerName: card.name,
+                                                        sum: card.balance,
+                                                        cardNumber: card.number,
+                                                        type: .humo,
+                                                        expirationDate: "11/27",
+                                                        isFamilyCard: true))
+                                        .environmentObject(viewModel)
+                                    }
                                 }
-                                
-                                //                            ForEach(familyCards) { card in
-                                //                                CardView(bankCard: card)
-                                //                            }
+                                else {
+                                    
+                                    let realCard = viewModel.familyCards.filter({ cardone in
+                                        cardone.id == viewModel.currentUser?.number
+                                    })
+                                    
+                                    if let card = realCard.first {
+                                        
+                                        CardView(bankCard:
+                                                    BankCard(
+                                                        name: card.name,
+                                                        ownerName: card.name,
+                                                        sum: card.balance,
+                                                        cardNumber: card.number,
+                                                        type: .humo,
+                                                        expirationDate: "11/27",
+                                                        isFamilyCard: true))
+                                        .environmentObject(viewModel)
+                                        
+                                    }
+                                }
                             }
                             .padding()
                         }
+                        
                     }
                     
                     Spacer()
                     
-                    if let user = viewModel.currentUser, user.role, viewModel.familyCard == nil {
+                    if let user = viewModel.currentUser, user.role {
                         Button(action: {
                             showFamilyCardAddSheet = true
                         }) {
@@ -125,6 +146,7 @@ struct FamilyView: View {
                         .padding()
                     }
                 }
+                .background(.backgroundC)
                 .sheet(isPresented: $showAddFamilyMemberSheet) {
                     AddFamilyMember(viewModel: viewModel)
                         .presentationDetents([.medium])
@@ -149,7 +171,7 @@ struct FamilyView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 if let user = viewModel.currentUser {
                     Button(action: {
-                        //TODO: 
+                        //TODO:
                         //Change role
                     }) {
                         Image(systemName: user.role ? "person.fill" : "person")
@@ -168,7 +190,10 @@ struct FamilyView: View {
                     
                 }
             }
-           
+            
         }
+        
     }
 }
+
+

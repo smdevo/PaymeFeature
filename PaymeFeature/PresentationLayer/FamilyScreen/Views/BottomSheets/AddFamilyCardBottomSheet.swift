@@ -48,17 +48,16 @@ struct FamilyCardAddView: View {
                             
                             isButtonLoading = true
                                                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                viewModel.addFamilyCard(cardName: "Семейная карта", ownerPhoneNumber: phoneNumber) { success in
+                                viewModel.addFamilyCard(cardName: "Детская карта", ownerPhoneNumber: phoneNumber) { success in
                                     isButtonLoading = false
                                     
                                     if success {
-                                        viewModel.refreshData()
                                         showOrderAlert = true
                                     }
                                 }
                             }
                         }) {
-                            Text("Заказать семейную карту")
+                            Text("Заказать детскую карту")
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding()

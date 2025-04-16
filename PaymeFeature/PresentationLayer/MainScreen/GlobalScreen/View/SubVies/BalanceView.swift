@@ -14,7 +14,7 @@ class BalanceView: UIStackView {
     private let balanceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Balance"
+        label.text = "Общий баланс"
         label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
         label.textColor = UIColor.theme.labelC
         return label
@@ -42,7 +42,7 @@ class BalanceView: UIStackView {
     private let currencyNamingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "sum"
+        label.text = "сум"
         label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
         label.textColor = UIColor.theme.labelC
         return label
@@ -61,7 +61,7 @@ class BalanceView: UIStackView {
     private let expenseLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Expense"
+        label.text = "Расход за месяц"
         label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
         label.textColor = UIColor.theme.labelC
         return label
@@ -79,7 +79,7 @@ class BalanceView: UIStackView {
     private let currencyNamingForExpenseLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "sum"
+        label.text = "сум"
         label.font = UIFont.systemFont(ofSize: .spacing(.x4), weight: .regular)
         label.textColor = UIColor.theme.labelC
         return label

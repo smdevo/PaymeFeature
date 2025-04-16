@@ -13,30 +13,42 @@ struct LoginView: View {
     @FocusState private var isUsernameFieldFocused: Bool
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(alignment: .leading, spacing: 20) {
             
-            Text("Авторизация")
-                .font(.largeTitle)
+            Text("Введите номер телефона")
+                .fontWeight(.bold)
             
-            TextField("Username", text: $viewModel.userName)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-                .focused($isUsernameFieldFocused)
+            
+            Text("Чтобы войти или зарегистрироваться")
+                .fontWeight(.light)
+            
+            PhoneNumberField(phoneNumber: $viewModel.phoneNumber)
             
             SecureField("Password", text: $viewModel.password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-                .focused($isUsernameFieldFocused)
-            
-            Button("Войти") {
-                viewModel.login()
-            }
-            .padding()
-            
+                       .padding(8)
+                       .overlay(
+                           RoundedRectangle(cornerRadius: 8)
+                               .stroke(Color.gray, lineWidth: 1)
+                       )
+            Spacer()
+                        Button(action: {
+                            viewModel.login()
+                        }) {
+                            Text("Войти")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        .padding(.horizontal)
+                        .padding(.bottom, 16)
+                    .ignoresSafeArea(edges: .bottom)
             if let error = viewModel.errorMessage {
                 Text(error)
                     .foregroundColor(.red)
-                
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.center)
             }
         }
         .onAppear {
@@ -44,6 +56,8 @@ struct LoginView: View {
                 switchToMain()
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .padding(10)
     }
 
     func switchToMain() {
@@ -56,5 +70,10 @@ struct LoginView: View {
     }
 }
 
+
+
+#Preview{
+    LoginView()
+}
 
 

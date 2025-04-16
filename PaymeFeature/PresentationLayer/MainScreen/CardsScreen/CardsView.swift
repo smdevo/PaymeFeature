@@ -61,12 +61,11 @@ struct CardsView: View {
         .refreshable {
             vm.loadUserAndFamily()
         }
+        .navigationTitle("Мои карты")
+        .background(.backgroundC)
     }
 }
 
-#Preview {
-    CardsView().environmentObject(GlobalViewModel())
-}
 
 extension CardsView {
     
