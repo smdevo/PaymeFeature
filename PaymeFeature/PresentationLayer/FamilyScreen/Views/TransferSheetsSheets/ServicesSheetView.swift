@@ -20,6 +20,7 @@ enum ServicesType: String {
     case chooseLocatiion = "Choose Location"
     case block = "Block Card"
     case selectApprovedMArkets = "Select approved markets"
+    case selectBackgroundImage = "Select Background Image"
 }
 
 struct UserService: Identifiable {
@@ -43,7 +44,8 @@ struct ServicesSheetViewForParent: View {
         .init(type: .setDailySpending, icon: "calendar.badge.clock"),
         .init(type: .chooseLocatiion, icon: "mappin.and.ellipse"),
         .init(type: .block, icon: "lock.shield"),
-        .init(type: .selectApprovedMArkets, icon: "list.bullet.indent")
+        .init(type: .selectApprovedMArkets, icon: "list.bullet.indent"),
+        .init(type: .selectBackgroundImage, icon: "plus")
     ]
     
     var body: some View {
@@ -122,6 +124,8 @@ struct ServicesSheetViewForParent: View {
             print("Approved markets tapped")
         case .block:
             print("→ Block Card tapped")
+        case .selectBackgroundImage:
+            print(">> Select Background Image tapped")
         default:
             break
         }

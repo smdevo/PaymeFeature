@@ -86,6 +86,8 @@ struct ServicesSheetViewForChild: View {
         switch service {
         case .transferFromFamilyCard:
             showTransactionSheet.toggle()
+        case .selectBackgroundImage:
+            print("selectBackgroundImage")
         default:
             break
         }

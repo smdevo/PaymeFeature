@@ -118,9 +118,10 @@ struct CardView: View {
         }
     }
 }
+//
+//extension View {
+//    func textWithBlackBorder() -> some View {
+//        self.shadow(color: .black, radius: 1, x: 1, y: 1)
+//    }
+//}
 
-extension View {
-    func textWithBlackBorder() -> some View {
-        self.shadow(color: .black, radius: 1, x: 1, y: 1)
-    }
-}
