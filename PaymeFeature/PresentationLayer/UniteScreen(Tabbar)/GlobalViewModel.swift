@@ -22,8 +22,8 @@ class GlobalViewModel: ObservableObject {
     
     let netService = UsersNtworkinDataService.shared
     
-    let userID = UserDefaults.standard.string(forKey: "userId") ?? "1"
-    let familyId = UserDefaults.standard.string(forKey: "userFamilyId") ?? "1"
+    @Published var userID = UserDefaults.standard.string(forKey: "userId") ?? "1"
+    @Published var familyId = UserDefaults.standard.string(forKey: "userFamilyId") ?? "1"
     
     init() {
         loadUserAndFamily()
@@ -74,16 +74,19 @@ class GlobalViewModel: ObservableObject {
             print("Skipping getFamilyCard — missing data")
             return
         }
-        guard let cardFamily1 = currentFamily.cards.first else {
-            return
+    
+        let cards = currentUser.role ?
+        currentFamily.cards :
+        currentFamily.cards.filter({ cCard in
+            cCard?.id == currentUser.number
+        })
+        
+        let bankCards = cards.map { fCard in
+            
+            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "Number", type: .humo, expirationDate: "11/28",isFamilyCard: true)
         }
         
-        guard let cardFamily = cardFamily1 else {
-            return
-        }
-        
-        let familyCardUser = BankCard(name: cardFamily.name, ownerName: currentUser.name, sum: cardFamily.balance, cardNumber: cardFamily.number, type: .humo, expirationDate: "11/28",isFamilyCard: true)
-        cards.append(familyCardUser)
+        self.cards.append(contentsOf: bankCards)
     }
     
     
