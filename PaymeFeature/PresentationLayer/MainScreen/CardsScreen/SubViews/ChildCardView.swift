@@ -72,12 +72,12 @@ struct ChildCardView: View {
         .cornerRadius(16)
         
         .sheet(isPresented: $showParentServiceSheet) {
-            ServicesSheetViewForParent()
+            ServicesSheetViewForParent(id: bankCard.id)
                 .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showChildServiceSheet) {
-            ServicesSheetViewForChild()
+            ServicesSheetViewForChild(id: bankCard.id)
                 .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }

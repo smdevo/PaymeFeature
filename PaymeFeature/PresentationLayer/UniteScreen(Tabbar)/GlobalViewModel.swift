@@ -50,6 +50,11 @@ class GlobalViewModel: ObservableObject {
         
         group.notify(queue: .main) {
             
+            UserDefaults.standard.removeObject(forKey: "userFamilyId")
+            UserDefaults.standard.set(self.currentUser?.familyId ?? "1", forKey: "userFamilyId")
+            
+            self.familyId = self.currentUser?.familyId ?? "1"
+            
             self.cards.removeAll()
             self.getbalanceCard()
             self.getFamilyCard()
@@ -62,7 +67,7 @@ class GlobalViewModel: ObservableObject {
         
         guard let currentUser else { return }
         
-        let cardUser = BankCard(name: "Own Card", ownerName: currentUser.name, sum: currentUser.balance, cardNumber: currentUser.cardNumber, type: .uzcard, expirationDate: "11/28")
+        let cardUser = BankCard(name: "Own Card", ownerName: currentUser.name, sum: currentUser.balance, cardNumber: currentUser.cardNumber, type: .uzcard, expirationDate: "11/28", id: UUID().uuidString)
         
         cards.append(cardUser)
     }
@@ -83,14 +88,14 @@ class GlobalViewModel: ObservableObject {
         
         let bankCards = cards.map { fCard in
             
-            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "Number", type: .humo, expirationDate: "11/28",isFamilyCard: true)
+            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "Number", type: .humo, expirationDate: "11/28",isFamilyCard: true, id: fCard?.id ?? "1234")
         }
         
         self.cards.append(contentsOf: bankCards)
     }
     
     
-    func sendMoney(amount: String, completion: @escaping (Bool) -> Void) {
+    func sendMoney(amount: String, number: String, completion: @escaping (Bool) -> Void) {
         
         guard let amountSum = Double(amount), amountSum > 0 else {
             completion(false)
@@ -104,9 +109,9 @@ class GlobalViewModel: ObservableObject {
         
         guard
             let userSum = Double(currentUser.balance),
-            let card = currentFamily.cards.first,
+            let card = currentFamily.cards.filter({$0?.id == number}).first,
+           // let card = currentFamily.cards.first,
             let famBalance = card?.balance,
-            
             let famCardSum = Double(famBalance)
         else {
             completion(false)

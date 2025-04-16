@@ -97,12 +97,12 @@ struct CardView: View {
         .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
         .foregroundStyle(.white)
         .sheet(isPresented: $showParentServiceSheet) {
-            ServicesSheetViewForParent()
+            ServicesSheetViewForParent(id: bankCard.id)
                 .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showChildServiceSheet) {
-            ServicesSheetViewForChild()
+            ServicesSheetViewForChild(id: bankCard.id)
                 .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }
