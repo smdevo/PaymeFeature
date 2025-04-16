@@ -191,6 +191,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     
+    
 }
 
 

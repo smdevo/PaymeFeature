@@ -10,10 +10,11 @@ import SwiftUI
 struct AddFamilyMember: View {
     @ObservedObject var viewModel: FamilyViewModel
     @Binding var showSnackbar: Bool
+    @Binding var snackbarMessage: String
     
     @State private var phoneNumber: String = ""
     @State private var isButtonLoading: Bool = false
-    
+
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -58,11 +59,11 @@ struct AddFamilyMember: View {
                                         isButtonLoading = false
                                         if success {
                                             dismiss()
-
+                                            
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                                snackbarMessage = "Приглашение  ребёнку отправлено."
                                                 showSnackbar = true
                                             }
-
                                         }
                                     }
                                 }
@@ -83,25 +84,8 @@ struct AddFamilyMember: View {
                 }
                 Spacer(minLength: 0)
             }
-            
-//            if showSnackbar {
-//                VStack {
-//                    Spacer()
-//                    HStack {
-//                        Image(systemName: "checkmark.circle.fill")
-//                            .foregroundColor(.white)
-//                        Text("Приглашение отправлено ребёнку.")
-//                            .foregroundColor(.white)
-//                    }
-//                    .padding()
-//                    .background(Color.green)
-//                    .cornerRadius(12)
-//                    .padding(.bottom, 20)
-//                    .transition(.move(edge: .bottom).combined(with: .opacity))
-//                    .animation(.easeInOut(duration: 0.3), value: showSnackbar)
-//                }
-//            }
         }
         .background(.backgroundC)
     }
 }
+

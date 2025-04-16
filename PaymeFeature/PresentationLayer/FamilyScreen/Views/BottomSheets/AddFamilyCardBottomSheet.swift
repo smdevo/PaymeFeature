@@ -1,29 +1,30 @@
 import SwiftUI
 
 struct FamilyCardAddView: View {
-    
     @ObservedObject var viewModel: FamilyViewModel
+    @Binding var showSnackbar: Bool
+    @Binding var snackbarMessage: String
     
     @State private var passport: String = ""
     @State private var address: String = ""
     @State private var phoneNumber: String = ""
     @State private var isButtonLoading: Bool = false
-    @State private var showOrderAlert: Bool = false
 
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(spacing: 16) {
-           
+        VStack(alignment: .leading, spacing: 16) {
+                    Text("Добавить детскую карту")
+                        .font(.title)
+                        .padding()
+                    
                     LabeledTextField(
                         label: "Номер и серия паспорта",
                         placeholder: "Введите номер и серию паспорта",
                         text: $passport,
                         keyboardType: .default
                     )
-           
+                   
                     LabeledTextField(
                         label: "Адрес",
                         placeholder: "Введите адрес",
@@ -37,7 +38,7 @@ struct FamilyCardAddView: View {
                         text: $phoneNumber,
                         keyboardType: .phonePad
                     )
-             
+                    
                     if isButtonLoading {
                         ProgressView()
                             .padding()
@@ -46,13 +47,25 @@ struct FamilyCardAddView: View {
                         Button(action: {
                             guard !phoneNumber.isEmpty else { return }
                             
+                            let userAddCardName = viewModel.allUsers.filter { user in
+                                user.number == phoneNumber
+                            }
+                            
+                            guard let firstUserName = userAddCardName.first else {
+                                return
+                            }
+                            
                             isButtonLoading = true
-                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                viewModel.addFamilyCard(cardName: "Детская карта", ownerPhoneNumber: phoneNumber) { success in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                viewModel.addFamilyCard(cardName: firstUserName.name, ownerPhoneNumber: phoneNumber) { success in
                                     isButtonLoading = false
                                     
                                     if success {
-                                        showOrderAlert = true
+                                        dismiss()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                            snackbarMessage = "Детская карта успешно добавлена."
+                                            showSnackbar = true
+                                        }
                                     }
                                 }
                             }
@@ -62,46 +75,17 @@ struct FamilyCardAddView: View {
                                 .foregroundColor(.white)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color.blue)
+                                .background(.paymeC)
                                 .cornerRadius(10)
                         }
                         .padding(.horizontal)
                         .padding(.top, 10)
-
                     }
                 }
                 .padding()
-            }
-            Spacer(minLength: 0)
-        }
         .background(Color(UIColor.systemBackground))
-        .alert("Заказ карты", isPresented: $showOrderAlert) {
-            Button("OK") {
-                dismiss()
-            }
-        } message: {
-            Text("Ваша карта будет готова в ближайшие дни")
-        }
     }
 }
 
-struct LabeledTextField: View {
-    let label: String
-    let placeholder: String
-    @Binding var text: String
-    var keyboardType: UIKeyboardType = .default
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(label)
-                .font(.caption)
-                .foregroundColor(.gray)
-            TextField(placeholder, text: $text)
-                .keyboardType(keyboardType)
-                .padding(10)
-                .background(Color(UIColor.secondarySystemBackground))
-                .cornerRadius(8)
-        }
-        .padding(.horizontal)
-    }
-}
+

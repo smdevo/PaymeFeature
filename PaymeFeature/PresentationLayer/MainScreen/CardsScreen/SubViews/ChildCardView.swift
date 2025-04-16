@@ -45,6 +45,7 @@ struct ChildCardView: View {
                        .scaledToFit()
                        .frame(height: 80)
             }
+            
         }
         .padding()
         .background {
@@ -68,6 +69,8 @@ struct ChildCardView: View {
             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
             .clipped()
         }
+        
+        
         .foregroundStyle(.white)
         .cornerRadius(16)
         
@@ -100,9 +103,9 @@ extension View {
     }
 }
 
-//#Preview {
-//    let model: BankCard = .init(name: "Apple Inc.", ownerName: "Apple Inc.", sum: "100", cardNumber: "100", type: .humo, expirationDate: "sfds")
-//    ChildCardView(bankCard: model)
-//        .environmentObject(GlobalViewModel())
-//        .padding()
-//}
+#Preview {
+    let model: BankCard = .init(name: "Apple Inc.", ownerName: "Apple Inc.", sum: "100", cardNumber: "100", type: .humo, expirationDate: "sfds")
+    ChildCardView(bankCard: model)
+        .environmentObject(GlobalViewModel())
+        .padding()
+}

@@ -21,10 +21,10 @@ struct FamilyViewScene: View {
                     Text("Семейная карта")
                         .font(.title2)
                         .bold()
-                        .foregroundColor(.black)
+                        .foregroundColor(.labelC)
                     Text("Одна карта — для всей семьи\nОдна карта — несколько пользователей")
                         .font(.caption)
-                        .foregroundColor(.black.opacity(0.8))
+                        .foregroundColor(.labelC)
                 }
                 .padding(.leading, .spacing(.x5))
                 .padding(.vertical, .spacing(.x2))
@@ -36,7 +36,7 @@ struct FamilyViewScene: View {
                     .scaledToFit()
                     .frame(width: 80, height: 80)
                     .padding(.trailing, .spacing(.x4))
-                    .colorMultiply(.black)
+                    .colorMultiply(.labelC)
             }
         }
         .padding(.vertical, .spacing(.x1))
