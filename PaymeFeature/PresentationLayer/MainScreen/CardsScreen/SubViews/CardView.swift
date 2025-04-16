@@ -12,7 +12,7 @@ struct CardView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             
-            if  !bankCard.isFamilyCard, vm.currentUser?.role == true {
+            if  !bankCard.isFamilyCard { //, vm.currentUser?.role == true {
                 RoundedRectangle(cornerRadius: 16)
                     .fill(
                         LinearGradient(

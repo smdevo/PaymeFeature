@@ -21,8 +21,8 @@ class FamilyViewModel: ObservableObject {
     @Published var familyCards: [VirtualCardModel] = []
     
     
-    let userId = UserDefaults.standard.string(forKey: "userId") ?? "1"
-    let userFamilyId = UserDefaults.standard.string(forKey: "userFamilyId") ?? "1"
+    @Published var userId = UserDefaults.standard.string(forKey: "userId") ?? "1"
+    @Published var userFamilyId = UserDefaults.standard.string(forKey: "userFamilyId") ?? "1"
     
     init() {
         getCurrentUserAndFamily()
@@ -40,6 +40,12 @@ class FamilyViewModel: ObservableObject {
             guard let users else { return }
             self?.allUsers = users
             self?.currentUser = users.first(where: {$0.id == self?.userId})
+            
+//            UserDefaults.standard.removeObject(forKey: "userFamilyId")
+//            UserDefaults.standard.set(self?.currentUser?.familyId ?? "1", forKey: "userFamilyId")
+//            
+//            self?.userFamilyId = self?.currentUser?.familyId ?? "1"
+            
             self?.familyMembers = users.filter({$0.familyId == self?.currentUser?.familyId})
         }
         
@@ -71,6 +77,10 @@ class FamilyViewModel: ObservableObject {
             // Обновляем familyId у пользователя
             var updatedUser = userToUpdate
             updatedUser.familyId = adminUser.familyId
+            
+            print("Id: \(updatedUser.familyId)")
+            
+            UserDefaults.standard.set(updatedUser.familyId, forKey: "userFamilyId")
             
             let userUpdateEndpoint = "users/\(updatedUser.id)"
             
@@ -221,6 +231,12 @@ class FamilyViewModel: ObservableObject {
         networkingService.getData(link: "users/") { [weak self] (users: [UserModel]?) in
             guard let self = self, let users = users else { return }
             DispatchQueue.main.async {
+                
+                UserDefaults.standard.removeObject(forKey: "userFamilyId")
+                UserDefaults.standard.set(self.currentUser?.familyId ?? "1", forKey: "userFamilyId")
+                
+                self.userFamilyId = self.currentUser?.familyId ?? "1"
+                
                 self.currentUser = users.first(where: { $0.id == self.userId })
                 self.familyMembers = users.filter({ $0.familyId == self.currentUser?.familyId })
             }
@@ -233,9 +249,6 @@ class FamilyViewModel: ObservableObject {
             }
         }
     }
-    
-    
-    
     
 }
 

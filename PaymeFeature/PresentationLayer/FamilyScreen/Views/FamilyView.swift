@@ -123,8 +123,11 @@ struct FamilyView: View {
                                         
                                     }
                                 }
-                            }
+                            }//Vstack
                             .padding()
+                        }
+                        .refreshable{
+                            viewModel.refreshData()
                         }
                         
                     }
