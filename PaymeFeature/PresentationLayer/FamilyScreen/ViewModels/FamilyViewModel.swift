@@ -19,7 +19,7 @@ class FamilyViewModel: ObservableObject {
     @Published var allUsers: [UserModel] = []
     
     @Published var familyCards: [VirtualCardModel] = []
-
+    
     
     let userId = UserDefaults.standard.string(forKey: "userId") ?? "1"
     let userFamilyId = UserDefaults.standard.string(forKey: "userFamilyId") ?? "1"
@@ -48,11 +48,11 @@ class FamilyViewModel: ObservableObject {
             
             self?.familyCards = family.cards.compactMap { $0 }
         }
-
+        
     }
     
     func addUserToFamily(phoneNumber: String, adminUser: UserModel, completion: @escaping (Bool) -> Void) {
-        // Формируем endpoint для поиска пользователя по номеру телефона
+        
         let usersEndpoint = "users?number=\(phoneNumber)"
         
         UsersNtworkinDataService.shared.getData(link: usersEndpoint) { (users: [UserModel]?) in
@@ -62,7 +62,6 @@ class FamilyViewModel: ObservableObject {
                 return
             }
             
-            // Если пользователь уже состоит в данной семье — считаем операцию неудачной или можно возвратить true, если хотите считать таковой сценарий допустимым.
             if userToUpdate.familyId == adminUser.familyId {
                 print("Пользователь уже принадлежит к этой семье")
                 completion(false)
@@ -101,11 +100,13 @@ class FamilyViewModel: ObservableObject {
                 }
             }
         }
+        refreshData()
     }
     
     
     func addFamilyCard(cardName: String, ownerPhoneNumber: String, completion: @escaping (Bool) -> Void) {
         guard let familyId = currentUser?.familyId else {
+            print("Текущий пользователь не имеет идентификатора семьи")
             completion(false)
             return
         }
@@ -119,7 +120,6 @@ class FamilyViewModel: ObservableObject {
                 return
             }
             
-            // Генерация случайного 16-значного номера карточки с разделением пробелами каждые 4 символа
             let digits = (0..<16).compactMap { _ in "0123456789".randomElement() }
             let rawCardNumber = String(digits)
             var formattedCardNumber = ""
@@ -131,9 +131,9 @@ class FamilyViewModel: ObservableObject {
             }
             
             let newCard = VirtualCardModel(
-                id: UUID().uuidString,
-                number: formattedCardNumber,
-                ownerPhoneNumber: ownerPhoneNumber,
+                id: ownerPhoneNumber,
+                name: cardName, number: formattedCardNumber,
+                ownerPhoneNumber: self.currentUser?.number ?? "" ,
                 balance: "0"
             )
             
@@ -148,8 +148,10 @@ class FamilyViewModel: ObservableObject {
                 completion(success)
             }
         }
+        refreshData()
     }
-
+    
+    
     
     
     func sendInvitation(phoneNumber: String, adminUser: UserModel, completion: @escaping (Bool) -> Void) {
@@ -169,6 +171,7 @@ class FamilyViewModel: ObservableObject {
                 completion(success)
             }
         }
+        refreshData()
     }
     
     func confirmInvitation(enteredCode: String, completion: @escaping (Bool) -> Void) {
@@ -210,8 +213,9 @@ class FamilyViewModel: ObservableObject {
             print("Face ID недоступен: \(error?.localizedDescription ?? "")")
             completion(false)
         }
+        refreshData()
     }
-
+    
     
     func refreshData() {
         networkingService.getData(link: "users/") { [weak self] (users: [UserModel]?) in
@@ -229,8 +233,8 @@ class FamilyViewModel: ObservableObject {
             }
         }
     }
-
-
+    
+    
     
     
 }

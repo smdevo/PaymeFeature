@@ -21,7 +21,7 @@ struct FamilyView: View {
     
     @State private var showInvitationAlert: Bool = false
     @State private var invitationCode: String = ""
-
+    
     var familyCards: [BankCard] = []
     
     var body: some View {
@@ -87,22 +87,46 @@ struct FamilyView: View {
                     else {
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 16) {
-                                ForEach(viewModel.familyCards, id: \.id) { card in
-                                    CardView(bankCard:
-                                                BankCard(
-                                                    name: card.name,
-                                                    ownerName: card.name,
-                                                    sum: card.balance,
-                                                    cardNumber: card.number,
-                                                    type: .humo,
-                                                    expirationDate: "11/27",
-                                                    isFamilyCard: true))
-                                    .environmentObject(viewModel)
+                                if viewModel.currentUser?.role == true {
+                                    ForEach(viewModel.familyCards, id: \.id) { card in
+                                        
+                                        CardView(bankCard:
+                                                    BankCard(
+                                                        name: card.name,
+                                                        ownerName: card.name,
+                                                        sum: card.balance,
+                                                        cardNumber: card.number,
+                                                        type: .humo,
+                                                        expirationDate: "11/27",
+                                                        isFamilyCard: true))
+                                        .environmentObject(viewModel)
+                                    }
+                                }
+                                else {
+                                    
+                                    let realCard = viewModel.familyCards.filter({ cardone in
+                                        cardone.id == viewModel.currentUser?.number
+                                    })
+                                    
+                                    if let card = realCard.first {
+                                        
+                                        CardView(bankCard:
+                                                    BankCard(
+                                                        name: card.name,
+                                                        ownerName: card.name,
+                                                        sum: card.balance,
+                                                        cardNumber: card.number,
+                                                        type: .humo,
+                                                        expirationDate: "11/27",
+                                                        isFamilyCard: true))
+                                        .environmentObject(viewModel)
+                                        
+                                    }
                                 }
                             }
                             .padding()
                         }
-
+                        
                     }
                     
                     Spacer()
@@ -147,7 +171,7 @@ struct FamilyView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 if let user = viewModel.currentUser {
                     Button(action: {
-                        //TODO: 
+                        //TODO:
                         //Change role
                     }) {
                         Image(systemName: user.role ? "person.fill" : "person")
@@ -166,9 +190,9 @@ struct FamilyView: View {
                     
                 }
             }
-           
+            
         }
-      
+        
     }
 }
 
