@@ -11,4 +11,7 @@ struct VirtualCardModel: Codable {
     var number: String = ""
     var ownerPhoneNumber: String = ""
     var balance: String = ""
+
 }
+
+
