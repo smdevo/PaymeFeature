@@ -13,6 +13,12 @@ struct ServicesSheetViewForChild: View {
     @Environment(\.dismiss) var dismiss
     @State private var showTransactionSheet = false
     
+    let id: String
+    
+    init(id: String) {
+        self.id = id
+    }
+    
     struct Service: Identifiable {
         let id = UUID()
         let title: String
@@ -76,7 +82,7 @@ struct ServicesSheetViewForChild: View {
         .cornerRadius(20)
         .edgesIgnoringSafeArea(.bottom)
         .sheet(isPresented: $showTransactionSheet) {
-            TransactionSheet()
+            TransactionSheet(id: id)
                 .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }
@@ -94,6 +100,6 @@ struct ServicesSheetViewForChild: View {
     }
 }
 
-//#Preview {
-//    ServicesSheetViewForParent()
-//}
+#Preview {
+    ServicesSheetViewForParent(id: "1")
+}

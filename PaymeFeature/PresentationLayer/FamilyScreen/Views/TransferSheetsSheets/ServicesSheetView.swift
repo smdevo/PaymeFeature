@@ -38,7 +38,12 @@ struct ServicesSheetViewForParent: View {
     
     @State private var showTransactionSheet = false
     @State private var showLimitationSheet = false
-    @State private var showBackgroundPicker = false
+
+    let id: String
+    
+    init(id: String) {
+        self.id = id
+    }
     
     
     @Environment(\.dismiss) var dismiss
@@ -103,7 +108,7 @@ struct ServicesSheetViewForParent: View {
         .cornerRadius(20)
         .edgesIgnoringSafeArea(.bottom)
         .sheet(isPresented: $showTransactionSheet) {
-            TransactionSheet()
+            TransactionSheet(id: id)
                 .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }
@@ -147,3 +152,6 @@ struct ServicesSheetViewForParent: View {
     }
 }
 
+#Preview {
+    ServicesSheetViewForParent(id: "1")
+}

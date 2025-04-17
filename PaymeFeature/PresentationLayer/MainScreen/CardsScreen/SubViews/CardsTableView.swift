@@ -19,6 +19,7 @@ struct CardsTableView: View {
         ScrollView {
             LazyVStack {
                 ForEach(cards) { card in
+                    
                     if card.isFamilyCard {
                         ChildCardView(bankCard: card)
                             .padding()

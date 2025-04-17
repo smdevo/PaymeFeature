@@ -109,7 +109,7 @@ struct FamilyView: View {
                                                             cardNumber: card.number,
                                                             type: .humo,
                                                             expirationDate: "11/27",
-                                                            isFamilyCard: true))
+                                                            isFamilyCard: true, id: card.id))
                                         .environmentObject(viewModel)
                                     }
                                 }
@@ -118,7 +118,7 @@ struct FamilyView: View {
                                         cardone.id == viewModel.currentUser?.number
                                     })
                                     if let card = realCard.first {
-                                        CardView(bankCard:
+                                        ChildCardView(bankCard:
                                                     BankCard(
                                                         name: card.name,
                                                         ownerName: card.name,
@@ -126,7 +126,7 @@ struct FamilyView: View {
                                                         cardNumber: card.number,
                                                         type: .humo,
                                                         expirationDate: "11/27",
-                                                        isFamilyCard: true))
+                                                        isFamilyCard: true, id: card.id))
                                         .environmentObject(viewModel)
                                     }
                                 }

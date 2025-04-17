@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BankCard: Identifiable {
-    let id: String = UUID().uuidString
+    let id: String
     let name: String
     let ownerName: String
     let sum: String
@@ -26,7 +26,8 @@ struct BankCard: Identifiable {
          type: CardType,
          expirationDate: String,
          iconName: String = "star.fill",
-         isFamilyCard: Bool = false
+         isFamilyCard: Bool = false,
+         id: String
     ) {
         self.name = name
         self.ownerName = ownerName
@@ -36,6 +37,6 @@ struct BankCard: Identifiable {
         self.expirationDate = expirationDate
         self.iconName = iconName
         self.isFamilyCard = isFamilyCard
-
+        self.id = id
     }
 }

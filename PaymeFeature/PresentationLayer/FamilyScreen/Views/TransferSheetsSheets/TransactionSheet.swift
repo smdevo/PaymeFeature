@@ -22,6 +22,12 @@ struct TransactionSheet: View {
     
     @FocusState var foc: Bool
     
+    let id: String
+    
+    init(id: String) {
+        self.id = id
+    }
+    
     
     var isAmountValid: Bool {
         if let amount = Double(sum), amount > 0 {
@@ -62,7 +68,7 @@ struct TransactionSheet: View {
             Button {
                 isSending = true
                 
-                evm.sendMoney(amount: sum) { res in
+                evm.sendMoney(amount: sum, number: id) { res in
                         DispatchQueue.main.asyncAfter(deadline: .now()) {
                             isSending = false
                             showConfirmation = true
@@ -87,7 +93,7 @@ struct TransactionSheet: View {
         .alert(isSuccesFull ? "Transaction Successful" : "Something went wrong", isPresented: $showConfirmation) {
             Button("OK", role: .cancel) {
                 foc = false
-                fEvm.refreshData()
+               // fEvm.refreshData()
                 dismiss()
             }
         } message: {
