@@ -148,19 +148,27 @@ class GlobalViewModel: ObservableObject {
             cardNumber: currentUser.cardNumber
         )
         
-        guard let famCard = currentFamily.cards.first else {
+        guard let famCard = currentFamily.cards.filter({$0?.id == number}).first else {
             return
         }
         
-        let updatedFamily = FamilyModel(cards: [
-            VirtualCardModel(
-                id: famCard?.id ?? "",
-                name: famCard?.name ?? "",
-                number: famCard?.number ?? "",
-                ownerPhoneNumber: famCard?.ownerPhoneNumber ?? "",
-                balance: updatedFamilyBalance
-            )
-        ], id: currentFamily.id)
+        let updatedCard = VirtualCardModel(
+            id: famCard?.id ?? "",
+            name: famCard?.name ?? "",
+            number: famCard?.number ?? "",
+            ownerPhoneNumber: famCard?.ownerPhoneNumber ?? "",
+            balance: updatedFamilyBalance
+        )
+        
+        let cards = currentFamily.cards.map { vc in
+            if vc?.id == updatedCard.id {
+                updatedCard
+            }else {
+                vc
+            }
+        }
+        
+        let updatedFamily = FamilyModel(cards: cards, id: currentFamily.id)
         
         
         let group = DispatchGroup()
