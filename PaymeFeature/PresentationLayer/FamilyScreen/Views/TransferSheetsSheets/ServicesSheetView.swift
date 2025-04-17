@@ -34,6 +34,7 @@ import SwiftUI
 struct ServicesSheetViewForParent: View {
     
     @EnvironmentObject var viewModel: FamilyViewModel
+    @EnvironmentObject var vm: GlobalViewModel
     
     @State private var showTransactionSheet = false
     @State private var showLimitationSheet = false
@@ -115,7 +116,7 @@ struct ServicesSheetViewForParent: View {
         //TODO: 
         .sheet(isPresented: $showBackgroundPicker) {
             BackgroundSelectionView { chosenBackground in
-                print(chosenBackground)
+                vm.backgroundImange = chosenBackground
             }
             .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
