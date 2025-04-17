@@ -26,7 +26,9 @@ struct CardsView: View {
                             controllerTab = index
                         }
                         .frame(maxWidth: .infinity)
+                    
                 }
+                
             }
             .padding(.horizontal)
             
@@ -63,6 +65,9 @@ struct CardsView: View {
         }
         .navigationTitle("Мои карты")
         .background(.backgroundC)
+        .onAppear {
+            vm.loadUserAndFamily()
+        }
     }
 }
 

@@ -33,7 +33,6 @@ struct FamilyView: View {
                 if viewModel.currentUser == nil {
                     ProgressView()
                 }else {
-                    
                     VStack {
                         VStack {
                             HStack {
@@ -57,7 +56,7 @@ struct FamilyView: View {
                         }
                         .padding(.vertical)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(.blue.opacity(0.1))
+                        .background(.paymeC.opacity(0.3))
                         .clipShape(.rect(cornerRadius: 12))
                         
                         if let user = viewModel.currentUser, user.invitation {
@@ -103,7 +102,8 @@ struct FamilyView: View {
                                     ForEach(viewModel.familyCards, id: \.id) { card in
                                         ChildCardView(bankCard:
                                                         BankCard(
-                                                            name: card.name,
+                                                            name: String(card.name.split(separator: " ").first ?? ""),
+//                                                            name: card.name,
                                                             ownerName: card.name,
                                                             sum: card.balance,
                                                             cardNumber: card.number,
@@ -155,7 +155,6 @@ struct FamilyView: View {
                                     .padding()
                                 }
                             }
-                            .padding(.horizontal)
                         }
                     }
                     
@@ -163,12 +162,12 @@ struct FamilyView: View {
                     .background(.backgroundC)
                     
                     .sheet(isPresented: $showAddFamilyMemberSheet) {
-                        AddFamilyMember(viewModel: viewModel, showSnackbar: $showSnackbar)
+                        AddFamilyMember(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
                             .presentationDetents([.medium])
                             .presentationDragIndicator(.hidden)
                     }
                     .sheet(isPresented: $showFamilyCardAddSheet) {
-                        FamilyCardAddView(viewModel: viewModel)
+                        FamilyCardAddView(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
                             .presentationDetents([.medium])
                             .presentationDragIndicator(.hidden)
                     }
@@ -188,6 +187,7 @@ struct FamilyView: View {
                             showAddFamilyMemberSheet.toggle()
                         }) {
                             Image(systemName: "plus.circle")
+                                .foregroundStyle(.paymeC)
                         }
                         
                     }
@@ -200,7 +200,7 @@ struct FamilyView: View {
                     HStack {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.white)
-                        Text("Приглашение отправлено ребёнку")
+                        Text(snackbarMessage)
                             .foregroundColor(.white)
                     }
                     .padding()
@@ -219,7 +219,7 @@ struct FamilyView: View {
                 }
             }
             
-
+            
         }
     }
 }

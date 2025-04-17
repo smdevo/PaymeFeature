@@ -7,12 +7,15 @@ struct CardView: View {
     @State private var showChildServiceSheet = false
     
     @EnvironmentObject var vm: GlobalViewModel
+    
+
+    
     let bankCard: BankCard
     
     var body: some View {
         ZStack(alignment: .topLeading) {
             
-            if  !bankCard.isFamilyCard { //, vm.currentUser?.role == true {
+            if  !bankCard.isFamilyCard {
                 RoundedRectangle(cornerRadius: 16)
                     .fill(
                         LinearGradient(

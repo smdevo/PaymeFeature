@@ -17,6 +17,7 @@ struct BankCard: Identifiable {
     let expirationDate: String
     let iconName: String
     let isFamilyCard: Bool
+
     
     init(name: String,
          ownerName: String,

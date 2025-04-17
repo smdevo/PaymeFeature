@@ -32,9 +32,11 @@ struct UserService: Identifiable {
 import SwiftUI
 
 struct ServicesSheetViewForParent: View {
-
-    @State private var showTransactionSheet = false
     
+    @EnvironmentObject var viewModel: FamilyViewModel
+    @EnvironmentObject var vm: GlobalViewModel
+    
+    @State private var showTransactionSheet = false
     @State private var showLimitationSheet = false
 
     let id: String
@@ -52,13 +54,12 @@ struct ServicesSheetViewForParent: View {
         .init(type: .chooseLocatiion, icon: "mappin.and.ellipse"),
         .init(type: .block, icon: "lock.shield"),
         .init(type: .selectApprovedMArkets, icon: "list.bullet.indent"),
-        .init(type: .selectBackgroundImage, icon: "plus")
+        .init(type: .selectBackgroundImage, icon: "plus") 
     ]
     
     var body: some View {
         VStack(spacing: 0) {
             
-            // Header
             HStack {
                 Text("Family Card Services")
                     .font(.title3)
@@ -78,7 +79,6 @@ struct ServicesSheetViewForParent: View {
             Divider()
                 .padding(.vertical, 10)
             
-            // Services List
             ScrollView {
                 VStack(spacing: 16) {
                     ForEach(services) { service in
@@ -117,6 +117,18 @@ struct ServicesSheetViewForParent: View {
                 .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }
+        
+        //TODO: 
+        .sheet(isPresented: $showBackgroundPicker) {
+            BackgroundSelectionView { chosenBackground in
+                vm.backgroundImange = chosenBackground
+            }
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
+        }
+        
+        
+        
     }
     
     func handleServiceTap(_ service: ServicesType) {
@@ -132,10 +144,11 @@ struct ServicesSheetViewForParent: View {
         case .block:
             print("→ Block Card tapped")
         case .selectBackgroundImage:
-            print(">> Select Background Image tapped")
+            showBackgroundPicker.toggle()
         default:
             break
         }
+        
     }
 }
 

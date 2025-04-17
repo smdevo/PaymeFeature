@@ -9,6 +9,9 @@ import SwiftUI
 
 class GlobalViewModel: ObservableObject {
     
+    
+    @Published var backgroundImange: String = "girlBackground"
+    
     @Published var currentUser: UserModel?
     
     @Published var currentFamily: FamilyModel?
@@ -202,6 +205,7 @@ class GlobalViewModel: ObservableObject {
     func saveHistoryMonitoring(sender: String, receiver: String, amount: String) {
         transactions.append(TransactionModel(date: "date", time: "date", amount: amount, description: "Transaction to family card"))
     }
+    
     
     
 }

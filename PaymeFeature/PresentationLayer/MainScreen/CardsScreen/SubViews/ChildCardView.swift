@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ChildCardView: View {
     
+    
     @State private var showParentServiceSheet = false
     @State private var showChildServiceSheet = false
     
@@ -32,11 +33,16 @@ struct ChildCardView: View {
                 .foregroundColor(.white)
                 .textWithBlackBorder()
             
+            Text("LIMIT")
+            
+            
             HStack {
                 Image("paymekids")
                        .resizable()
                        .scaledToFit()
-                       .frame(height: 110)
+                       .clipped()
+                       .frame(width: 120)
+                  
                 
                 Spacer()
                 
@@ -45,6 +51,7 @@ struct ChildCardView: View {
                        .scaledToFit()
                        .frame(height: 80)
             }
+            
         }
         .padding()
         .background {
@@ -59,7 +66,7 @@ struct ChildCardView: View {
                             )
                         )
                 } else {
-                    Image("girlBackground")
+                    Image(vm.backgroundImange)
                         .resizable()
                         .scaledToFill()
                         .frame(maxWidth: .infinity)
@@ -68,6 +75,8 @@ struct ChildCardView: View {
             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
             .clipped()
         }
+        
+        
         .foregroundStyle(.white)
         .cornerRadius(16)
         
@@ -100,9 +109,9 @@ extension View {
     }
 }
 
-//#Preview {
-//    let model: BankCard = .init(name: "Apple Inc.", ownerName: "Apple Inc.", sum: "100", cardNumber: "100", type: .humo, expirationDate: "sfds")
-//    ChildCardView(bankCard: model)
-//        .environmentObject(GlobalViewModel())
-//        .padding()
-//}
+#Preview {
+    let model: BankCard = .init(name: "Apple Inc.", ownerName: "Apple Inc.", sum: "100", cardNumber: "100", type: .humo, expirationDate: "sfds")
+    ChildCardView(bankCard: model)
+        .environmentObject(GlobalViewModel())
+        .padding()
+}
