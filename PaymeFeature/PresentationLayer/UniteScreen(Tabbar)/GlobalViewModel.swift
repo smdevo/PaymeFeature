@@ -9,6 +9,9 @@ import SwiftUI
 
 class GlobalViewModel: ObservableObject {
     
+    
+    @Published var backgroundImange: String = "girlBackground"
+    
     @Published var currentUser: UserModel?
     
     @Published var currentFamily: FamilyModel?

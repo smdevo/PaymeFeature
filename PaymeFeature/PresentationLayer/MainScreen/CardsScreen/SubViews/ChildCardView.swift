@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ChildCardView: View {
     
+    
     @State private var showParentServiceSheet = false
     @State private var showChildServiceSheet = false
     
@@ -32,11 +33,16 @@ struct ChildCardView: View {
                 .foregroundColor(.white)
                 .textWithBlackBorder()
             
+            Text("LIMIT")
+            
+            
             HStack {
                 Image("paymekids")
                        .resizable()
                        .scaledToFit()
-                       .frame(height: 110)
+                       .clipped()
+                       .frame(width: 120)
+                  
                 
                 Spacer()
                 
@@ -60,7 +66,7 @@ struct ChildCardView: View {
                             )
                         )
                 } else {
-                    Image("girlBackground")
+                    Image(vm.backgroundImange)
                         .resizable()
                         .scaledToFill()
                         .frame(maxWidth: .infinity)
