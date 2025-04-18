@@ -17,6 +17,7 @@ struct BankCard: Identifiable {
     let expirationDate: String
     let iconName: String
     let isFamilyCard: Bool
+    let limit: String?
 
     
     init(name: String,
@@ -27,7 +28,8 @@ struct BankCard: Identifiable {
          expirationDate: String,
          iconName: String = "star.fill",
          isFamilyCard: Bool = false,
-         id: String
+         id: String,
+         limit: String?
     ) {
         self.name = name
         self.ownerName = ownerName
@@ -38,5 +40,6 @@ struct BankCard: Identifiable {
         self.iconName = iconName
         self.isFamilyCard = isFamilyCard
         self.id = id
+        self.limit = limit  
     }
 }

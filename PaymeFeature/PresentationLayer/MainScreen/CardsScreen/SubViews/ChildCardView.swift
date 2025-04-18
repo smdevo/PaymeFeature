@@ -33,23 +33,37 @@ struct ChildCardView: View {
                 .foregroundColor(.white)
                 .textWithBlackBorder()
             
-            Text("LIMIT")
+            
+            if let limit = bankCard.limit {
+                Text("Лимит: \(limit)")
+                    .font(.headline)
+                    .padding(8)
+                    .foregroundColor(.black)
+                    .background(.yellow)
+                    .clipShape(RoundedRectangle(cornerRadius: .spacing(.x5)))
+                    .frame(height: 28)
+                    .padding(.leading,10)
+            }
+            else {
+                VStack{}
+                .frame(height: 40)
+            }
+            
+           // vm.limit != nil ? Text("Лимит: \(vm.limit!) сум") : Text("")
             
             
             HStack {
                 Image("paymekids")
                        .resizable()
-                       .scaledToFit()
-                       .clipped()
-                       .frame(width: 120)
-                  
-                
+                       .scaledToFill()
+                       .frame(width: 140,height: 45)
+                    
                 Spacer()
                 
                 Image("kids")
                        .resizable()
                        .scaledToFit()
-                       .frame(height: 80)
+                       .frame(width: 100,height: 45)
             }
             
         }
@@ -66,10 +80,10 @@ struct ChildCardView: View {
                             )
                         )
                 } else {
-                    Image(vm.backgroundImange)
+                    Image(vm.backgroundImange[bankCard.id] ?? "girlBackground")
                         .resizable()
                         .scaledToFill()
-                        .frame(maxWidth: .infinity)
+                        //.frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
@@ -108,10 +122,10 @@ extension View {
         self.shadow(color: .black, radius: 1, x: 1, y: 1)
     }
 }
-
-#Preview {
-    let model: BankCard = .init(name: "Apple Inc.", ownerName: "Apple Inc.", sum: "100", cardNumber: "100", type: .humo, expirationDate: "sfds")
-    ChildCardView(bankCard: model)
-        .environmentObject(GlobalViewModel())
-        .padding()
-}
+//
+//#Preview {
+//    let model: BankCard = .init(name: "Apple Inc.", ownerName: "Apple Inc.", sum: "100", cardNumber: "100", type: .humo, expirationDate: "sfds", id: <#String#>)
+//    ChildCardView(bankCard: model)
+//        .environmentObject(GlobalViewModel())
+//        .padding()
+//}

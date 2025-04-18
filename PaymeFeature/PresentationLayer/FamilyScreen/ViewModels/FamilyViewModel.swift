@@ -144,7 +144,8 @@ class FamilyViewModel: ObservableObject {
                 id: ownerPhoneNumber,
                 name: cardName, number: formattedCardNumber,
                 ownerPhoneNumber: self.currentUser?.number ?? "" ,
-                balance: "0"
+                balance: "0",
+                limit: nil
             )
             
             familyToUpdate.cards.append(newCard)

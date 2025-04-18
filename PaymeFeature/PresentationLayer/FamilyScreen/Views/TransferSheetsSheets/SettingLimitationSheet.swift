@@ -15,7 +15,7 @@ struct SettingLimitationSheet: View {
     @State private var showConfirmation = false
     @State private var isSuccesFull = false
 
-  //  @EnvironmentObject var evm: GlobalViewModel
+    @EnvironmentObject var evm: GlobalViewModel
     
  //   @EnvironmentObject var fEvm: FamilyViewModel
     
@@ -23,6 +23,11 @@ struct SettingLimitationSheet: View {
     
     @FocusState var foc: Bool
     
+    let id: String
+    
+    init(id: String){
+        self.id = id
+    }
     
     var isAmountValid: Bool {
         if let amount = Double(sum), amount > 0 {
@@ -59,14 +64,19 @@ struct SettingLimitationSheet: View {
             Button {
                 isSetting = true
                 
-                //evm.sendMoney(amount: sum) { res in
+               
+                
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             isSetting = false
                             showConfirmation = true
-                            sum = ""
+                           
+                            
+//                            evm.limits[id] = Int(sum) ?? 0
+                            evm.setLimitToFamilyCard(id: id, limit: sum)
+                            
                             isSuccesFull = true
                         }
-                //}
+                
             } label: {
                 Text(isSetting ? "Setting..." : "Set")
                     .frame(maxWidth: .infinity)

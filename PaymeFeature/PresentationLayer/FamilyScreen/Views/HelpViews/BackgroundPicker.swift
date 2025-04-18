@@ -8,9 +8,21 @@
 import SwiftUI
 
 struct BackgroundSelectionView: View {
+    
+    @EnvironmentObject var evm: GlobalViewModel
+    
+    let settedBacks = ["girlBackground", "boyBackground", "abstractBackground", "natureBackground"]
+    
     @Environment(\.dismiss) var dismiss
-    let backgroundNames: [String] = ["girlBackground", "boyBackground", "abstractBackground", "natureBackground"]
-    var onSelect: (String) -> Void
+    
+    let id: String
+    
+    
+    init(id: String) {
+        self.id = id
+    }
+    
+   
 
     var body: some View {
         NavigationView {
@@ -20,7 +32,8 @@ struct BackgroundSelectionView: View {
                           GridItem(.flexible())],
                 spacing: 20
             ) {
-                ForEach(backgroundNames, id: \.self) { name in
+                
+                ForEach(settedBacks, id: \.self) { name in
                     Image(name)
                         .resizable()
                         .scaledToFill()
@@ -32,10 +45,11 @@ struct BackgroundSelectionView: View {
                                 .stroke(Color.white, lineWidth: 2)
                         )
                         .onTapGesture {
-                            onSelect(name)
+                            evm.backgroundImange[id] = name
                             dismiss()
                         }
                 }
+            
             }
             .padding()
             .navigationTitle("Выберите фон")
