@@ -39,6 +39,8 @@ struct ServicesSheetViewForParent: View {
     @State private var showTransactionSheet = false
     @State private var showLimitationSheet = false
 
+    @State private var showBackgroundPicker = false
+    
     let id: String
     
     init(id: String) {
@@ -113,16 +115,19 @@ struct ServicesSheetViewForParent: View {
                 .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showLimitationSheet) {
-            SettingLimitationSheet()
+            SettingLimitationSheet(id: id)
                 .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }
         
         //TODO: 
         .sheet(isPresented: $showBackgroundPicker) {
-            BackgroundSelectionView { chosenBackground in
-                vm.backgroundImange = chosenBackground
-            }
+            
+            BackgroundSelectionView(id: id)
+            
+//            BackgroundSelectionView { chosenBackground in
+//                vm.backgroundImange = chosenBackground
+//            }
             .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }

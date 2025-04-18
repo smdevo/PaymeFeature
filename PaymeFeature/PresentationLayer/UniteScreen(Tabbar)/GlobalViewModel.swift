@@ -10,7 +10,7 @@ import SwiftUI
 class GlobalViewModel: ObservableObject {
     
     
-    @Published var backgroundImange: String = "girlBackground"
+   
     
     @Published var currentUser: UserModel?
     
@@ -19,9 +19,20 @@ class GlobalViewModel: ObservableObject {
     @Published var cards: [BankCard] = []
     
     @Published var transactions: [TransactionModel] = [
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "300000", description: "перевод и услуги"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "500000", description: "перевод и услуги")
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300000", description: "перевод и услуги"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500000", description: "перевод и услуги"),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300000", description: "перевод и услуги"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500000", description: "перевод и услуги"),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300000", description: "перевод и услуги"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500000", description: "перевод и услуги"),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300000", description: "перевод и услуги"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500000", description: "перевод и услуги")
     ]
+    
+    @Published var limits: [String: Int] = [:]
+    
+    @Published var backgroundImange:  [String: String] = [:]
+    
     
     let netService = UsersNtworkinDataService.shared
     
@@ -70,7 +81,7 @@ class GlobalViewModel: ObservableObject {
         
         guard let currentUser else { return }
         
-        let cardUser = BankCard(name: "Own Card", ownerName: currentUser.name, sum: currentUser.balance, cardNumber: currentUser.cardNumber, type: .uzcard, expirationDate: "11/28", id: UUID().uuidString)
+        let cardUser = BankCard(name: "Own Card", ownerName: currentUser.name, sum: currentUser.balance, cardNumber: currentUser.cardNumber, type: .uzcard, expirationDate: "11/28", id: UUID().uuidString, limit: nil)
         
         cards.append(cardUser)
     }
@@ -91,7 +102,7 @@ class GlobalViewModel: ObservableObject {
         
         let bankCards = cards.map { fCard in
             
-            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "Number", type: .humo, expirationDate: "11/28",isFamilyCard: true, id: fCard?.id ?? "1234")
+            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "Number", type: .humo, expirationDate: "11/28",isFamilyCard: true, id: fCard?.id ?? "1234", limit: fCard?.limit)
         }
         
         self.cards.append(contentsOf: bankCards)
@@ -204,6 +215,44 @@ class GlobalViewModel: ObservableObject {
     
     func saveHistoryMonitoring(sender: String, receiver: String, amount: String) {
         transactions.append(TransactionModel(date: "date", time: "date", amount: amount, description: "Transaction to family card"))
+    }
+    
+    func setLimitToFamilyCard(id: String, limit: String) {
+        
+        
+        
+        
+        guard let family = currentFamily else { return }
+        
+        let card = family.cards.filter { vcm in
+            vcm?.id == id
+        }.first
+        
+        guard let card else { return }
+        
+        let cardToSetLimit = VirtualCardModel(id: id, name: card?.name ?? "", balance: card?.balance ?? "0", limit: limit)
+        
+        let cards = family.cards.map { vc in
+            if vc?.id == cardToSetLimit.id {
+                cardToSetLimit
+            }else {
+                vc
+            }
+        }
+        
+        let updatedFamily = FamilyModel(cards: cards, id: family.id)
+        
+        
+        netService.updateData(link: "childCards/" + familyId, dataToUpdate: updatedFamily, completion: { (success) in
+            if success {
+                print("Successfully updated")
+            } else {
+                print("Failed to update")
+            }
+        })
+    
+        
+        
     }
     
     

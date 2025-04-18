@@ -56,7 +56,7 @@ struct FamilyView: View {
                         }
                         .padding(.vertical)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(.paymeC.opacity(0.3))
+                        .background(.paymeC.opacity(0.8))
                         .clipShape(.rect(cornerRadius: 12))
                         
                         if let user = viewModel.currentUser, user.invitation {
@@ -109,7 +109,7 @@ struct FamilyView: View {
                                                             cardNumber: card.number,
                                                             type: .humo,
                                                             expirationDate: "11/27",
-                                                            isFamilyCard: true, id: card.id))
+                                                            isFamilyCard: true, id: card.id, limit: card.limit))
                                         .environmentObject(viewModel)
                                     }
                                 }
@@ -126,7 +126,9 @@ struct FamilyView: View {
                                                         cardNumber: card.number,
                                                         type: .humo,
                                                         expirationDate: "11/27",
-                                                        isFamilyCard: true, id: card.id))
+                                                        isFamilyCard: true, id: card.id,
+                                                        limit: card.limit
+                                                    ))
                                         .environmentObject(viewModel)
                                     }
                                 }
@@ -146,7 +148,7 @@ struct FamilyView: View {
                                                 )
                                             Text("Добавить детскую карту")
                                                 .font(.headline)
-                                                .foregroundColor(.white)
+                                                .foregroundColor(.primary)
                                                 .padding()
                                                 .cornerRadius(10)
                                         }

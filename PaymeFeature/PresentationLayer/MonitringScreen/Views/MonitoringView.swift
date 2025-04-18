@@ -48,7 +48,7 @@ struct MonitoringView: View {
                 Text("Поступление")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text("4000000")
+                Text("+4 000 000")
                     .font(.headline)
                     .foregroundColor(.green)
             }
@@ -57,7 +57,7 @@ struct MonitoringView: View {
                 Text("Расход")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text("1000000")
+                Text("-1 000 000")
                     .font(.headline)
                     .foregroundColor(.red)
             }
@@ -87,6 +87,7 @@ struct MonitoringView: View {
         List {
             ForEach(eVm.transactions) { transaction in
                 TransactionRow(transaction: transaction)
+                
             }
         }
         .listStyle(PlainListStyle())
@@ -112,7 +113,29 @@ struct TransactionRow: View {
             }
         }
         .padding(.vertical, 6)
-        .background(.backgroundC)
+        
     }
 }
 
+
+struct TransactionDivider: View {
+    
+    var body: some View {
+        HStack{
+            Text("Date")
+            Spacer()
+            Text("Amount")
+        }
+        .background(
+            .red
+               
+        )
+        .clipped()
+    }
+}
+
+
+
+#Preview{
+    MonitoringView().environmentObject(GlobalViewModel())
+}
