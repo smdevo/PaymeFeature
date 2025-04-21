@@ -176,7 +176,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "104"
             endingLineNumber = "104"
-            landmarkName = "sendMoney(amount:number:completion:)"
+            landmarkName = "getFamilyCard()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -206,8 +206,8 @@
             filePath = "PaymeFeature/PresentationLayer/UniteScreen(Tabbar)/GlobalViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "sendMoney(amount:number:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -224,7 +224,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "106"
             endingLineNumber = "106"
-            landmarkName = "sendMoney(amount:number:completion:)"
+            landmarkName = "getFamilyCard()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -258,6 +258,68 @@
             endingLineNumber = "117"
             landmarkName = "sendMoney(amount:number:completion:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BFFA3B09-7BF0-4136-96AB-D5B05E6CFBA8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PaymeFeature/PresentationLayer/FamilyScreen/Views/TransferSheetsSheets/TransactionSheet.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2BA3F1B3-8644-492B-9B96-7944EEE1212E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PaymeFeature/PresentationLayer/UniteScreen(Tabbar)/GlobalViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
+            landmarkName = "sendMoney(amount:number:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2BA3F1B3-8644-492B-9B96-7944EEE1212E - 68f0835311ebd74f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PaymeFeature.GlobalViewModel.sendMoney(amount: Swift.String, number: Swift.String, completion: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "PaymeFeature.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/samandar/Projects/PaymeFeature/PaymeFeature/PresentationLayer/UniteScreen(Tabbar)/GlobalViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "175"
+                  endingLineNumber = "175">
+               </Location>
+               <Location
+                  uuid = "2BA3F1B3-8644-492B-9B96-7944EEE1212E - 68f0835311ebd701"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PaymeFeature.GlobalViewModel.sendMoney(amount: Swift.String, number: Swift.String, completion: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "PaymeFeature.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/samandar/Projects/PaymeFeature/PaymeFeature/PresentationLayer/UniteScreen(Tabbar)/GlobalViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "177"
+                  endingLineNumber = "177">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
