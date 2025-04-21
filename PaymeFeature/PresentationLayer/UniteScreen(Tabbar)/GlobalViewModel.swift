@@ -9,25 +9,61 @@ import SwiftUI
 
 class GlobalViewModel: ObservableObject {
     
-    
-   
-    
     @Published var currentUser: UserModel?
     
     @Published var currentFamily: FamilyModel?
     
     @Published var cards: [BankCard] = []
     
+    //MARK: MONITORING
     @Published var transactions: [TransactionModel] = [
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300000", description: "перевод и услуги"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500000", description: "перевод и услуги"),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300000", description: "перевод и услуги"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500000", description: "перевод и услуги"),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300000", description: "перевод и услуги"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500000", description: "перевод и услуги"),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300000", description: "перевод и услуги"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500000", description: "перевод и услуги")
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "оплата", iconName: "safia"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "оплата", iconName: "uzum"),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "+300 000", description: "перевод", iconName: ""
+),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "оплата ", iconName: "safia"),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "связь", iconName: "ucell"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "услуги", iconName: ""),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "оплата", iconName: "makro"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500 000", description: "перевод", iconName: "")
     ]
+    
+    var totalIncomeString: String {
+        let sum = transactions
+            .compactMap { Int($0.amount.replacingOccurrences(of: " ", with: "")) }
+            .filter { $0 > 0 }
+            .reduce(0, +)
+        return format(sum)
+    }
+
+    var totalExpenseString: String {
+        let sum = transactions
+            .compactMap { Int($0.amount.replacingOccurrences(of: " ", with: "")) }
+            .filter { $0 < 0 }
+            .reduce(0, +)
+        return format(sum)
+    }
+
+    var sectionTotals: [String: String] {
+        Dictionary(grouping: transactions, by: \.date)
+            .mapValues { items in
+                let sum = items
+                    .compactMap { Int($0.amount.replacingOccurrences(of: " ", with: "")) }
+                    .reduce(0, +)
+                return format(sum)
+            }
+    }
+
+    private func format(_ value: Int) -> String {
+        let fmt = NumberFormatter()
+        fmt.numberStyle = .decimal
+        fmt.groupingSeparator = " "
+        fmt.maximumFractionDigits = 0
+        let absString = fmt.string(from: .init(value: abs(value))) ?? "0"
+        return (value >= 0 ? "+" : "-") + absString
+    }
+    
+    //MARK: Limits
     
     @Published var limits: [String: Int] = [:]
     
@@ -142,7 +178,6 @@ class GlobalViewModel: ObservableObject {
             return
         }
        
-        
         let updatedUserBalance = isParent ?
         String(userSum - amountSum) : String(userSum + amountSum)
         
@@ -214,7 +249,7 @@ class GlobalViewModel: ObservableObject {
     
     
     func saveHistoryMonitoring(sender: String, receiver: String, amount: String) {
-        transactions.append(TransactionModel(date: "date", time: "date", amount: amount, description: "Transaction to family card"))
+        transactions.append(TransactionModel(date: "date", time: "date", amount: amount, description: "Transaction to family card", iconName: "safia"))
     }
     
     func setLimitToFamilyCard(id: String, limit: String) {
