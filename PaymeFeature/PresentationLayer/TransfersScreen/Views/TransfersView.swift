@@ -8,10 +8,13 @@
 
 import SwiftUI
 
- 
+
 struct TransfersView: View {
     @State private var cardOrPhone: String = ""
     @State private var isCardValid = false
+    
+    @EnvironmentObject var evm: GlobalViewModel
+    
     
     func formatCardNumber(_ number: String) -> String {
         let cleanNumber = number.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
@@ -29,7 +32,7 @@ struct TransfersView: View {
         
         return formattedNumber
     }
-
+    
     
     var body: some View {
         NavigationView {
@@ -37,31 +40,28 @@ struct TransfersView: View {
                 
                 HStack {
                     Spacer()
-                    Text("Pul o’tkazmasi")
+                    Text("Перевод средств")
                         .font(.title3)
                         .bold()
                     Spacer()
-                    NavigationLink(destination: InfoScreen()) {
-                        Image(systemName: "info.circle")
-                            .font(.title2)
-                    }
+                    
                 }
                 .padding(.top)
                 
-                Text("Kimga:")
+                Text("Кому:")
                     .font(.headline)
                 
-                Text("Karta yoki telefon raqami")
+                Text("Номер карты или телефона")
                     .foregroundStyle(.gray)
                     .font(.system(size: 14))
-
+                
                 HStack {
                     Image(systemName: "creditcard")
                         .foregroundColor(.gray)
                     
-
                     
-                    TextField("Karta yoki telefon raqami", text: $cardOrPhone)
+    
+                    TextField("Номер карты или телефона", text: $cardOrPhone)
                         .keyboardType(.numberPad)
                         .font(.system(size: 14))
                         .onChange(of: cardOrPhone) { newValue in
@@ -69,7 +69,7 @@ struct TransfersView: View {
                             isCardValid = cardOrPhone.replacingOccurrences(of: " ", with: "").count == 16
                         }
                         .font(.system(size: 14))
-//                        .padding()
+                    //                        .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
                     Button(action: {
@@ -80,33 +80,33 @@ struct TransfersView: View {
                 .padding()
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
-
+                
                 Button(action: {
                 }) {
                     HStack {
                         Image(systemName: "plus")
                             .foregroundColor(.blue)
-                        Text("Qo’shish")
+                        Text("Добавить")
                             .foregroundColor(.blue)
                             .font(.system(size: 14))
                     }
                 }
-
-                Text("Barchasi")
+                
+                Text("Все получатели")
                     .foregroundColor(.blue)
                     .onTapGesture {
                     }
-
+                
                 NavigationLink(destination: MoneyTransferView(cardNumber: cardOrPhone), isActive: $isCardValid) {
                     EmptyView()
                 }
-
+                
                 
                 VStack(spacing: 12) {
                     NavigationLink(destination: PhoneTransferScreen()) {
                         HStack {
                             Image(systemName: "phone")
-                            Text("Telefon raqami bo`yicha")
+                            Text("По номеру телефона")
                                 .foregroundColor(.black)
                             Spacer()
                             Image(systemName: "chevron.right")
@@ -116,12 +116,12 @@ struct TransfersView: View {
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
                     }
-
+                    
                     NavigationLink(destination: SelfTransferScreen()) {
                         HStack {
                             Image(systemName: "creditcard")
                                 .foregroundColor(.paymeC)
-                            Text("Mening kartamga o’tkazish")
+                            Text("Перевод на мою карту")
                                 .foregroundColor(.black)
                             Spacer()
                             Image(systemName: "chevron.right")
@@ -131,56 +131,33 @@ struct TransfersView: View {
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
                     }
+                    
+                }
+                
+                Spacer()
+            }
+            .padding()
+        }
+    }
+}
 
-                    NavigationLink(destination: GreetingScreen()) {
-                                            HStack {
-                                                Image(systemName: "gift")
-                                                Text("Tabriknoma qo'shish")
-                                                Spacer()
-                                                Image(systemName: "plus")
-                                            }
-                                            .padding()
-                                            .background(Color(.systemGray6))
-                                            .cornerRadius(12)
-                                        }
-                                    }
+struct PhoneTransferScreen: View {
+    var body: some View {
+        Text("Перевод по номеру телефона")
+            .navigationTitle("По номеру телефона")
+    }
+}
 
-                                    Spacer()
-                                }
-                                .padding()
-                            }
-                        }
-                    }
+struct SelfTransferScreen: View {
+    var body: some View {
+        Text("Перевод на мою карту")
+            .navigationTitle("На мою карту")
+    }
+}
 
-                    struct PhoneTransferScreen: View {
-                        var body: some View {
-                            Text("Telefon raqam bo'yicha o'tkazma")
-                                .navigationTitle("Telefon bo‘yicha")
-                        }
-                    }
 
-                    struct SelfTransferScreen: View {
-                        var body: some View {
-                            Text("Mening kartamga o'tkazish")
-                                .navigationTitle("O'z kartamga")
-                        }
-                    }
 
-                    struct GreetingScreen: View {
-                        var body: some View {
-                            Text("Tabriknoma qo'shish sahifasi")
-                                .navigationTitle("Tabriknoma")
-                        }
-                    }
 
-                    struct InfoScreen: View {
-                        var body: some View {
-                            Text("Bu sahifa orqali pul o'tkazishingiz mumkin.")
-                                .padding()
-                                .navigationTitle("Ma'lumot")
-                        }
-                    }
-
-                    #Preview {
-                        TransfersView()
-                    }
+#Preview {
+    TransfersView()
+}

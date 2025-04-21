@@ -74,7 +74,7 @@ class FamilyViewModel: ObservableObject {
                 return
             }
             
-            // Обновляем familyId у пользователя
+            
             var updatedUser = userToUpdate
             updatedUser.familyId = adminUser.familyId
             
@@ -86,7 +86,7 @@ class FamilyViewModel: ObservableObject {
             
             UsersNtworkinDataService.shared.updateData(link: userUpdateEndpoint, dataToUpdate: updatedUser) { success in
                 if success {
-                    // После успешного обновления пользователя, обновляем данные семьи
+                    
                     let familyEndpoint = "childCards/\(adminUser.familyId)"
                     UsersNtworkinDataService.shared.getData(link: familyEndpoint) { (family: FamilyModel?) in
                         guard let familyToUpdate = family else {
@@ -94,7 +94,7 @@ class FamilyViewModel: ObservableObject {
                             return
                         }
                         
-                        // Обновляем запись семьи на сервере
+                        
                         UsersNtworkinDataService.shared.updateData(link: familyEndpoint, dataToUpdate: familyToUpdate) { familyUpdateSuccess in
                             if familyUpdateSuccess {
                                 print("Пользователь успешно добавлен в семью")
