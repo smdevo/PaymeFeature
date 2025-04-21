@@ -19,8 +19,14 @@ struct CardsTableView: View {
         ScrollView {
             LazyVStack {
                 ForEach(cards) { card in
+                    
+                    if card.isFamilyCard {
+                        ChildCardView(bankCard: card)
+                            .padding()
+                    }else {
                         CardView(bankCard: card)
                             .padding()
+                    }
                 }
                 
             }
@@ -28,17 +34,3 @@ struct CardsTableView: View {
     }
 }
 
-#Preview {
-    CardsTableView(cards: [
-        BankCard(
-            name: "Student Card",
-            ownerName: "Samandar Toshpulatov",
-            sum: "1200",
-            cardNumber: "4444 3333 2222 1111",
-            type: .visa,
-            expirationDate: "09/25",
-            cardColor: .purple,
-            iconName: "creditcard.fill"
-        ),
-    ])
-}

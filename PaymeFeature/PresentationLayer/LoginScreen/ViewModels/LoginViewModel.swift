@@ -14,8 +14,8 @@ class LoginViewModel: ObservableObject {
     @Published var users: [UserModel] = []
     
     //TODO: MOCK
-    @Published var userName: String = "John Smith"
-    @Published var password: String = "john123"
+    @Published var phoneNumber: String = ""
+    @Published var password: String = ""
     @Published var errorMessage: String?
     
     var onLoginSuccess: (() -> Void)?
@@ -38,7 +38,7 @@ class LoginViewModel: ObservableObject {
     
     func login() {
         
-        let trimmedUserName = userName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let trimmedUserName = phoneNumber.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !users.isEmpty else {
@@ -47,21 +47,17 @@ class LoginViewModel: ObservableObject {
         }
         errorMessage = ""
         
-        for user in users {
-            print("Пользователь: \(user.name), пароль: \(user.password)")
-        }
         
         if let user = users.first(where: {
-            $0.name.lowercased() == trimmedUserName && $0.password == trimmedPassword
+            $0.number.lowercased() == trimmedUserName && $0.password == trimmedPassword
         }) {
             
             UserDefaults.standard.set(user.id, forKey: "userId")
             UserDefaults.standard.set(user.familyId, forKey: "userFamilyId")
-
-            
             onLoginSuccess?()
         } else {
             errorMessage = "Неверный логин или пароль"
         }
     }
 }
+

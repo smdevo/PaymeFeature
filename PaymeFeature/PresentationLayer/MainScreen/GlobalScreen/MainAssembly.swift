@@ -6,19 +6,15 @@
 //
 
 
-//Need to transfer the content in support View
-//need to add focuser into textField
-//need to do language localization
-
-
+import Foundation
 
 final class Assembly {
     
-    func giveMAinViewController() -> MainViewController {
+    func giveMAinViewController(enObj: GlobalViewModel) -> MainViewController {
         
         let presenter = MainPresenter()
         
-        let interactor = MainInteractor(presenter: presenter)
+        let interactor = MainInteractor(presenter: presenter, enObj: enObj)
         
         let view = MainViewController(interactor: interactor)
         

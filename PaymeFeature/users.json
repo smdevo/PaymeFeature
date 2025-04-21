@@ -1,100 +1,100 @@
-[
-  {
-    "id": "1",
-    "name": "Alice Johnson",
-    "age": 35,
-    "balance": 2500.50,
-    "userName": "alice",
-    "password": "123",
-    "date": 1743688593,
-    "cardNumber": "1111 2222 3333 4444",
-    "avatar": "avatar1.png",
-    "role": "parent",
-    "friends": [
-      {
-        "id": "3",
-        "name": "Charlie Brown",
-        "age": 12,
-        "balance": 500.00,
-        "userName": "charlie",
-        "password": "123",
-        "date": 1743688587,
-        "cardNumber": "3333 4444 5555 6666",
-        "avatar": "avatar3.png",
-        "role": "child",
-        "friends": [],
-        "transactions": [],
-        "subscriptions": [],
-        "cards": []
-      }
-    ],
-    "transactions": [
-      {
-        "id": "txn_1",
-        "fromUserID": "1",
-        "toUserID": "3",
-        "amount": 50.0,
-        "date": "2025-04-04T12:00:00Z",
-        "description": "Оплата обеда"
-      }
-    ],
-    "subscriptions": [
-      {
-        "id": "sub_1",
-        "name": "Payme Plus",
-        "price": 9.99,
-        "renewalDate": "2025-05-01T00:00:00Z"
-      }
-    ],
-    "cards": [
-      {
-        "id": "card_1",
-        "cardNumber": "9999 8888 7777 6666",
-        "expiryDate": "12/25",
-        "phoneNumber": "+1234567890",
-        "isFamily": false,
-        "ownerID": "1"
-      },
-      {
-        "id": "card_2",
-        "cardNumber": "5555 4444 3333 2222",
-        "expiryDate": "10/24",
-        "phoneNumber": "+1987654321",
-        "isFamily": false,
-        "ownerID": "1"
-      }
-    ]
-  },
-  {
-    "id": "2",
-    "name": "Bob Smith",
-    "age": 40,
-    "balance": 1500.25,
-    "userName": "bob",
-    "password": "123",
-    "date": 1743688590,
-    "cardNumber": "2222 3333 4444 5555",
-    "avatar": "avatar2.png",
-    "role": "parent",
-    "friends": [],
-    "transactions": [],
-    "subscriptions": [],
-    "cards": []
-  },
-  {
-    "id": "3",
-    "name": "Charlie Brown",
-    "age": 12,
-    "balance": 500.00,
-    "userName": "charlie",
-    "password": "123",
-    "date": 1743688587,
-    "cardNumber": "3333 4444 5555 6666",
-    "avatar": "avatar3.png",
-    "role": "child",
-    "friends": [],
-    "transactions": [],
-    "subscriptions": [],
-    "cards": []
-  }
-]
+//[
+//  {
+//    "id": "1",
+//    "name": "Alice Johnson",
+//    "age": 35,
+//    "balance": 2500.50,
+//    "userName": "alice",
+//    "password": "123",
+//    "date": 1743688593,
+//    "cardNumber": "1111 2222 3333 4444",
+//    "avatar": "avatar1.png",
+//    "role": "parent",
+//    "friends": [
+//      {
+//        "id": "3",
+//        "name": "Charlie Brown",
+//        "age": 12,
+//        "balance": 500.00,
+//        "userName": "charlie",
+//        "password": "123",
+//        "date": 1743688587,
+//        "cardNumber": "3333 4444 5555 6666",
+//        "avatar": "avatar3.png",
+//        "role": "child",
+//        "friends": [],
+//        "transactions": [],
+//        "subscriptions": [],
+//        "cards": []
+//      }
+//    ],
+//    "transactions": [
+//      {
+//        "id": "txn_1",
+//        "fromUserID": "1",
+//        "toUserID": "3",
+//        "amount": 50.0,
+//        "date": "2025-04-04T12:00:00Z",
+//        "description": "Оплата обеда"
+//      }
+//    ],
+//    "subscriptions": [
+//      {
+//        "id": "sub_1",
+//        "name": "Payme Plus",
+//        "price": 9.99,
+//        "renewalDate": "2025-05-01T00:00:00Z"
+//      }
+//    ],
+//    "cards": [
+//      {
+//        "id": "card_1",
+//        "cardNumber": "9999 8888 7777 6666",
+//        "expiryDate": "12/25",
+//        "phoneNumber": "+1234567890",
+//        "isFamily": false,
+//        "ownerID": "1"
+//      },
+//      {
+//        "id": "card_2",
+//        "cardNumber": "5555 4444 3333 2222",
+//        "expiryDate": "10/24",
+//        "phoneNumber": "+1987654321",
+//        "isFamily": false,
+//        "ownerID": "1"
+//      }
+//    ]
+//  },
+//  {
+//    "id": "2",
+//    "name": "Bob Smith",
+//    "age": 40,
+//    "balance": 1500.25,
+//    "userName": "bob",
+//    "password": "123",
+//    "date": 1743688590,
+//    "cardNumber": "2222 3333 4444 5555",
+//    "avatar": "avatar2.png",
+//    "role": "parent",
+//    "friends": [],
+//    "transactions": [],
+//    "subscriptions": [],
+//    "cards": []
+//  },
+//  {
+//    "id": "3",
+//    "name": "Charlie Brown",
+//    "age": 12,
+//    "balance": 500.00,
+//    "userName": "charlie",
+//    "password": "123",
+//    "date": 1743688587,
+//    "cardNumber": "3333 4444 5555 6666",
+//    "avatar": "avatar3.png",
+//    "role": "child",
+//    "friends": [],
+//    "transactions": [],
+//    "subscriptions": [],
+//    "cards": []
+//  }
+//]

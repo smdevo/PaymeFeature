@@ -11,11 +11,8 @@ protocol HistoryDataServiseProtocol {
     
     func fetchHistory() -> [MessageEntity]
     
-    func saveMessage(message: String, type: Sender)
-//
-//    func removeCalculation(indexPath: Int, items: [MessageEntity])
-//    
-//    func clearHistory()
+//    func saveMessage(message: String, type: Sender)
+
 }
 
 
@@ -36,32 +33,13 @@ final class HistoryDataServise: HistoryDataServiseProtocol {
         return []
     }
     
-    func saveMessage(message: String, type: Sender) {
-        let newMessage = MessageEntity(context: context)
-        //newCalculation.date = Date()
-        newMessage.message = message
-        newMessage.type = type.rawValue
-        finalSave()
-    }
-    
-    
-//    func removeCalculation(indexPath: Int, items: [Calculation]) {
-//        let dataToRemove = items[indexPath]
-//        context.delete(dataToRemove)
+//    func saveMessage(message: String, type: Sender) {
+//        let newMessage = MessageEntity(context: context)
+//        newMessage.message = message
+//        newMessage.type = type.rawValue
 //        finalSave()
 //    }
-//    
-//    func clearHistory() {
-//        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Calculation.fetchRequest()
-//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-//        
-//        do {
-//            try context.execute(deleteRequest)
-//            try context.save()
-//        } catch {
-//            print("Failed to delete history: \(error)")
-//        }
-//    }
+    
     
     private func finalSave() {
         do {

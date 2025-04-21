@@ -4,22 +4,26 @@
 //
 //  Created by Samandar on 02/04/25.
 //
-
+import Combine
 
 protocol MainInteractorProtocol {
     
     func onviewDidLoad()
+    func tapForCards()
 }
 
 
 final class MainInteractor {
     
-    let currencyNetworkingService: CurrencyNetworkingService = CurrencyNetworkingService()
+    var cancellables = Set<AnyCancellable>()
     
     let presenter: MainPresenterProtocol
     
-    init(presenter: MainPresenterProtocol) {
+    let enObj: GlobalViewModel
+    
+    init(presenter: MainPresenterProtocol, enObj: GlobalViewModel) {
         self.presenter = presenter
+        self.enObj = enObj
     }
     
 }
@@ -27,28 +31,33 @@ final class MainInteractor {
 
 extension MainInteractor: MainInteractorProtocol {
     
+    
+    
     func onviewDidLoad() {
         
-        fetchCurrencyData()
+        upDateTheBalance()
+        setUpBaseView()
     }
     
-    private func fetchCurrencyData() {
+    
+    func tapForCards() {
+        presenter.presentCardsView(enObj: enObj)
+    }
+    
+    private func upDateTheBalance() {
         
-        currencyNetworkingService.fetchSelectedCurrencies(codes: ["USD", "EUR", "RUB","GBP","JPY"]) { [weak self] currencies in
-            
-            guard let currencies = currencies
-            else {
-                print("Failed to fetch currency data.")
-                return
+        enObj.$currentUser
+            .sink { [weak self] user in
+                self?.presenter.presentBalance(balance: user?.balance ?? "...")
             }
-            
-            
-            self?.presenter.presentCurrencies(currencies: currencies)
-            
-        }
-
-        
+            .store(in: &cancellables)
     }
     
+    
+    private func setUpBaseView() {
+        
+        presenter.presentBaseView(enObj: enObj)
+        
+    }
     
 }

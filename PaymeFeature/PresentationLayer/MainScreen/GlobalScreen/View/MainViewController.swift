@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 
 protocol CardsButtonDelegate: AnyObject {
@@ -16,31 +17,17 @@ protocol CardsButtonDelegate: AnyObject {
 
 protocol MainViewProtocol: AnyObject {
     
-    func showCurrencies(currencies: [Currency])
-    
+    func showUpdatedBalance(balance: String)
+    func showBaseView(enObj: GlobalViewModel)
+    func showCardsView(enObj: GlobalViewModel)
 }
 
 
-final class MainViewController: UIViewController, CardsButtonDelegate {
+final class MainViewController: UIViewController {
     
     
-    func tapForCards() {
-        print("Hello working")
-        
-        let cardsView = CardsView()
-        
-        let hostingController = UIHostingController(rootView: cardsView)
-        
-        navigationController?.pushViewController(hostingController, animated: true)
-    }
-    
-    
-    
-
     //MARK: -Dependency
     let interactor: MainInteractorProtocol
-    
-    //var currencies: [Currency] = []
     
     //MARK: -UI elements
     
@@ -62,7 +49,10 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
         interactor.onviewDidLoad()
     }
     
-    init(interactor: MainInteractorProtocol) {
+    
+   
+    
+    init(interactor: MainInteractor) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
@@ -80,17 +70,63 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
         view.addSubview(quickPayView)
         view.addSubview(currencyView)
         
-        quickPayView.delegate = self
-        
-        setUPCurrencyScrollView()
-       
+        quickPayView.balanceBtn.delegate = self
+               
         setUpConstraints()
+        
+    }
+
+    
+    
+    private func setUpConstraints() {
+    
+        balanceView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        balanceView.topAnchor.constraint(equalTo: view.topAnchor, constant: .spacing(.x14)).isActive = true
+        balanceView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2).isActive = true
+    
+        
+        
+        quickPayView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        quickPayView.topAnchor.constraint(equalTo: balanceView.bottomAnchor, constant: .spacing(.x7)).isActive = true
+        quickPayView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
+        
+        
+        currencyView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        currencyView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        currencyView.topAnchor.constraint(equalTo: quickPayView.bottomAnchor, constant: .spacing(.x10)).isActive = true
+        currencyView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        
+    }
+    
+   
+    @objc func hideShowBalance() {}
+    
+}
+
+extension MainViewController: CardsButtonDelegate {
+    
+    func tapForCards() {
+        interactor.tapForCards()
+    }
+    
+}
+
+extension MainViewController: MainViewProtocol {
+    
+    
+    func showCardsView(enObj: GlobalViewModel) {
+        let cardsView = CardsView().environmentObject(enObj)
+        
+        let hostingController = UIHostingController(rootView: cardsView)
+        
+        navigationController?.pushViewController(hostingController, animated: true)
     }
     
     
-    private func setUPCurrencyScrollView() {
+    func showBaseView(enObj: GlobalViewModel) {
         
-        let hostingController = UIHostingController(rootView: currencyScrollView)
+        let hostingController = UIHostingController(rootView: currencyScrollView.environmentObject(enObj))
         
         addChild(hostingController)
         view.addSubview(hostingController.view)
@@ -102,56 +138,15 @@ final class MainViewController: UIViewController, CardsButtonDelegate {
             hostingController.view.topAnchor.constraint(equalTo: currencyView.topAnchor,constant: .spacing(.x5)),
             hostingController.view.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor),
             hostingController.view.widthAnchor.constraint(equalTo: currencyView.widthAnchor),
-            hostingController.view.heightAnchor.constraint(equalToConstant: 140)
         ])
         
         hostingController.didMove(toParent: self)
-        
     }
-    
-    
-    private func setUpConstraints() {
-    
-        balanceView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .spacing(.x10)).isActive = true
-        balanceView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(.spacing(.x10))).isActive = true
-        balanceView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
-        balanceView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
-    
-        
-        quickPayView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .spacing(.x10)).isActive = true
-        quickPayView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(.spacing(.x10))).isActive = true
-        quickPayView.topAnchor.constraint(equalTo: balanceView.bottomAnchor, constant: 60).isActive = true
-        quickPayView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
-        
-        
-        currencyView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        currencyView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        currencyView.topAnchor.constraint(equalTo: quickPayView.bottomAnchor, constant: 50).isActive = true
-        currencyView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-        
-    }
-    
-   
 
-    
-    @objc func hideShowBalance() {
-            
-        
+    func showUpdatedBalance(balance: String) {
+        balanceView.getBalance(sum: balance)
     }
     
 }
 
-extension MainViewController: MainViewProtocol {
-    
-    
-    func showCurrencies(currencies: [Currency]) {
-        
-        currencies.forEach { currency in
-            print(currency.flag)
-        }
-        
-    }
-    
 
-}

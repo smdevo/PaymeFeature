@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "happy-family-together-avatar-international-family-day-happy-dad-hugs-mom-and-children-group-of-people-father-mother-daughter-and-son-illustration-vector.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
