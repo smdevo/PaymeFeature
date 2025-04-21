@@ -124,7 +124,6 @@ class GlobalViewModel: ObservableObject {
         guard
             let userSum = Double(currentUser.balance),
             let card = currentFamily.cards.filter({$0?.id == number}).first,
-           // let card = currentFamily.cards.first,
             let famBalance = card?.balance,
             let famCardSum = Double(famBalance)
         else {
@@ -171,7 +170,8 @@ class GlobalViewModel: ObservableObject {
             name: famCard?.name ?? "",
             number: famCard?.number ?? "",
             ownerPhoneNumber: famCard?.ownerPhoneNumber ?? "",
-            balance: updatedFamilyBalance
+            balance: updatedFamilyBalance,
+            limit: famCard?.limit ?? ""
         )
         
         let cards = currentFamily.cards.map { vc in
@@ -242,6 +242,8 @@ class GlobalViewModel: ObservableObject {
         
         let updatedFamily = FamilyModel(cards: cards, id: family.id)
         
+        
+        currentFamily = updatedFamily
         
         netService.updateData(link: "childCards/" + familyId, dataToUpdate: updatedFamily, completion: { (success) in
             if success {
