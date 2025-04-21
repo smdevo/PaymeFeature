@@ -68,7 +68,7 @@ struct FamilyView: View {
 
                         
                         
-                        if let user = viewModel.currentUser, user.invitation {
+                        if let user = viewModel.currentUser, user.invitation, viewModel.currentUser?.role == false {
                             Button(action: {
                                 showInvitationAlert = true
                             }) {

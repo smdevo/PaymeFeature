@@ -7,10 +7,14 @@
 
 import SwiftUI
 import LocalAuthentication
+import Combine
 
 class FamilyViewModel: ObservableObject {
     
     let networkingService = UsersNtworkinDataService.shared
+    
+    private var timerCancellable: AnyCancellable?
+    private var cancellables = Set<AnyCancellable>()
     
     @Published var currentUser: UserModel?
     
@@ -26,6 +30,21 @@ class FamilyViewModel: ObservableObject {
     
     init() {
         getCurrentUserAndFamily()
+        
+        startTimer()
+    }
+    
+    
+    private func startTimer() {
+            timerCancellable = Timer.publish(every: 5, on: .main, in: .common)
+                .autoconnect()
+                .sink { [weak self] _ in
+                    self?.getCurrentUserAndFamily()
+                }
+        }
+    
+    deinit {
+        timerCancellable?.cancel()
     }
     
     func gettingMembers() {
@@ -40,12 +59,7 @@ class FamilyViewModel: ObservableObject {
             guard let users else { return }
             self?.allUsers = users
             self?.currentUser = users.first(where: {$0.id == self?.userId})
-            
-//            UserDefaults.standard.removeObject(forKey: "userFamilyId")
-//            UserDefaults.standard.set(self?.currentUser?.familyId ?? "1", forKey: "userFamilyId")
-//            
-//            self?.userFamilyId = self?.currentUser?.familyId ?? "1"
-            
+                     
             self?.familyMembers = users.filter({$0.familyId == self?.currentUser?.familyId})
         }
         
