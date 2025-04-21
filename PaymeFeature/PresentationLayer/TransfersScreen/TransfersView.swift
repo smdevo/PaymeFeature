@@ -7,6 +7,8 @@
 
 
 import SwiftUI
+
+ 
 struct TransfersView: View {
     @State private var cardOrPhone: String = ""
     @State private var isCardValid = false
@@ -39,6 +41,10 @@ struct TransfersView: View {
                         .font(.title3)
                         .bold()
                     Spacer()
+                    NavigationLink(destination: InfoScreen()) {
+                        Image(systemName: "info.circle")
+                            .font(.title2)
+                    }
                 }
                 .padding(.top)
                 
@@ -62,6 +68,10 @@ struct TransfersView: View {
                             cardOrPhone = formatCardNumber(newValue)
                             isCardValid = cardOrPhone.replacingOccurrences(of: " ", with: "").count == 16
                         }
+                        .font(.system(size: 14))
+//                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
                     Button(action: {
                     }) {
                         Image(systemName: "qrcode.viewfinder")
@@ -97,8 +107,10 @@ struct TransfersView: View {
                         HStack {
                             Image(systemName: "phone")
                             Text("Telefon raqami bo`yicha")
+                                .foregroundColor(.black)
                             Spacer()
                             Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
                         }
                         .padding()
                         .background(Color(.systemGray6))
@@ -108,14 +120,18 @@ struct TransfersView: View {
                     NavigationLink(destination: SelfTransferScreen()) {
                         HStack {
                             Image(systemName: "creditcard")
+                                .foregroundColor(.paymeC)
                             Text("Mening kartamga o’tkazish")
+                                .foregroundColor(.black)
                             Spacer()
                             Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
                         }
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
                     }
+
                     NavigationLink(destination: GreetingScreen()) {
                                             HStack {
                                                 Image(systemName: "gift")
