@@ -22,25 +22,7 @@ struct SetScrollView: View {
     
     var body: some View {
         
-        VStack {
-            
-            HStack {
-                
-                Spacer()
-                
-                Button {
-                    logOut()
-                    
-                } label: {
-                    HStack(spacing: 0) {
-                        Text("все")
-                        Image(systemName: "chevron.right")
-                    }
-                    .foregroundStyle(.unselectedTabbarItem)
-                }
-            }
-            .padding(.horizontal)
-        }
+        
         
         if evm.currentUser?.role ?? true {
             
@@ -53,7 +35,7 @@ struct SetScrollView: View {
             .buttonStyle(PlainButtonStyle())
         }
         
-        if let user = viewModel.currentUser, user.invitation {
+        if let user = viewModel.currentUser, user.invitation, viewModel.currentUser?.role == false {
             Button(action: {
                 showInvitationAlert = true
             }) {
@@ -85,7 +67,45 @@ struct SetScrollView: View {
                 Text("Введите код подтверждения, который вы получили")
             }
         }
+        
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+        Text("")
+      
        // }
+  
+        
+       
+            
+            HStack(alignment: .center) {
+                
+                Spacer()
+                
+                Button {
+                    logOut()
+                    
+                } label: {
+                    HStack(spacing: 0) {
+                        Text("Logout")
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundStyle(.unselectedTabbarItem)
+                }
+            }
+            .padding()
+        
     }
 }
 
