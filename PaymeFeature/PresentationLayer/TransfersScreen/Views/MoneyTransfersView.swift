@@ -5,7 +5,6 @@
 //  Created by Umidjon Fayzimatov on 21/04/25.
 //
 
-
 import SwiftUI
 
 struct MoneyTransferView: View {

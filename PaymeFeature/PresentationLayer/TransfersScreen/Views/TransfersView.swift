@@ -13,6 +13,9 @@ struct TransfersView: View {
     @State private var cardOrPhone: String = ""
     @State private var isCardValid = false
     
+    @EnvironmentObject var evm: GlobalViewModel
+    
+    
     func formatCardNumber(_ number: String) -> String {
         let cleanNumber = number.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
         
@@ -57,7 +60,7 @@ struct TransfersView: View {
                         .foregroundColor(.gray)
                     
                     
-                    
+    
                     TextField("Номер карты или телефона", text: $cardOrPhone)
                         .keyboardType(.numberPad)
                         .font(.system(size: 14))
