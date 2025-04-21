@@ -11,7 +11,7 @@ import SwiftUI
 struct FamilyView: View {
     
     
-    @StateObject var viewModel: FamilyViewModel = FamilyViewModel()
+    @EnvironmentObject var viewModel: FamilyViewModel
     
     @EnvironmentObject var vm: GlobalViewModel
     
@@ -235,3 +235,6 @@ struct FamilyView: View {
     }
 }
 
+#Preview {
+    FamilyView().environmentObject(GlobalViewModel())
+}
