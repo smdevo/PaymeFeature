@@ -32,62 +32,63 @@ struct MoneyTransferView: View {
                 .padding()
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(10)
-
+                
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("O‘tkazma summasi")
+                    Text("Сумма перевода")
                         .font(.headline)
-
-                    TextField("O‘tkazma summasi", text: $amount)
+                    
+                    TextField("Сумма перевода", text: $amount)
                         .keyboardType(.numberPad)
                         .padding()
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(10)
                 }
-
+                
+                HStack {
+                    ForEach(["100000", "400000", "500000", "600000", "800000"], id: \.self) { value in
+                        Button(action: {
+                            amount = value
+                        }) {
+                            Text(value)
+                                .padding(10)
+                                .background(Color.blue.opacity(0.2))
+                                .cornerRadius(10)
+                        }
+                    }
+                }
+                
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Izoh (Majburiy emas)")
+                    Text("Комментарий (Необязательно)")
                         .font(.headline)
                     TextField("Izoh", text: $note)
                         .padding()
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(10)
                 }
-
+                
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Tez summalar")
-                        .font(.headline)
-                    HStack {
-                        ForEach(["100000", "400000", "500000", "600000", "800000"], id: \.self) { value in
-                            Button(action: {
-                                amount = value
-                            }) {
-                                Text(value)
-                                    .padding(10)
-                                    .background(Color.blue.opacity(0.2))
-                                    .cornerRadius(10)
-                            }
-                        }
-                    }
+                    
+                   
                 }
-
-                NavigationLink(destination: Text("Tabriknoma tanlash")) {
+                
+           
                     HStack {
                         Image(systemName: "gift.fill")
                             .foregroundColor(.purple)
-                        Text("Tabriknoma qo‘shish")
+                        Text("Добавить открытку")
                         Spacer()
                         Image(systemName: "chevron.right")
                     }
                     .padding()
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(10)
-                }
-
+            
+                
                 Spacer()
-
+                
                 Button(action: {
                 }) {
-                    Text("Oldinga")
+                    Text("Продолжить")
                         .foregroundColor(.white)
                         .padding()
                         .frame(maxWidth: .infinity)
@@ -97,7 +98,7 @@ struct MoneyTransferView: View {
                 .padding(.bottom)
             }
             .padding()
-            .navigationTitle("Pul o‘tkazmasi")
+            .navigationTitle("Перевод средств")
         }
     }
 }
