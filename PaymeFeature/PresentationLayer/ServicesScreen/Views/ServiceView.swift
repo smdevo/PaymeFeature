@@ -38,5 +38,8 @@ struct ServiceView: View {
     }
 }
 
+#Preview {
+    ServiceView()
+}
 
 

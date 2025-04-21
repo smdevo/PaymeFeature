@@ -23,6 +23,7 @@ class UniteViewController: UITabBarController {
         let globalVM = GlobalViewModel()
         
         let main = UINavigationController(rootViewController: (Assembly().giveMAinViewController(enObj: globalVM)))
+        
         main.tabBarItem = UITabBarItem(title: "Main", image: UIImage(systemName: "house"), tag: 0)
 
         let transfers = UIHostingController(rootView: TransfersView().environmentObject(globalVM))

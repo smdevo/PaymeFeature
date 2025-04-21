@@ -11,7 +11,7 @@ import SwiftUI
 struct FamilyView: View {
     
     
-    @StateObject var viewModel: FamilyViewModel = FamilyViewModel()
+    @EnvironmentObject var viewModel: FamilyViewModel
     
     @EnvironmentObject var vm: GlobalViewModel
     
@@ -29,35 +29,44 @@ struct FamilyView: View {
     
     var body: some View {
         ZStack{
-            NavigationView {
                 if viewModel.currentUser == nil {
                     ProgressView()
                 }else {
                     VStack {
-                        VStack {
-                            HStack {
-                                Circle()
-                                    .fill(.backgroundC)
-                                    .frame(width: 60, height: 60)
-                                    .overlay(
-                                        Image("familyImage")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 60, height: 80)
-                                    )
-                                    .padding(.horizontal)
-                                
-                                VStack(alignment: .leading){
-                                    Text("Детские карты")
-                                        .fontWeight(.bold)
-                                    Text("\(viewModel.familyMembers.count) участник")
+                        
+                        NavigationLink {
+                            
+                            FamilyMembersView()
+                            
+                        } label: {
+                            VStack {
+                                HStack {
+                                    Circle()
+                                        .fill(.backgroundC)
+                                        .frame(width: 60, height: 60)
+                                        .overlay(
+                                            Image("familyImage")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 60, height: 80)
+                                        )
+                                        .padding(.horizontal)
+                                    
+                                    VStack(alignment: .leading){
+                                        Text("Детские карты")
+                                            .fontWeight(.bold)
+                                        Text("\(viewModel.familyMembers.count) участник")
+                                    }
                                 }
-                            }
+                            }// members
+                            .padding(.vertical)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(.paymeC.opacity(0.8))
+                            .clipShape(.rect(cornerRadius: 12))
+                            
                         }
-                        .padding(.vertical)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(.paymeC.opacity(0.8))
-                        .clipShape(.rect(cornerRadius: 12))
+
+                        
                         
                         if let user = viewModel.currentUser, user.invitation {
                             Button(action: {
@@ -174,27 +183,6 @@ struct FamilyView: View {
                             .presentationDragIndicator(.hidden)
                     }
                 }
-            }.onAppear{
-                viewModel.refreshData()
-            }
-            .refreshable{
-                viewModel.refreshData()
-            }
-            .navigationTitle("Моя семья")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if let user = viewModel.currentUser, user.role {
-                        Button(action: {
-                            showAddFamilyMemberSheet.toggle()
-                        }) {
-                            Image(systemName: "plus.circle")
-                                .foregroundStyle(.paymeC)
-                        }
-                        
-                    }
-                }
-            }
             
             if showSnackbar {
                 VStack {
@@ -222,7 +210,31 @@ struct FamilyView: View {
             }
             
             
+        }//Zstack
+        .onAppear{
+            viewModel.refreshData()
+        }
+        .refreshable{
+            viewModel.refreshData()
+        }
+        .navigationTitle("Моя семья")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if let user = viewModel.currentUser, user.role {
+                    Button(action: {
+                        showAddFamilyMemberSheet.toggle()
+                    }) {
+                        Image(systemName: "plus.circle")
+                            .foregroundStyle(.paymeC)
+                    }
+                    
+                }
+            }
         }
     }
 }
 
+#Preview {
+    FamilyView().environmentObject(GlobalViewModel())
+}

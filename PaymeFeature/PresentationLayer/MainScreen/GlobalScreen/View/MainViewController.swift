@@ -26,7 +26,6 @@ protocol MainViewProtocol: AnyObject {
 final class MainViewController: UIViewController {
     
     
-    
     //MARK: -Dependency
     let interactor: MainInteractorProtocol
     
@@ -149,3 +148,5 @@ extension MainViewController: MainViewProtocol {
     }
     
 }
+
+
