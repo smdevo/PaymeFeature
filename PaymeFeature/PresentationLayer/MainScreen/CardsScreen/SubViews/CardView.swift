@@ -3,9 +3,6 @@ import SwiftUI
 
 struct CardView: View {
     
-    @State private var showParentServiceSheet = false
-    @State private var showChildServiceSheet = false
-    
     @EnvironmentObject var vm: GlobalViewModel
     
 
@@ -15,25 +12,17 @@ struct CardView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             
-            if  !bankCard.isFamilyCard {
+           
                 RoundedRectangle(cornerRadius: 16)
                     .fill(
                         LinearGradient(
-                            gradient: Gradient(colors: [.indigo.opacity(0.6), .paymeC]),
+                            gradient: Gradient(colors: [.indigo, .paymeC]),
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
                     .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-            } else {
-                Image("детский_фон")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .clipped()
-                    .cornerRadius(16)
-                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-            }
+          
             
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
@@ -45,13 +34,7 @@ struct CardView: View {
                     Spacer()
                     
                     HStack {
-                        if bankCard.isFamilyCard {
-                            Image(systemName: "figure.and.child.holdinghands")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 24)
-                                .foregroundColor(.white)
-                        }
+                        
                         Text("TBC Bank")
                             .foregroundColor(.white)
                             .textWithBlackBorder()
@@ -66,11 +49,7 @@ struct CardView: View {
                     .foregroundColor(.white)
                     .textWithBlackBorder()
                 
-                bankCard.isFamilyCard ?
-                    Text("Детская карта")
-                        .foregroundColor(.white)
-                        .textWithBlackBorder()
-                : Text(bankCard.ownerName)
+                Text(bankCard.ownerName)
                     .foregroundColor(.white)
                     .textWithBlackBorder()
                 
@@ -99,26 +78,7 @@ struct CardView: View {
         .cornerRadius(16)
         .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
         .foregroundStyle(.white)
-        .sheet(isPresented: $showParentServiceSheet) {
-            ServicesSheetViewForParent(id: bankCard.id)
-                .presentationDetents([.fraction(0.6)])
-                .presentationDragIndicator(.visible)
-        }
-        .sheet(isPresented: $showChildServiceSheet) {
-            ServicesSheetViewForChild(id: bankCard.id)
-                .presentationDetents([.fraction(0.6)])
-                .presentationDragIndicator(.visible)
-        }
-        .onTapGesture {
-            if bankCard.isFamilyCard {
-                guard let cUser = vm.currentUser else { return }
-                if cUser.role {
-                    showParentServiceSheet.toggle()
-                } else {
-                    showChildServiceSheet.toggle()
-                }
-            }
-        }
+       
     }
 }
 //
