@@ -129,17 +129,6 @@ struct TransfersView: View {
                         .cornerRadius(12)
                     }
                     
-                    NavigationLink(destination: GreetingScreen()) {
-                        HStack {
-                            Image(systemName: "gift")
-                            Text("Добавить открытку")
-                            Spacer()
-                            Image(systemName: "plus")
-                        }
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(12)
-                    }
                 }
                 
                 Spacer()
@@ -163,12 +152,7 @@ struct SelfTransferScreen: View {
     }
 }
 
-struct GreetingScreen: View {
-    var body: some View {
-        Text("Добавить открытку")
-            .navigationTitle("Открытка")
-    }
-}
+
 
 
 #Preview {
