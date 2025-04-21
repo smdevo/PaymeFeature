@@ -14,8 +14,8 @@
             filePath = "PaymeFeature/PresentationLayer/UniteScreen(Tabbar)/GlobalViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
             landmarkName = "setLimitToFamilyCard(id:limit:)"
             landmarkType = "7">
          </BreakpointContent>
