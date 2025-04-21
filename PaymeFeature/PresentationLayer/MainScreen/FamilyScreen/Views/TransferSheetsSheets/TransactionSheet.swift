@@ -39,11 +39,27 @@ struct TransactionSheet: View {
     var body: some View {
         VStack(spacing: 20) {
             
-            Text(evm.currentUser?.role ?? false ?
-                 "Transfer to Family Card" :
-                 "Transfer from Family Card")
-                .font(.title2)
+            Image("paymeLogo")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 70)
+            
+            
+            
+            Text("Send Money")
+                .font(.title)
                 .bold()
+            
+            
+            Text("To")
+                .foregroundStyle(Color.gray)
+                .font(.title)
+                .bold()
+            
+            Text("SomeBody")
+                .font(.title)
+                .bold()
+            
             
             Text(evm.currentUser?.role ?? false ?
                  "Do you want to send money to your family card?" :
@@ -102,6 +118,9 @@ struct TransactionSheet: View {
     }
 }
 
-//#Preview {
-//    TransactionSheet()
-//}
+#Preview {
+    TransactionSheet(id: "1")
+        .environmentObject(GlobalViewModel())
+        .environmentObject(FamilyViewModel())
+        
+}
