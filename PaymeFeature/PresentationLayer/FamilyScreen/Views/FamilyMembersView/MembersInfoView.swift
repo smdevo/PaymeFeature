@@ -25,12 +25,14 @@ struct MembersInfo: View {
                     .scaledToFit()
                     .frame(width: 60, height: 60)
                     .foregroundColor(participant.role ? .blue : .green)
+                    .clipShape(Circle())
                 
             }
             
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(participant.name)
+                    .foregroundColor(.primary)
                     .font(.headline)
                 Text(participant.number)
                     .font(.subheadline)
@@ -45,7 +47,7 @@ struct MembersInfo: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color.white)
+                .fill(Color.backgroundC)
                 .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
         )
     }

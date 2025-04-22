@@ -10,6 +10,6 @@ import Foundation
 struct Subscription: Codable, Identifiable {
     let id: String
     let name: String
-    let price: Double
+    let price: Int
     let renewalDate: Date
 }

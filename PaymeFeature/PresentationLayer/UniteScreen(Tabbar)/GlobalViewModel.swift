@@ -157,7 +157,7 @@ class GlobalViewModel: ObservableObject {
         
         let bankCards = cards.map { fCard in
             
-            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "Number", type: .humo, expirationDate: "11/28",isFamilyCard: true, id: fCard?.id ?? "1234", limit: fCard?.limit)
+            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "0000 0000 0000 0001", type: .humo, expirationDate: "11/28",isFamilyCard: true, id: fCard?.id ?? "1234", limit: fCard?.limit)
         }
         
         self.cards.append(contentsOf: bankCards)
@@ -166,7 +166,7 @@ class GlobalViewModel: ObservableObject {
     
     func sendMoney(amount: String, number: String, completion: @escaping (Bool) -> Void) {
         
-        guard let amountSum = Double(amount), amountSum > 0 else {
+        guard let amountSum = Int(amount), amountSum > 0 else {
             completion(false)
             return
         }
@@ -177,10 +177,10 @@ class GlobalViewModel: ObservableObject {
         }
         
         guard
-            let userSum = Double(currentUser.balance),
+            let userSum = Int(currentUser.balance),
             let card = currentFamily.cards.filter({$0?.id == number}).first,
             let famBalance = card?.balance,
-            let famCardSum = Double(famBalance)
+            let famCardSum = Int(famBalance)
         else {
             completion(false)
             return
