@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ChildCardView: View {
-    
     @State private var showParentServiceSheet = false
     @State private var showChildServiceSheet = false
     
@@ -16,56 +15,40 @@ struct ChildCardView: View {
     let bankCard: BankCard
     
     private let cardAspectRatio: CGFloat = 340 / 210
-    
     private let horizontalPadding: CGFloat = 12
     
     var body: some View {
-        
         VStack(alignment: .leading) {
-            
-            
             HStack {
                 Image("humo")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 45,height: 15)
-                
+                    .frame(width: 45, height: 15)
                 Spacer()
                 Image("paymekidsborder")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 130,height: 15)
-                
+                    .frame(width: 130, height: 15)
             }
-            
             Spacer()
-            
             Text(bankCard.name)
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(.largeTitle).bold()
                 .foregroundColor(.white)
                 .shadow(color: .black.opacity(0.7), radius: 1, x: 1, y: 1)
-            
             Spacer()
-            
-            if let sumInt = Int(bankCard.sum) {
+            if let sumInt = Int(bankCard.sum.replacingOccurrences(of: " ", with: "")) {
                 Text("\(sumInt.formattedWithSeparator) сум")
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(.title).bold()
                     .foregroundColor(.white)
                     .shadow(color: .black.opacity(0.7), radius: 1, x: 1, y: 1)
-            }
-            else {
+            } else {
                 Text("\(bankCard.sum) сум")
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(.title).bold()
                     .foregroundColor(.white)
                     .shadow(color: .black.opacity(0.7), radius: 1, x: 1, y: 1)
             }
-            
             Spacer()
-            
-            if let limit = bankCard.limit, limit != "" {
+            if let limit = bankCard.limit, !limit.isEmpty {
                 Text("Лимит: \(limit)")
                     .font(.subheadline)
                     .padding(.vertical, 8)
@@ -74,20 +57,15 @@ struct ChildCardView: View {
                     .foregroundColor(.black)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             }
-            
             Spacer()
-            
-            Text(bankCard.cardNumber)
-                .font(.subheadline)
+            Text(bankCard.cardNumber.maskedCardNumber)
+                .font(.headline)
                 .foregroundColor(.white)
         }
-        
         .padding(20)
         .padding(.horizontal, horizontalPadding)
-        
         .frame(
-            height: (UIScreen.main.bounds.width - horizontalPadding * 2)
-            / cardAspectRatio,
+            height: (UIScreen.main.bounds.width - horizontalPadding * 2) / cardAspectRatio,
             alignment: .topLeading
         )
         .background(
@@ -112,7 +90,6 @@ struct ChildCardView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 150, height: 150)
-                    .fontWeight(.bold)
                     .padding(20)
             }
         )
@@ -137,14 +114,20 @@ struct ChildCardView: View {
     }
 }
 
-extension View {
-    func textWithBlackBorder() -> some View {
-        self.shadow(color: .black, radius: 3, x: 3, y: 3)
-    }
-}
-
 #Preview {
-    let model: BankCard = .init(name: "Apple Inc.", ownerName: "David Lee", sum: "100 000", cardNumber: "100 000 000", type: .humo, expirationDate: "sfds", id: "s", limit: "100 000")
+    let model = BankCard(
+        name: "Apple Inc.",
+        ownerName: "David Lee",
+        sum: "100 000",
+        cardNumber: "1234 5678 9012 3456",
+        type: .humo,
+        expirationDate: "11/27",
+        iconName: "star.fill",
+        isFamilyCard: true,
+        id: "s",
+        limit: "100 000"
+    )
     ChildCardView(bankCard: model)
         .environmentObject(GlobalViewModel())
+        .padding()
 }

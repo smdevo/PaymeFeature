@@ -33,7 +33,7 @@ class BalanceView: UIStackView {
     private let sumLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "0"
+        label.text = "..."
         label.font = UIFont.systemFont(ofSize: .spacing(.x9), weight: .semibold)
         label.textColor = UIColor.theme.labelC
         return label
