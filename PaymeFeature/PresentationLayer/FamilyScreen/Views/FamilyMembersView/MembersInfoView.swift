@@ -25,6 +25,7 @@ struct MembersInfo: View {
                     .scaledToFit()
                     .frame(width: 60, height: 60)
                     .foregroundColor(participant.role ? .blue : .green)
+                    .clipShape(Circle())
                 
             }
             

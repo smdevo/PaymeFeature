@@ -107,7 +107,7 @@ struct TransfersView: View {
                         HStack {
                             Image(systemName: "phone")
                             Text("По номеру телефона")
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.gray)
@@ -122,7 +122,7 @@ struct TransfersView: View {
                             Image(systemName: "creditcard")
                                 .foregroundColor(.paymeC)
                             Text("Перевод на мою карту")
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.gray)
