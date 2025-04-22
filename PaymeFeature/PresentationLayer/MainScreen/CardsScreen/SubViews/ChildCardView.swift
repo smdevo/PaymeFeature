@@ -10,6 +10,7 @@ import SwiftUI
 struct ChildCardView: View {
     @State private var showParentServiceSheet = false
     @State private var showChildServiceSheet = false
+    @State var backgroundImage = "default"
     
     @EnvironmentObject var vm: GlobalViewModel
     let bankCard: BankCard
