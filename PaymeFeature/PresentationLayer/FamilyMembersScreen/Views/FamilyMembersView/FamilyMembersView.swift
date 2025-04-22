@@ -21,7 +21,7 @@ struct FamilyMembersView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                Text("Члены семьи")
+                Text("Дети")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.top)
@@ -43,11 +43,10 @@ struct FamilyMembersView: View {
             Color(.systemGroupedBackground)
                 .ignoresSafeArea()
         )
-        .navigationTitle("Члены семьи")
+        .navigationTitle("Дети")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
-
 
 
 #Preview {

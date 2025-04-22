@@ -50,13 +50,18 @@ struct ChildCardView: View {
             }
             Spacer()
             if let limit = bankCard.limit, !limit.isEmpty {
-                Text("Лимит: \(limit)")
+                if let intLimit = Int(limit){
+                    Text("Лимит: \(intLimit.formattedWithSeparator) сум")
                     .font(.subheadline)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 10)
                     .background(Color.yellow)
                     .foregroundColor(.black)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+            }
+            else{
+                Text("")
             }
             Spacer()
             Text(bankCard.cardNumber.maskedCardNumber)
@@ -87,11 +92,11 @@ struct ChildCardView: View {
                             .scaledToFill()
                     }
                 }
-                Image("childrens")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 150, height: 150)
-                    .padding(20)
+//                Image("childrens")
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(width: 150, height: 150)
+//                    .padding(20)
             }
         )
         .clipShape(RoundedRectangle(cornerRadius: 16))

@@ -70,43 +70,66 @@ struct SetScrollView: View {
             }
         }
         
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
+    
+
+
+        //MARK: pay
+        Section {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    GenericItemView(title: "Популярное",
+                                     imageName: "star.fill",
+                                     color: .yellow)
+                    GenericItemView(title: "Мобильные\nоператоры",
+                                     imageName: "antenna.radiowaves.left.and.right",
+                                     color: .blue)
+                    GenericItemView(title: "Интернет-\nпровайдеры",
+                                     imageName: "wifi",
+                                     color: .green)
+                }
+                .padding()
+            }
+            .cornerRadius(12)
+            .padding(.horizontal)
+        } header: {
+            HStack {
+                Text("Оплата услуг")
+                    .font(.headline)
+                    .padding(.horizontal)
+                Spacer()
+                Button(action: {
+                }) {
+                    Text("Все")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                }
+                .padding(.horizontal)
+            }
+        }
+        
+        HStack(alignment: .center) {
+            
+            Spacer()
+            
+            Button {
+                logOut()
+                
+            } label: {
+                HStack(spacing: 0) {
+                    Text("Logout")
+                    Image(systemName: "chevron.right")
+                }
+                .foregroundStyle(.unselectedTabbarItem)
+            }
+        }
+        .padding()
       
        // }
   
         
        
             
-            HStack(alignment: .center) {
-                
-                Spacer()
-                
-                Button {
-                    logOut()
-                    
-                } label: {
-                    HStack(spacing: 0) {
-                        Text("Logout")
-                        Image(systemName: "chevron.right")
-                    }
-                    .foregroundStyle(.unselectedTabbarItem)
-                }
-            }
-            .padding()
+           
         
     }
 }
