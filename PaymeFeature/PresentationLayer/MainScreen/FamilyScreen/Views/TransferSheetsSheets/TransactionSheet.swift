@@ -130,6 +130,7 @@ struct TransactionSheet: View {
                 }
                 .padding()
             }
+        .background(.backgroundC)
             
         }
     }//body
