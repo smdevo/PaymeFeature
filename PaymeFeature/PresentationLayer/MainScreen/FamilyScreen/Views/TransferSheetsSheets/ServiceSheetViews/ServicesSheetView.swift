@@ -29,6 +29,7 @@ struct UserService: Identifiable {
     let icon: String
 }
 import SwiftUI
+import MapKit
 
 struct ServicesSheetViewForParent: View {
     
@@ -40,7 +41,8 @@ struct ServicesSheetViewForParent: View {
     @State private var showBackgroundPicker = false
     @State private var showBlockCardSheet = false
     @State private var showApprovedMArkets = false
-
+    @State private var showChoosenLocations = false
+    
     
     
     @Environment(\.dismiss) var dismiss
@@ -88,24 +90,24 @@ struct ServicesSheetViewForParent: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         ForEach(services) { service in
-                                
-                                Button(action: {
-                                    handleServiceTap(service.type)
-                                }) {
-                                    HStack {
-                                        Label(service.type.rawValue, systemImage: service.icon)
-                                            .font(.body)
-                                            .foregroundColor(.primary)
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(.gray)
-                                    }
-                                    .padding()
-                                    .background(Color(.systemGray6))
-                                    .cornerRadius(16)
-                                    .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 2)
+                            
+                            Button(action: {
+                                handleServiceTap(service.type)
+                            }) {
+                                HStack {
+                                    Label(service.type.rawValue, systemImage: service.icon)
+                                        .font(.body)
+                                        .foregroundColor(.primary)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.gray)
                                 }
-                                .buttonStyle(.plain)
+                                .padding()
+                                .background(Color(.systemGray6))
+                                .cornerRadius(16)
+                                .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 2)
+                            }
+                            .buttonStyle(.plain)
                             
                         }
                     }
@@ -137,7 +139,14 @@ struct ServicesSheetViewForParent: View {
                     dismiss()
                 })
             }
-
+            
+            .fullScreenCover(isPresented: $showChoosenLocations) {
+                
+                LocationPickerScreen(closure: {
+                    dismiss()
+                })
+            }
+            
         }
     }
     
@@ -148,7 +157,7 @@ struct ServicesSheetViewForParent: View {
         case .setDailySpending:
             showLimitationSheet.toggle()
         case .chooseLocatiion:
-            print("→ Choose Location tapped")
+            showChoosenLocations.toggle()
         case .block:
             showBlockCardSheet.toggle()
         case .selectBackgroundImage:
@@ -158,8 +167,11 @@ struct ServicesSheetViewForParent: View {
         default:
             break
         }
+        
+        
     }
 }
+
 
 #Preview {
     ServicesSheetViewForParent(id: "1")
