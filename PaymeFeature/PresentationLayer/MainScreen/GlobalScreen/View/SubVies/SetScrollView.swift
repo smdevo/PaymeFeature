@@ -18,14 +18,8 @@ struct SetScrollView: View {
     @State var invitationCode = ""
     @State var showInvitationAlert = false
     
-    
-    
     var body: some View {
-        
-        
-        
         if evm.currentUser?.role ?? true {
-            
             NavigationLink(destination: FamilyView()
                 .environmentObject(evm)
                 .environmentObject(viewModel)
@@ -33,6 +27,48 @@ struct SetScrollView: View {
                 FamilyViewScene()
             }
             .buttonStyle(PlainButtonStyle())
+        }
+        
+        else{
+            Section {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        GenericItemView(
+                            title: "Ucell\n+998 94 042 64 01",
+                            imageName: "phone.fill",
+                            color: .purple
+                        )
+                        Button(action: { }) {
+                            GenericItemView(
+                                title: "Добавить",
+                                imageName: "plus.circle",
+                                color: .blue
+                            )
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 12)
+                }
+                .cornerRadius(12)
+                .padding(.horizontal)
+            }
+            
+        header: {
+            HStack {
+                Text("Сохраненные платежи")
+                    .font(.headline)
+                    .padding(.horizontal)
+                Spacer()
+                Button(action: {
+                }) {
+                    Text("Все")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                }
+                .padding(.bottom, 12)
+                .padding(.horizontal)
+            }
+        }
         }
         
         if let user = viewModel.currentUser, user.invitation, viewModel.currentUser?.role == false {
@@ -68,43 +104,66 @@ struct SetScrollView: View {
             }
         }
         
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
-        Text("")
+    
+
+
+        //MARK: pay
+        Section {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    GenericItemView(title: "Популярное",
+                                     imageName: "star.fill",
+                                     color: .yellow)
+                    GenericItemView(title: "Мобильные\nоператоры",
+                                     imageName: "antenna.radiowaves.left.and.right",
+                                     color: .blue)
+                    GenericItemView(title: "Интернет-\nпровайдеры",
+                                     imageName: "wifi",
+                                     color: .green)
+                }
+                .padding()
+            }
+            .cornerRadius(12)
+            .padding(.horizontal)
+        } header: {
+            HStack {
+                Text("Оплата услуг")
+                    .font(.headline)
+                    .padding(.horizontal)
+                Spacer()
+                Button(action: {
+                }) {
+                    Text("Все")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                }
+                .padding(.horizontal)
+            }
+        }
+        
+        HStack(alignment: .center) {
+            
+            Spacer()
+            
+            Button {
+                logOut()
+                
+            } label: {
+                HStack(spacing: 0) {
+                    Text("Logout")
+                    Image(systemName: "chevron.right")
+                }
+                .foregroundStyle(.unselectedTabbarItem)
+            }
+        }
+        .padding()
       
        // }
   
         
        
             
-            HStack(alignment: .center) {
-                
-                Spacer()
-                
-                Button {
-                    logOut()
-                    
-                } label: {
-                    HStack(spacing: 0) {
-                        Text("Logout")
-                        Image(systemName: "chevron.right")
-                    }
-                    .foregroundStyle(.unselectedTabbarItem)
-                }
-            }
-            .padding()
+           
         
     }
 }

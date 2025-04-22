@@ -13,7 +13,7 @@ struct BackgroundSelectionView: View {
     
     let settedBacks = [ "default", "girlBackground", "boyBackground", "abstractBackground", "natureBackground"]
     
-    @State var backGroundImage = "default"
+    @State var backGroundImage = "default1"
     
     @Environment(\.dismiss) var dismiss
     
