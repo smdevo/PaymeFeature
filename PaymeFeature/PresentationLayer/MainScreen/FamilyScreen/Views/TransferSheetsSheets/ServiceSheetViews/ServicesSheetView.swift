@@ -15,12 +15,12 @@
 
 enum ServicesType: String {
     case transfertoFamilyCard = "Transfer the money into family Card"
-    case transferFromFamilyCard = "Tranfer Money from Family Card"
     case setDailySpending = "Set Daily Spending"
     case chooseLocatiion = "Choose Location"
     case block = "Block Card"
     case selectApprovedMArkets = "Select approved markets"
     case selectBackgroundImage = "Select Background Image"
+    case checkApprovedLocation = "Check approved Location"
 }
 
 struct UserService: Identifiable {
@@ -59,9 +59,9 @@ struct ServicesSheetViewForParent: View {
         .init(type: .transfertoFamilyCard,    icon: "arrow.down.circle"),
         .init(type: .setDailySpending,        icon: "calendar.badge.clock"),
         .init(type: .chooseLocatiion,         icon: "mappin.and.ellipse"),
-        .init(type: .block,                   icon: "lock.shield"),
         .init(type: .selectApprovedMArkets,   icon: "list.bullet.indent"),
-        .init(type: .selectBackgroundImage,   icon: "plus")
+        .init(type: .selectBackgroundImage,   icon: "plus"),
+        .init(type: .block,                   icon: "lock.shield")
     ]
     
     var body: some View {
@@ -116,7 +116,7 @@ struct ServicesSheetViewForParent: View {
                 }
             }
             
-            .background(Color.theme.backgroundColor)
+            .background(Color(.systemBackground))
             .cornerRadius(20)
             .edgesIgnoringSafeArea(.bottom)
             .fullScreenCover(isPresented: $showTransactionSheet) {
@@ -130,13 +130,13 @@ struct ServicesSheetViewForParent: View {
                 })
             }
             .fullScreenCover(isPresented: $showBackgroundPicker) {
-                BackgroundSelectionView(id: id)
+                BackgroundSelectionView(id: id) {
+                    dismiss()
+                }
             }
             .fullScreenCover(isPresented: $showBlockCardSheet) {
                 BlockCardView(completion: {
-                    
                     dismiss()
-                    
                 })
             }
             
@@ -156,7 +156,6 @@ struct ServicesSheetViewForParent: View {
             showTransactionSheet.toggle()
         case .setDailySpending:
             showLimitationSheet.toggle()
-            //TODO: CASES
         case .chooseLocatiion:
             showChoosenLocations.toggle()
         case .block:

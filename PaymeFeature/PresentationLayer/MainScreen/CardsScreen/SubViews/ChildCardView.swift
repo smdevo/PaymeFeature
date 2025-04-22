@@ -10,6 +10,7 @@ import SwiftUI
 struct ChildCardView: View {
     @State private var showParentServiceSheet = false
     @State private var showChildServiceSheet = false
+    @State var backgroundImage = "default"
     
     @EnvironmentObject var vm: GlobalViewModel
     let bankCard: BankCard
@@ -105,11 +106,11 @@ struct ChildCardView: View {
         }
         .sheet(isPresented: $showParentServiceSheet) {
             ServicesSheetViewForParent(id: bankCard.id)
-                .presentationDetents([.fraction(0.6)])
+                .presentationDetents([.fraction(0.65)])
         }
         .sheet(isPresented: $showChildServiceSheet) {
             ServicesSheetViewForChild(id: bankCard.id)
-                .presentationDetents([.fraction(0.6)])
+                .presentationDetents([.fraction(0.65)])
         }
     }
 }
