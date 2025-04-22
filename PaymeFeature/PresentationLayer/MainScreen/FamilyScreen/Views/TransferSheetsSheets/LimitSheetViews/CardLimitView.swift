@@ -19,7 +19,7 @@ struct CardLimitSetView: View {
             Spacer()
             
             
-            Image("successicon")
+            Image("success")
                 .resizable()
                 .frame(width: 180, height: 180)
                 .foregroundColor(.green)

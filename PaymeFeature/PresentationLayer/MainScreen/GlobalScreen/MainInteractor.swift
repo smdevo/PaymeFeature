@@ -48,7 +48,9 @@ extension MainInteractor: MainInteractorProtocol {
         
         enObj.$currentUser
             .sink { [weak self] user in
-                self?.presenter.presentBalance(balance: user?.balance ?? "...")
+                if let intBalance = Int(user?.balance ?? "...") {
+                self?.presenter.presentBalance(balance: intBalance.formattedWithSeparator)
+                }
             }
             .store(in: &cancellables)
     }

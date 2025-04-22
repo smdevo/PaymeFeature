@@ -145,7 +145,6 @@ class GlobalViewModel: ObservableObject {
     func getFamilyCard() {
         
         guard let currentFamily = currentFamily, let currentUser = currentUser else {
-            print("Skipping getFamilyCard — missing data")
             return
         }
     
@@ -166,7 +165,7 @@ class GlobalViewModel: ObservableObject {
     
     func sendMoney(amount: String, number: String, completion: @escaping (Bool) -> Void) {
         
-        guard let amountSum = Double(amount), amountSum > 0 else {
+        guard let amountSum = Int(amount), amountSum > 0 else {
             completion(false)
             return
         }
@@ -177,10 +176,10 @@ class GlobalViewModel: ObservableObject {
         }
         
         guard
-            let userSum = Double(currentUser.balance),
+            let userSum = Int(currentUser.balance),
             let card = currentFamily.cards.filter({$0?.id == number}).first,
             let famBalance = card?.balance,
-            let famCardSum = Double(famBalance)
+            let famCardSum = Int(famBalance)
         else {
             completion(false)
             return
@@ -272,10 +271,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     func setLimitToFamilyCard(id: String, limit: String) {
-        
-        
-        
-        
+    
         guard let family = currentFamily else { return }
         
         let card = family.cards.filter { vcm in
