@@ -18,8 +18,8 @@ protocol CardsButtonDelegate: AnyObject {
 protocol MainViewProtocol: AnyObject {
     
     func showUpdatedBalance(balance: String)
-    func showBaseView(enObj: GlobalViewModel)
-    func showCardsView(enObj: GlobalViewModel)
+    func showBaseView(enObj: GlobalViewModel, enFamObj: FamilyViewModel)
+    func showCardsView(enObj: GlobalViewModel, enFamObj: FamilyViewModel)
 }
 
 
@@ -37,7 +37,7 @@ final class MainViewController: UIViewController {
     
     private let currencyView = CurrencyView()
     
-    private var currencyScrollView = SetScrollView()
+    private var familySetView = SetScrollView()
     
     
     
@@ -115,8 +115,10 @@ extension MainViewController: CardsButtonDelegate {
 extension MainViewController: MainViewProtocol {
     
     
-    func showCardsView(enObj: GlobalViewModel) {
-        let cardsView = CardsView().environmentObject(enObj)
+    func showCardsView(enObj: GlobalViewModel,enFamObj: FamilyViewModel) {
+        let cardsView = CardsView()
+            .environmentObject(enObj)
+            .environmentObject(enFamObj)
         
         let hostingController = UIHostingController(rootView: cardsView)
         
@@ -124,9 +126,12 @@ extension MainViewController: MainViewProtocol {
     }
     
     
-    func showBaseView(enObj: GlobalViewModel) {
+    func showBaseView(enObj: GlobalViewModel, enFamObj: FamilyViewModel) {
         
-        let hostingController = UIHostingController(rootView: currencyScrollView.environmentObject(enObj))
+        let hostingController = UIHostingController(rootView: familySetView
+            .environmentObject(enObj)
+            .environmentObject(enFamObj)
+        )
         
         addChild(hostingController)
         view.addSubview(hostingController.view)

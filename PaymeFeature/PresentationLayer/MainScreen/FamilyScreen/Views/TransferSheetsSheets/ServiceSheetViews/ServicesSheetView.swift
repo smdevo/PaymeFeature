@@ -20,6 +20,8 @@ enum ServicesType: String {
     case block = "Block Card"
     case selectApprovedMArkets = "Select approved markets"
     case selectBackgroundImage = "Select Background Image"
+    
+    case checkApprovedMArkets = "Check approved Markets"
     case checkApprovedLocation = "Check approved Location"
 }
 
@@ -137,7 +139,13 @@ struct ServicesSheetViewForParent: View {
                     dismiss()
                 })
             }
+            .fullScreenCover(isPresented: $showApprovedMArkets) {
+                ApprovedMarketsView {
+                    dismiss()
+                }
+            }
 
+        
         }
     }
     

@@ -14,6 +14,7 @@ struct ServicesSheetViewForChild: View {
     
     @State private var showApprovedLocation = false
     @State private var showSelectingBackgroundView = false
+    @State private var showApprovedMArkets = false
     @State private var showBlockView = false
 
     let id: String
@@ -29,6 +30,7 @@ struct ServicesSheetViewForChild: View {
     }
     
     let services: [UserService] = [
+        .init(type: .checkApprovedMArkets, icon: "list.bullet.indent"),
         .init(type: .checkApprovedLocation, icon: "mappin.and.ellipse"),
         .init(type: .selectBackgroundImage,   icon: "plus"),
         .init(type: .block,                   icon: "lock.shield")
@@ -99,6 +101,11 @@ struct ServicesSheetViewForChild: View {
                 dismiss()
             }
         }
+        .fullScreenCover(isPresented: $showApprovedMArkets) {
+            ApprovedMarketsView {
+                dismiss()
+            }
+        }
         
         
         
@@ -106,6 +113,8 @@ struct ServicesSheetViewForChild: View {
     
     func handleServiceTap(_ service: ServicesType) {
         switch service {
+        case .checkApprovedMArkets:
+            showApprovedMArkets.toggle()
         case .checkApprovedLocation:
             showApprovedLocation.toggle()
         case .selectBackgroundImage:
