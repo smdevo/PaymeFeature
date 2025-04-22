@@ -145,7 +145,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HR365RX8AN;
+				DEVELOPMENT_TEAM = B7RN7KLJ9N;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PaymeFeature/Info.plist;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "";
@@ -160,7 +160,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = samandar.PaymeFeature;
+				PRODUCT_BUNDLE_IDENTIFIER = fayzimatovs.PaymeFeature;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -175,7 +175,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HR365RX8AN;
+				DEVELOPMENT_TEAM = B7RN7KLJ9N;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PaymeFeature/Info.plist;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "";
@@ -190,7 +190,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = samandar.PaymeFeature;
+				PRODUCT_BUNDLE_IDENTIFIER = fayzimatovs.PaymeFeature;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
