@@ -38,6 +38,9 @@ struct ServicesSheetViewForParent: View {
     @State private var showTransactionSheet = false
     @State private var showLimitationSheet = false
     @State private var showBackgroundPicker = false
+    @State private var showBlockCardSheet = false
+
+    
     
     @Environment(\.dismiss) var dismiss
     
@@ -148,6 +151,10 @@ struct ServicesSheetViewForParent: View {
             .fullScreenCover(isPresented: $showBackgroundPicker) {
                 BackgroundSelectionView(id: id)
             }
+            .fullScreenCover(isPresented: $showBlockCardSheet) {
+                BlockCardView()
+            }
+
         }
     }
     
@@ -160,7 +167,7 @@ struct ServicesSheetViewForParent: View {
         case .chooseLocatiion:
             print("→ Choose Location tapped")
         case .block:
-            print("→ Block Card tapped")
+            showBlockCardSheet.toggle()
         case .selectBackgroundImage:
             showBackgroundPicker.toggle()
         default:
