@@ -18,13 +18,15 @@ struct SetScrollView: View {
     @State var invitationCode = ""
     @State var showInvitationAlert = false
     
+    let role = UserDefaults.standard.bool(forKey: "role")
+    
     
     
     var body: some View {
         
         
         
-        if evm.currentUser?.role ?? true {
+        if role {
             
             NavigationLink(destination: FamilyView()
                 .environmentObject(evm)
@@ -35,7 +37,7 @@ struct SetScrollView: View {
             .buttonStyle(PlainButtonStyle())
         }
         
-        if let user = viewModel.currentUser, user.invitation, viewModel.currentUser?.role == false {
+        if let user = viewModel.currentUser, user.invitation, user.role == false {
             Button(action: {
                 showInvitationAlert = true
             }) {

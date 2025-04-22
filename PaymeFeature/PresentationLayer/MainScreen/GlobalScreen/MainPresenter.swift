@@ -10,8 +10,8 @@
 protocol MainPresenterProtocol {
     
     func presentBalance(balance: String)
-    func presentBaseView(enObj: GlobalViewModel)
-    func presentCardsView(enObj: GlobalViewModel)
+    func presentBaseView(enObj: GlobalViewModel, enFamObj: FamilyViewModel)
+    func presentCardsView(enObj: GlobalViewModel, enFamObj: FamilyViewModel)
 }
 
 
@@ -26,14 +26,14 @@ final class MainPresenter {
 extension MainPresenter: MainPresenterProtocol {
     
     
-    func presentCardsView(enObj: GlobalViewModel) {
-        view?.showCardsView(enObj: enObj)
+    func presentCardsView(enObj: GlobalViewModel,enFamObj: FamilyViewModel) {
+        view?.showCardsView(enObj: enObj, enFamObj: enFamObj)
     }
     
     
     
-    func presentBaseView(enObj: GlobalViewModel) {
-        view?.showBaseView(enObj: enObj)
+    func presentBaseView(enObj: GlobalViewModel, enFamObj: FamilyViewModel) {
+        view?.showBaseView(enObj: enObj, enFamObj: enFamObj)
     }
     
     

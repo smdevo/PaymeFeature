@@ -116,7 +116,7 @@ struct TransactionSheet: View {
                         completion()
                     }
                 )
-            }.background(.backgroundC)
+            }
         }
     }
 }
