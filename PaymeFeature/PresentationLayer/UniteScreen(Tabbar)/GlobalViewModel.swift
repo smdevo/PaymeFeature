@@ -145,7 +145,6 @@ class GlobalViewModel: ObservableObject {
     func getFamilyCard() {
         
         guard let currentFamily = currentFamily, let currentUser = currentUser else {
-            print("Skipping getFamilyCard — missing data")
             return
         }
     
@@ -272,10 +271,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     func setLimitToFamilyCard(id: String, limit: String) {
-        
-        
-        
-        
+    
         guard let family = currentFamily else { return }
         
         let card = family.cards.filter { vcm in
@@ -284,7 +280,7 @@ class GlobalViewModel: ObservableObject {
         
         guard let card else { return }
         
-        let cardToSetLimit = VirtualCardModel(id: id, name: card?.name ?? "", balance: card?.balance ?? "0", limit: limit)
+        let cardToSetLimit = VirtualCardModel(id: id, name: card?.name ?? "", number: card?.number ?? "", balance: card?.balance ?? "0", limit: limit)
         
         let cards = family.cards.map { vc in
             if vc?.id == cardToSetLimit.id {
