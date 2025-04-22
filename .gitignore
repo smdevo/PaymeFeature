@@ -30,3 +30,4 @@ DerivedData/
 
 # Xcode user state
 *.xcuserstate
+*.UserInterfaceState.xcuserstate
