@@ -143,41 +143,41 @@ struct ServicesSheetViewForParent: View {
             }
             .fullScreenCover(isPresented: $showApprovedMArkets) {
                 ApprovedMarketsView {
-            
+                    dismiss()
+                }
+            }
             .fullScreenCover(isPresented: $showChoosenLocations) {
                 
                 LocationPickerScreen(closure: {
                     dismiss()
                 })
             }
-
-        
             
         }
     }
-    
-    func handleServiceTap(_ service: ServicesType) {
-        switch service {
-        case .transfertoFamilyCard:
-            showTransactionSheet.toggle()
-        case .setDailySpending:
-            showLimitationSheet.toggle()
-        case .chooseLocatiion:
-            showChoosenLocations.toggle()
-        case .block:
-            showBlockCardSheet.toggle()
-        case .selectBackgroundImage:
-            showBackgroundPicker.toggle()
-        case .selectApprovedMArkets:
-            showApprovedMArkets.toggle()
-        default:
-            break
+        
+        func handleServiceTap(_ service: ServicesType) {
+            switch service {
+            case .transfertoFamilyCard:
+                showTransactionSheet.toggle()
+            case .setDailySpending:
+                showLimitationSheet.toggle()
+            case .chooseLocatiion:
+                showChoosenLocations.toggle()
+            case .block:
+                showBlockCardSheet.toggle()
+            case .selectBackgroundImage:
+                showBackgroundPicker.toggle()
+            case .selectApprovedMArkets:
+                showApprovedMArkets.toggle()
+            default:
+                break
+            }
+            
+            
         }
-        
-        
-    }
+    
 }
-
 
 #Preview {
     ServicesSheetViewForParent(id: "1")
