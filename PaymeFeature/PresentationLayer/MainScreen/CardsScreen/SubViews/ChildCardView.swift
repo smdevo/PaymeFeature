@@ -21,6 +21,25 @@ struct ChildCardView: View {
     var body: some View {
         VStack(alignment: .leading) {
             
+            
+            HStack {
+                Text(bankCard.type.rawValue)
+                    .font(.subheadline)
+                    .foregroundColor(.white)
+                    .textWithBlackBorder()
+                
+                Spacer()
+                
+                HStack {
+                    
+                    Text("TBC Bank")
+                        .foregroundColor(.white)
+                        .textWithBlackBorder()
+                }
+            }
+            
+            Spacer().frame(height: 20)
+            
             Text(bankCard.name)
                 .font(.title)
                 .foregroundColor(.white)
@@ -43,21 +62,21 @@ struct ChildCardView: View {
                     .background(.yellow)
                     .clipShape(RoundedRectangle(cornerRadius: .spacing(.x5)))
                     .frame(height: 28)
-                    .padding(.leading,10)
+                    //.padding(.leading,10)
             }
             else {
                 VStack{}
                 .frame(height: 40)
             }
-            
-           // vm.limit != nil ? Text("Лимит: \(vm.limit!) сум") : Text("")
-            
+                        
             
             HStack {
                 Image("paymekids")
                        .resizable()
                        .scaledToFill()
                        .frame(width: 140,height: 45)
+                       .padding(.leading, -13)
+                       
                     
                 Spacer()
                 
@@ -67,28 +86,16 @@ struct ChildCardView: View {
                        .frame(width: 100,height: 45)
             }
             
+            
         }
         .padding()
         .background {
-            Group {
-                if  !bankCard.isFamilyCard, vm.currentUser?.role == true {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(colors: [.indigo.opacity(0.6), .paymeC]),
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                } else {
-                    Image(vm.backgroundImange[bankCard.id] ?? "girlBackground")
-                        .resizable()
-                        .scaledToFill()
-                    
-                }
-            }
-            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-            .clipped()
+            
+            Image(vm.backgroundImange[bankCard.id] ?? "girlBackground")
+                .resizable()
+                .scaledToFill()
+                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                .clipped()
         }
         
         
