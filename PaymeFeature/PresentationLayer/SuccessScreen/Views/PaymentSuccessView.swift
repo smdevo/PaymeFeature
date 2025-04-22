@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct PaymentSuccessView: View {
-    let amount: String
     
+    
+    let amount: String
+    let completion: () -> ()
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack(spacing: 20) {
@@ -21,7 +24,7 @@ struct PaymentSuccessView: View {
             Spacer()
             
             
-            Image("successfullyCardIcon")
+            Image("successicon")
                 .resizable()
                 .frame(width: 140, height: 140)
                 
@@ -49,7 +52,10 @@ struct PaymentSuccessView: View {
             
             
             HStack {
-                Button(action: {}) {
+                Button(action: {
+                    completion()
+                    dismiss()
+                }) {
                     VStack {
                         Image(systemName: "arrow.left")
                         Text("Return to app")
@@ -78,12 +84,13 @@ struct PaymentSuccessView: View {
         }
         .background(Color(.systemGray6))
         .edgesIgnoringSafeArea(.all)
+        .navigationBarBackButtonHidden()
     }
 }
 
 
 
 #Preview {
-    PaymentSuccessView(amount: "235 000 сум")
+    PaymentSuccessView(amount: "235 000 сум", completion: {})
 }
 

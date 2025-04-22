@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import Combine
 
 class GlobalViewModel: ObservableObject {
+    
+    private var timerCancellable: AnyCancellable?
+    private var cancellables = Set<AnyCancellable>()
     
     @Published var currentUser: UserModel?
     
@@ -77,7 +81,22 @@ class GlobalViewModel: ObservableObject {
     
     init() {
         loadUserAndFamily()
+        startTimer()
     }
+    
+    private func startTimer() {
+            timerCancellable = Timer.publish(every: 5, on: .main, in: .common)
+                .autoconnect()
+                .sink { [weak self] _ in
+                    self?.loadUserAndFamily()
+                }
+        }
+    
+    deinit {
+        
+        timerCancellable?.cancel()
+    }
+    
     
     func loadUserAndFamily() {
         let group = DispatchGroup()

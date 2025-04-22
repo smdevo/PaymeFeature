@@ -16,8 +16,8 @@ struct SettingLimitationSheet: View {
     @State private var isSuccesFull = false
 
     @EnvironmentObject var evm: GlobalViewModel
+    @EnvironmentObject var fevm: FamilyViewModel
     
- //   @EnvironmentObject var fEvm: FamilyViewModel
     
     @Environment(\.dismiss) private var dismiss
     
@@ -37,20 +37,52 @@ struct SettingLimitationSheet: View {
     }
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(alignment: .leading, spacing: 20) {
             
-            Text("Setting Spending Limits")
+            ZStack(alignment: .trailing) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+                
+                HStack {
+                    
+                    Spacer()
+                    
+                    Image("paymeLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 70)
+                    
+                    Spacer()
+                    
+                }
+            }
+            
+            
+            
+            Text("Set Daily Limit")
                 .font(.title2)
                 .bold()
+           
+            HStack(alignment: .bottom) {
+                Image(systemName: "person.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 40)
+                    .foregroundStyle(Color.paymeC)
+                    
+                
+                Text(fevm.allUsers.filter({$0.number == id}).first?.name ?? "Someone")
+                    .font(.title)
+                    .bold()
+            }
             
-            Text("Do you wnat to set daily spending (withdraw) limit for family Card")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
             
-            VStack(alignment: .leading, spacing: 10) {
-                Text("How much do you want to set for?")
-                    .font(.subheadline)
                 
                 TextField("Enter amount", text: $sum)
                     .keyboardType(.decimalPad)
@@ -58,13 +90,11 @@ struct SettingLimitationSheet: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
                     .focused($foc)
-            }
             .padding(.horizontal)
+            
             
             Button {
                 isSetting = true
-                
-               
                 
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             isSetting = false
@@ -81,9 +111,10 @@ struct SettingLimitationSheet: View {
                 Text(isSetting ? "Setting..." : "Set")
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(isAmountValid ? Color.blue : Color.gray)
+                    .background(Color.blue)
                     .foregroundColor(.white)
                     .cornerRadius(12)
+                    .opacity(isAmountValid ? 1 : 0)
             }
             .disabled(!isAmountValid || isSetting)
             .padding(.horizontal)
@@ -100,4 +131,11 @@ struct SettingLimitationSheet: View {
             Text("Limit has bet Set Successfully")
         }
     }
+}
+
+#Preview {
+    SettingLimitationSheet(id: "")
+        .environmentObject(GlobalViewModel())
+        .environmentObject(FamilyViewModel())
+    
 }

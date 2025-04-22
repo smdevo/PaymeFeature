@@ -15,6 +15,7 @@ struct ChildCardView: View {
     @State private var showChildServiceSheet = false
     
     @EnvironmentObject var vm: GlobalViewModel
+    
     let bankCard: BankCard
     
     var body: some View {
@@ -96,7 +97,7 @@ struct ChildCardView: View {
         
         .sheet(isPresented: $showParentServiceSheet) {
             ServicesSheetViewForParent(id: bankCard.id)
-                //.presentationDetents([.fraction(0.6)])
+                .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showChildServiceSheet) {
