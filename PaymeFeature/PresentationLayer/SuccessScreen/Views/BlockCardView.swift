@@ -10,6 +10,8 @@ import SwiftUI
 struct BlockCardView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
+    
+    let completion: () -> ()
 
     var body: some View {
         NavigationView {
@@ -36,7 +38,7 @@ struct BlockCardView: View {
                
 
                 Button(action: {
-                    // to do
+                    completion()
                 }) {
                     Text("Заблокировать")
                         .foregroundColor(.white)
@@ -51,25 +53,17 @@ struct BlockCardView: View {
             }
             .navigationTitle("Блокировка карты")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.accentColor)
-                    }
-                }
-            }
+           
             .background(
                 Color(UIColor.systemBackground)
                     .edgesIgnoringSafeArea(.all)
             )
+            .navigationBarBackButtonHidden()
         }
     }
 }
 
 
 #Preview {
-    BlockCardView()
+    BlockCardView(completion: {})
 }
