@@ -59,7 +59,7 @@ struct CardsView: View {
         .overlay(alignment: .bottom) {
             plusButton
         }
-        .padding(5)
+        .padding(12)
         .refreshable {
             vm.loadUserAndFamily()
         }

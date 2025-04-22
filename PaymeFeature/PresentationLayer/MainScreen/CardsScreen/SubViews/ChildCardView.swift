@@ -36,12 +36,6 @@ struct ChildCardView: View {
                     .scaledToFill()
                     .frame(width: 130,height: 15)
                 
-                HStack {
-                    
-                    Text("TBC Bank")
-                        .foregroundColor(.white)
-                        .textWithBlackBorder()
-                }
             }
             
             Spacer()
@@ -71,7 +65,7 @@ struct ChildCardView: View {
             
             Spacer()
             
-            if let limit = bankCard.limit {
+            if let limit = bankCard.limit, limit != "" {
                 Text("Лимит: \(limit)")
                     .font(.subheadline)
                     .padding(.vertical, 8)
@@ -86,7 +80,6 @@ struct ChildCardView: View {
             Text(bankCard.cardNumber)
                 .font(.subheadline)
                 .foregroundColor(.white)
-                .background(.red)
         }
         
         .padding(20)

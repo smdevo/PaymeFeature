@@ -169,7 +169,7 @@ struct FamilyView: View {
                     }
                 }
                 
-                .padding()
+                .padding(12)
                 .background(.backgroundC)
                 
                 .sheet(isPresented: $showAddFamilyMemberSheet) {
