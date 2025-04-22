@@ -35,7 +35,7 @@ struct SettingLimitationSheet: View {
     }
     
     var isAmountValid: Bool {
-        if let amount = Double(sum), amount > 0 {
+        if let amount = Int(sum), amount > 0 {
             return true
         }
         return false

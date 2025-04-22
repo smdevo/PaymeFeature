@@ -18,11 +18,11 @@ struct FamilyViewScene: View {
             
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Семейная карта")
+                    Text("Payme Kids")
                         .font(.title2)
                         .bold()
                         .foregroundColor(.labelC)
-                    Text("Одна карта — для всей семьи\nОдна карта — несколько пользователей")
+                    Text("Безопасный контроль детских расходов\nФинансовая грамотность для самых маленьких")
                         .font(.caption)
                         .foregroundColor(.labelC)
                 }
