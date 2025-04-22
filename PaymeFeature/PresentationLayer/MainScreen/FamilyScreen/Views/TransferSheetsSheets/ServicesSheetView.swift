@@ -38,6 +38,8 @@ struct ServicesSheetViewForParent: View {
     @State private var showTransactionSheet = false
     @State private var showLimitationSheet = false
     @State private var showBackgroundPicker = false
+    @State private var showApprovedMArkets = false
+
     
     @Environment(\.dismiss) var dismiss
     
@@ -84,32 +86,9 @@ struct ServicesSheetViewForParent: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         ForEach(services) { service in
-                          
-                            if service.type == .selectApprovedMArkets {
-                                NavigationLink {
-                                    ApprovedMarketsView()
-                                        .environmentObject(vm)
-                                    
-                                } label: {
-                                    HStack {
-                                        Label(service.type.rawValue, systemImage: service.icon)
-                                            .font(.body)
-                                            .foregroundColor(.primary)
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(.gray)
-                                    }
-                                    .padding()
-                                    .background(Color(.systemGray6))
-                                    .cornerRadius(16)
-                                    .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 2)
-                                }
-                                .buttonStyle(.plain)
                                 
-                            } else {
                                 Button(action: {
                                     handleServiceTap(service.type)
-                                    
                                 }) {
                                     HStack {
                                         Label(service.type.rawValue, systemImage: service.icon)
@@ -125,28 +104,34 @@ struct ServicesSheetViewForParent: View {
                                     .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 2)
                                 }
                                 .buttonStyle(.plain)
-                            }
+                            
                         }
                     }
                     .padding(.horizontal)
                     .padding(.bottom)
                 }
             }
-            .background(Color(.systemBackground))
+            
+            .background(Color.theme.backgroundColor)
             .cornerRadius(20)
             .edgesIgnoringSafeArea(.bottom)
-            
             .fullScreenCover(isPresented: $showTransactionSheet) {
                 TransactionSheet(id: id, completion: {
-                    showTransactionSheet = false
                     dismiss()
                 })
             }
             .fullScreenCover(isPresented: $showLimitationSheet) {
-                SettingLimitationSheet(id: id)
+                SettingLimitationSheet(id: id, completion: {
+                    dismiss()
+                })
             }
             .fullScreenCover(isPresented: $showBackgroundPicker) {
                 BackgroundSelectionView(id: id)
+            }
+            .fullScreenCover(isPresented: $showApprovedMArkets) {
+                ApprovedMarketsView(completion: {
+                    dismiss()
+                })
             }
         }
     }
@@ -163,6 +148,8 @@ struct ServicesSheetViewForParent: View {
             print("→ Block Card tapped")
         case .selectBackgroundImage:
             showBackgroundPicker.toggle()
+        case .selectApprovedMArkets:
+            showApprovedMArkets.toggle()
         default:
             break
         }

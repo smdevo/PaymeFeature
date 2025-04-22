@@ -23,6 +23,7 @@ struct ChildCardView: View {
         
         VStack(alignment: .leading) {
             
+            
             HStack {
                 Image("humo")
                     .resizable()
@@ -35,6 +36,12 @@ struct ChildCardView: View {
                     .scaledToFill()
                     .frame(width: 130,height: 15)
                 
+                HStack {
+                    
+                    Text("TBC Bank")
+                        .foregroundColor(.white)
+                        .textWithBlackBorder()
+                }
             }
             
             Spacer()
