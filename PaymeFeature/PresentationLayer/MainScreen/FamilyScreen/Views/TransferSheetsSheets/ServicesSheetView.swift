@@ -38,6 +38,11 @@ struct ServicesSheetViewForParent: View {
     @State private var showTransactionSheet = false
     @State private var showLimitationSheet = false
     @State private var showBackgroundPicker = false
+    @State private var showBlockCardSheet = false
+
+    
+    
+    @Environment(\.dismiss) var dismiss
     
     let id: String
     
@@ -45,7 +50,7 @@ struct ServicesSheetViewForParent: View {
         self.id = id
     }
     
-    @Environment(\.dismiss) var dismiss
+    
     
     let services: [UserService] = [
         .init(type: .transfertoFamilyCard,    icon: "arrow.down.circle"),
@@ -107,6 +112,7 @@ struct ServicesSheetViewForParent: View {
                             } else {
                                 Button(action: {
                                     handleServiceTap(service.type)
+                                    
                                 }) {
                                     HStack {
                                         Label(service.type.rawValue, systemImage: service.icon)
@@ -133,21 +139,22 @@ struct ServicesSheetViewForParent: View {
             .cornerRadius(20)
             .edgesIgnoringSafeArea(.bottom)
             
-            .sheet(isPresented: $showTransactionSheet) {
-                TransactionSheet(id: id)
-                    .presentationDetents([.fraction(0.6)])
-                    .presentationDragIndicator(.visible)
+            .fullScreenCover(isPresented: $showTransactionSheet) {
+                TransactionSheet(id: id, completion: {
+                    showTransactionSheet = false
+                    dismiss()
+                })
             }
-            .sheet(isPresented: $showLimitationSheet) {
+            .fullScreenCover(isPresented: $showLimitationSheet) {
                 SettingLimitationSheet(id: id)
-                    .presentationDetents([.fraction(0.6)])
-                    .presentationDragIndicator(.visible)
             }
-            .sheet(isPresented: $showBackgroundPicker) {
+            .fullScreenCover(isPresented: $showBackgroundPicker) {
                 BackgroundSelectionView(id: id)
-                    .presentationDetents([.medium])
-                    .presentationDragIndicator(.visible)
             }
+            .fullScreenCover(isPresented: $showBlockCardSheet) {
+                BlockCardView()
+            }
+
         }
     }
     
@@ -160,7 +167,7 @@ struct ServicesSheetViewForParent: View {
         case .chooseLocatiion:
             print("→ Choose Location tapped")
         case .block:
-            print("→ Block Card tapped")
+            showBlockCardSheet.toggle()
         case .selectBackgroundImage:
             showBackgroundPicker.toggle()
         default:

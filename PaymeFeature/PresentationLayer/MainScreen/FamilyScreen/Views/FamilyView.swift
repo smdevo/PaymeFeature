@@ -11,7 +11,7 @@ import SwiftUI
 struct FamilyView: View {
     
     
-    @StateObject var viewModel: FamilyViewModel = FamilyViewModel()
+    @EnvironmentObject var viewModel: FamilyViewModel
     
     @EnvironmentObject var vm: GlobalViewModel
     
@@ -68,7 +68,7 @@ struct FamilyView: View {
 
                         
                         
-                        if let user = viewModel.currentUser, user.invitation {
+                        if let user = viewModel.currentUser, user.invitation, viewModel.currentUser?.role == false {
                             Button(action: {
                                 showInvitationAlert = true
                             }) {
@@ -235,3 +235,6 @@ struct FamilyView: View {
     }
 }
 
+#Preview {
+    FamilyView().environmentObject(GlobalViewModel())
+}

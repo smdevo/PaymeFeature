@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CardsTableView: View {
     
+    @EnvironmentObject var vm: GlobalViewModel
+    
     var cards: [BankCard]
     
     init(cards: [BankCard]) {
@@ -24,8 +26,10 @@ struct CardsTableView: View {
                         ChildCardView(bankCard: card)
                             .padding()
                     }else {
-                        CardView(bankCard: card)
-                            .padding()
+                        if vm.currentUser?.role ?? true {
+                            CardView(bankCard: card)
+                                .padding()
+                        }
                     }
                 }
                 

@@ -82,7 +82,9 @@ struct ServicesSheetViewForChild: View {
         .cornerRadius(20)
         .edgesIgnoringSafeArea(.bottom)
         .sheet(isPresented: $showTransactionSheet) {
-            TransactionSheet(id: id)
+            TransactionSheet(id: id, completion: {
+                dismiss()
+            })
                 .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }

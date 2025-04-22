@@ -15,6 +15,7 @@ struct ChildCardView: View {
     @State private var showChildServiceSheet = false
     
     @EnvironmentObject var vm: GlobalViewModel
+    
     let bankCard: BankCard
     
     var body: some View {
@@ -83,7 +84,7 @@ struct ChildCardView: View {
                     Image(vm.backgroundImange[bankCard.id] ?? "girlBackground")
                         .resizable()
                         .scaledToFill()
-                        //.frame(maxWidth: .infinity, maxHeight: .infinity)
+                    
                 }
             }
             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
@@ -101,7 +102,7 @@ struct ChildCardView: View {
         }
         .sheet(isPresented: $showChildServiceSheet) {
             ServicesSheetViewForChild(id: bankCard.id)
-                .presentationDetents([.fraction(0.6)])
+               // .presentationDetents([.fraction(0.6)])
                 .presentationDragIndicator(.visible)
         }
         .onTapGesture {
@@ -122,10 +123,9 @@ extension View {
         self.shadow(color: .black, radius: 1, x: 1, y: 1)
     }
 }
-//
-//#Preview {
-//    let model: BankCard = .init(name: "Apple Inc.", ownerName: "Apple Inc.", sum: "100", cardNumber: "100", type: .humo, expirationDate: "sfds", id: <#String#>)
-//    ChildCardView(bankCard: model)
-//        .environmentObject(GlobalViewModel())
-//        .padding()
-//}
+
+#Preview {
+    let model: BankCard = .init(name: "Apple Inc.", ownerName: "Apple Inc.", sum: "100", cardNumber: "100", type: .humo, expirationDate: "sfds", id: "s", limit: "as")
+    ChildCardView(bankCard: model)
+        .environmentObject(GlobalViewModel())
+}
