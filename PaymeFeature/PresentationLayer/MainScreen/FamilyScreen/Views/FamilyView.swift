@@ -29,105 +29,105 @@ struct FamilyView: View {
     
     var body: some View {
         ZStack{
-                if viewModel.currentUser == nil {
-                    ProgressView()
-                }else {
-                    VStack {
+            if viewModel.currentUser == nil {
+                ProgressView()
+            }else {
+                VStack {
+                    
+                    NavigationLink {
                         
-                        NavigationLink {
-                            
-                            FamilyMembersView()
-                            
-                        } label: {
-                            VStack {
-                                HStack {
-                                    Circle()
-                                        .fill(.backgroundC)
-                                        .frame(width: 60, height: 60)
-                                        .overlay(
-                                            Image("familyImage")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 60, height: 80)
-                                        )
-                                        .padding(.horizontal)
-                                    
-                                    VStack(alignment: .leading){
-                                        Text("Детские карты")
-                                            .fontWeight(.bold)
-                                        Text("\(viewModel.familyMembers.count) участник")
-                                    }
-                                }
-                            }// members
-                            .padding(.vertical)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(.paymeC.opacity(0.8))
-                            .clipShape(.rect(cornerRadius: 12))
-                            
-                        }
-
+                        FamilyMembersView()
                         
-                        
-                        if let user = viewModel.currentUser, user.invitation, viewModel.currentUser?.role == false {
-                            Button(action: {
-                                showInvitationAlert = true
-                            }) {
-                                HStack {
-                                    Image(systemName: "exclamationmark.triangle.fill")
-                                        .foregroundColor(.paymeC)
-                                    Text("Подтвердите приглашение в семью")
-                                        .font(.subheadline)
-                                        .foregroundColor(.paymeC)
-                                }
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(8)
-                                .padding()
+                    } label: {
+                        VStack {
+                            HStack {
+                                Circle()
+                                    .fill(.backgroundC)
+                                    .frame(width: 60, height: 60)
+                                    .overlay(
+                                        Image("familyImage")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 60, height: 80)
+                                    )
+                                    .padding(.horizontal)
+                                
+                                VStack(alignment: .leading){
+                                    Text("Моя семья")
+                                        .fontWeight(.bold)
+                                    Text("\(viewModel.familyMembers.count) участников")
+                                }.foregroundColor(.primary)
                             }
-                            .alert("Подтверждение приглашения", isPresented: $showInvitationAlert) {
-                                TextField("Введите код", text: $invitationCode)
-                                Button("Confirm") {
-                                    viewModel.confirmInvitation(enteredCode: invitationCode) { success in
-                                        if success {
-                                            print("Success")
-                                        } else {
-                                            print("Failure")
-                                        }
-                                    }
-                                }
-                                Button("Cancel", role: .cancel) {}
-                            } message: {
-                                Text("Введите код подтверждения, который вы получили")
-                            }
-                        }
-                        Text("Детские карты")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .fontWeight(.bold)
-                            .padding()
+                        }// members
+                        .padding(.vertical)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(.paymeC.opacity(0.8))
+                        .clipShape(.rect(cornerRadius: 12))
                         
-                        ScrollView(.vertical, showsIndicators: false) {
-                            VStack(spacing: 12) {
-                                if viewModel.currentUser?.role == true {
-                                    ForEach(viewModel.familyCards, id: \.id) { card in
-                                        ChildCardView(bankCard:
-                                                        BankCard(
-                                                            name: String(card.name.split(separator: " ").first ?? ""),
-//                                                            name: card.name,
-                                                            ownerName: card.name,
-                                                            sum: card.balance,
-                                                            cardNumber: card.number,
-                                                            type: .humo,
-                                                            expirationDate: "11/27",
-                                                            isFamilyCard: true, id: card.id, limit: card.limit))
-                                        .environmentObject(viewModel)
-                                    }
+                    }
+                    
+                    
+                    
+                    //                        if let user = viewModel.currentUser, user.invitation, viewModel.currentUser?.role == false {
+                    //                            Button(action: {
+                    //                                showInvitationAlert = true
+                    //                            }) {
+                    //                                HStack {
+                    //                                    Image(systemName: "exclamationmark.triangle.fill")
+                    //                                        .foregroundColor(.paymeC)
+                    //                                    Text("Подтвердите приглашение в семью")
+                    //                                        .font(.subheadline)
+                    //                                        .foregroundColor(.paymeC)
+                    //                                }
+                    //                                .padding()
+                    //                                .background(Color(.systemGray6))
+                    //                                .cornerRadius(8)
+                    //                                .padding()
+                    //                            }
+                    //                            .alert("Подтверждение приглашения", isPresented: $showInvitationAlert) {
+                    //                                TextField("Введите код", text: $invitationCode)
+                    //                                Button("Confirm") {
+                    //                                    viewModel.confirmInvitation(enteredCode: invitationCode) { success in
+                    //                                        if success {
+                    //                                            print("Success")
+                    //                                        } else {
+                    //                                            print("Failure")
+                    //                                        }
+                    //                                    }
+                    //                                }
+                    //                                Button("Cancel", role: .cancel) {}
+                    //                            } message: {
+                    //                                Text("Введите код подтверждения, который вы получили")
+                    //                            }
+                    //                        }
+                    
+                    Text("Детские карты")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .fontWeight(.bold)
+                        .padding()
+                    
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(spacing: 12) {
+                            if viewModel.currentUser?.role == true {
+                                ForEach(viewModel.familyCards, id: \.id) { card in
+                                    ChildCardView(bankCard:
+                                                    BankCard(
+                                                        name: String(card.name.split(separator: " ").first ?? ""),
+                                                        ownerName: card.name,
+                                                        sum: card.balance,
+                                                        cardNumber: card.number,
+                                                        type: .humo,
+                                                        expirationDate: "11/27",
+                                                        isFamilyCard: true, id: card.id, limit: card.limit))
+                                    .environmentObject(viewModel)
                                 }
-                                else {
-                                    let realCard = viewModel.familyCards.filter({ cardone in
-                                        cardone.id == viewModel.currentUser?.number
-                                    })
-                                    if let card = realCard.first {
-                                        ChildCardView(bankCard:
+                            }
+                            else {
+                                let realCard = viewModel.familyCards.filter({ cardone in
+                                    cardone.id == viewModel.currentUser?.number
+                                })
+                                if let card = realCard.first {
+                                    ChildCardView(bankCard:
                                                     BankCard(
                                                         name: card.name,
                                                         ownerName: card.name,
@@ -138,51 +138,51 @@ struct FamilyView: View {
                                                         isFamilyCard: true, id: card.id,
                                                         limit: card.limit
                                                     ))
-                                        .environmentObject(viewModel)
-                                    }
+                                    .environmentObject(viewModel)
                                 }
-                                if let user = viewModel.currentUser, user.role {
-                                    Button(action: {
-                                        showFamilyCardAddSheet = true
-                                    }) {
-                                        HStack{
-                                            
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .fill(.paymeC)
-                                                .frame(width: .spacing(.x14), height: .spacing(.x14))
-                                                .overlay(
-                                                    Image(systemName: "plus")
-                                                        .foregroundColor(.white)
-                                                        .fontWeight(.bold)
-                                                )
-                                            Text("Добавить детскую карту")
-                                                .font(.headline)
-                                                .foregroundColor(.primary)
-                                                .padding()
-                                                .cornerRadius(10)
-                                        }
+                            }
+                            if let user = viewModel.currentUser, user.role {
+                                Button(action: {
+                                    showFamilyCardAddSheet = true
+                                }) {
+                                    HStack{
                                         
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(.paymeC)
+                                            .frame(width: .spacing(.x14), height: .spacing(.x14))
+                                            .overlay(
+                                                Image(systemName: "plus")
+                                                    .foregroundColor(.white)
+                                                    .fontWeight(.bold)
+                                            )
+                                        Text("Добавить детскую карту")
+                                            .font(.headline)
+                                            .foregroundColor(.primary)
+                                            .padding()
+                                            .cornerRadius(10)
                                     }
-                                    .padding()
+                                    
                                 }
+                                .padding()
                             }
                         }
                     }
-                    
-                    .padding()
-                    .background(.backgroundC)
-                    
-                    .sheet(isPresented: $showAddFamilyMemberSheet) {
-                        AddFamilyMember(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
-                            .presentationDetents([.medium])
-                            .presentationDragIndicator(.hidden)
-                    }
-                    .sheet(isPresented: $showFamilyCardAddSheet) {
-                        FamilyCardAddView(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
-                            .presentationDetents([.medium])
-                            .presentationDragIndicator(.hidden)
-                    }
                 }
+                
+                .padding()
+                .background(.backgroundC)
+                
+                .sheet(isPresented: $showAddFamilyMemberSheet) {
+                    AddFamilyMember(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.hidden)
+                }
+                .sheet(isPresented: $showFamilyCardAddSheet) {
+                    FamilyCardAddView(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.hidden)
+                }
+            }
             
             if showSnackbar {
                 VStack {
