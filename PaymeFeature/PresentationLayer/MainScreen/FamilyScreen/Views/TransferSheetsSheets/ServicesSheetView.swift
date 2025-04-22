@@ -128,13 +128,13 @@ struct ServicesSheetViewForParent: View {
                 })
             }
             .fullScreenCover(isPresented: $showBackgroundPicker) {
-                BackgroundSelectionView(id: id)
+                BackgroundSelectionView(id: id) {
+                    dismiss()
+                }
             }
             .fullScreenCover(isPresented: $showBlockCardSheet) {
                 BlockCardView(completion: {
-                    
                     dismiss()
-                    
                 })
             }
 
@@ -147,7 +147,6 @@ struct ServicesSheetViewForParent: View {
             showTransactionSheet.toggle()
         case .setDailySpending:
             showLimitationSheet.toggle()
-            //TODO: CASES
         case .chooseLocatiion:
             print("→ Choose Location tapped")
         case .block:
