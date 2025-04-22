@@ -18,6 +18,8 @@ struct ApprovedMarketsView: View {
     
     @State private var showAddCardSheet: Bool = false
     
+    let completion: () -> ()
+    
     private let items: [MarketItem] = [
         .init(title: "Safiа", imageName: "safia"),
         .init(title: "Korzinka", imageName: "korzinka"),
@@ -44,34 +46,51 @@ struct ApprovedMarketsView: View {
         NavigationStack {
             
             VStack{
-                
                 content
                     .background(Color.backgroundC)
                     .navigationTitle("Доверенные продавцы")
                     .navigationBarTitleDisplayMode(.inline)
-    //                .toolbar { backButton }
                 
-                Button {
-                    showAddCardSheet.toggle()
-                } label: {
-                    Circle()
-                        .fill(.paymeC)
-                        .frame(width: 60)
-                        .overlay {
-                            Image(systemName: "plus")
-                                .resizable()
-                            
-                                .padding(16)
-                                .foregroundStyle(.white)
-                        }
+                Button(action: {
+                    completion()
+                }) {
+                    Text("Вернуться в приложение")
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(.paymeC)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                        .padding(.horizontal, 40)
                 }
-                .sheet(isPresented: $showAddCardSheet) {
-                    AddCardView()
-                        .presentationDetents([.medium])
-                        .presentationDragIndicator(.hidden)
-                }
+                
+                Spacer().frame(height: 30)
+                
             }.background(.backgroundC)
-        }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            showAddCardSheet.toggle()
+                        } label: {
+                            Circle()
+                                .fill(.paymeC)
+                                .frame(height: 40)
+                                .overlay {
+                                    Image(systemName: "plus")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .padding(10)
+                                        .foregroundStyle(.white)
+                                }
+                        }
+                        .sheet(isPresented: $showAddCardSheet) {
+                            AddCardView()
+                                .presentationDetents([.medium])
+                                .presentationDragIndicator(.hidden)
+                        }
+                    }
+                }
+        }//
         
     }
     
@@ -87,17 +106,6 @@ struct ApprovedMarketsView: View {
         }
     }
     
-    // MARK: — Кнопка «назад»
-//    private var backButton: some ToolbarContent {
-//        ToolbarItem(placement: .navigationBarLeading) {
-//            Button {
-//                
-//            } label: {
-//                Image(systemName: "chevron.left")
-//                    .foregroundColor(.primary)
-//            }
-//        }
-//    }
 }
 
 // MARK: — Вынесенная ячейка сетки
@@ -134,5 +142,5 @@ struct MarketItemCell: View {
 
 
 #Preview {
-    ApprovedMarketsView()
+    ApprovedMarketsView(completion: {})
 }

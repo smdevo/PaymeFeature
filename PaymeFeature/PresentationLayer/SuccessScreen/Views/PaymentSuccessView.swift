@@ -54,33 +54,57 @@ struct PaymentSuccessView: View {
             HStack {
                 Button(action: {
                     completion()
-                    dismiss()
                 }) {
-                    VStack {
-                        Image(systemName: "arrow.left")
+                    VStack(spacing: 20) {
+                        Image(systemName: "chevron.backward")
+                            .resizable()
+                            .scaledToFit()
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                            .frame(height: 25)
+                        
                         Text("Return to app")
                             .font(.footnote)
                     }
+                    .frame(width: 90)
                 }
+                
                 Spacer()
+                
                 Button(action: {}) {
-                    VStack {
+                    VStack(spacing: 20) {
                         Image(systemName: "doc.text")
+                            .resizable()
+                            .scaledToFit()
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                            .frame(height: 25)
+                        
                         Text("Cheque")
                             .font(.footnote)
                     }
+                    .frame(width: 90)
                 }
+                
                 Spacer()
+                
                 Button(action: {}) {
-                    VStack {
+                    VStack(spacing: 20) {
                         Image(systemName: "star")
+                            .resizable()
+                            .scaledToFit()
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                            .frame(height: 25)
                         Text("Save")
                             .font(.footnote)
                     }
+                    .frame(width: 90)
                 }
             }
+            .foregroundStyle(.gray)
             .padding(.horizontal, 40)
-            .padding(.bottom, 30)
+            .padding(.bottom, 60)
         }
         .background(Color(.systemGray6))
         .edgesIgnoringSafeArea(.all)
