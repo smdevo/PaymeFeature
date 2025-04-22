@@ -15,12 +15,12 @@
 
 enum ServicesType: String {
     case transfertoFamilyCard = "Transfer the money into family Card"
-    case transferFromFamilyCard = "Tranfer Money from Family Card"
     case setDailySpending = "Set Daily Spending"
     case chooseLocatiion = "Choose Location"
     case block = "Block Card"
     case selectApprovedMArkets = "Select approved markets"
     case selectBackgroundImage = "Select Background Image"
+    case checkApprovedLocation = "Check approved Location"
 }
 
 struct UserService: Identifiable {
@@ -29,6 +29,7 @@ struct UserService: Identifiable {
     let icon: String
 }
 import SwiftUI
+import MapKit
 
 struct ServicesSheetViewForParent: View {
     
@@ -40,7 +41,8 @@ struct ServicesSheetViewForParent: View {
     @State private var showBackgroundPicker = false
     @State private var showBlockCardSheet = false
     @State private var showApprovedMArkets = false
-
+    @State private var showChoosenLocations = false
+    
     
     
     @Environment(\.dismiss) var dismiss
@@ -57,9 +59,9 @@ struct ServicesSheetViewForParent: View {
         .init(type: .transfertoFamilyCard,    icon: "arrow.down.circle"),
         .init(type: .setDailySpending,        icon: "calendar.badge.clock"),
         .init(type: .chooseLocatiion,         icon: "mappin.and.ellipse"),
-        .init(type: .block,                   icon: "lock.shield"),
         .init(type: .selectApprovedMArkets,   icon: "list.bullet.indent"),
-        .init(type: .selectBackgroundImage,   icon: "plus")
+        .init(type: .selectBackgroundImage,   icon: "plus"),
+        .init(type: .block,                   icon: "lock.shield")
     ]
     
     var body: some View {
@@ -88,24 +90,24 @@ struct ServicesSheetViewForParent: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         ForEach(services) { service in
-                                
-                                Button(action: {
-                                    handleServiceTap(service.type)
-                                }) {
-                                    HStack {
-                                        Label(service.type.rawValue, systemImage: service.icon)
-                                            .font(.body)
-                                            .foregroundColor(.primary)
-                                        Spacer()
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(.gray)
-                                    }
-                                    .padding()
-                                    .background(Color(.systemGray6))
-                                    .cornerRadius(16)
-                                    .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 2)
+                            
+                            Button(action: {
+                                handleServiceTap(service.type)
+                            }) {
+                                HStack {
+                                    Label(service.type.rawValue, systemImage: service.icon)
+                                        .font(.body)
+                                        .foregroundColor(.primary)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.gray)
                                 }
-                                .buttonStyle(.plain)
+                                .padding()
+                                .background(Color(.systemGray6))
+                                .cornerRadius(16)
+                                .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 2)
+                            }
+                            .buttonStyle(.plain)
                             
                         }
                     }
@@ -114,7 +116,7 @@ struct ServicesSheetViewForParent: View {
                 }
             }
             
-            .background(Color.theme.backgroundColor)
+            .background(Color(.systemBackground))
             .cornerRadius(20)
             .edgesIgnoringSafeArea(.bottom)
             .fullScreenCover(isPresented: $showTransactionSheet) {
@@ -128,16 +130,23 @@ struct ServicesSheetViewForParent: View {
                 })
             }
             .fullScreenCover(isPresented: $showBackgroundPicker) {
-                BackgroundSelectionView(id: id)
+                BackgroundSelectionView(id: id) {
+                    dismiss()
+                }
             }
             .fullScreenCover(isPresented: $showBlockCardSheet) {
                 BlockCardView(completion: {
-                    
                     dismiss()
-                    
                 })
             }
-
+            
+            .fullScreenCover(isPresented: $showChoosenLocations) {
+                
+                LocationPickerScreen(closure: {
+                    dismiss()
+                })
+            }
+            
         }
     }
     
@@ -147,9 +156,8 @@ struct ServicesSheetViewForParent: View {
             showTransactionSheet.toggle()
         case .setDailySpending:
             showLimitationSheet.toggle()
-            //TODO: CASES
         case .chooseLocatiion:
-            print("→ Choose Location tapped")
+            showChoosenLocations.toggle()
         case .block:
             showBlockCardSheet.toggle()
         case .selectBackgroundImage:
@@ -159,8 +167,11 @@ struct ServicesSheetViewForParent: View {
         default:
             break
         }
+        
+        
     }
 }
+
 
 #Preview {
     ServicesSheetViewForParent(id: "1")
