@@ -54,6 +54,7 @@ class LoginViewModel: ObservableObject {
             
             UserDefaults.standard.set(user.id, forKey: "userId")
             UserDefaults.standard.set(user.familyId, forKey: "userFamilyId")
+            UserDefaults.standard.set(user.role, forKey: "role")
             onLoginSuccess?()
         } else {
             errorMessage = "Неверный логин или пароль"

@@ -18,8 +18,16 @@ struct SetScrollView: View {
     @State var invitationCode = ""
     @State var showInvitationAlert = false
     
+    let role = UserDefaults.standard.bool(forKey: "role")
+    
+    
+    
     var body: some View {
-        if evm.currentUser?.role ?? true {
+        
+        
+        
+        if role {
+            
             NavigationLink(destination: FamilyView()
                 .environmentObject(evm)
                 .environmentObject(viewModel)
@@ -29,49 +37,7 @@ struct SetScrollView: View {
             .buttonStyle(PlainButtonStyle())
         }
         
-        else{
-            Section {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        GenericItemView(
-                            title: "Ucell\n+998 94 042 64 01",
-                            imageName: "phone.fill",
-                            color: .purple
-                        )
-                        Button(action: { }) {
-                            GenericItemView(
-                                title: "Добавить",
-                                imageName: "plus.circle",
-                                color: .blue
-                            )
-                        }
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 12)
-                }
-                .cornerRadius(12)
-                .padding(.horizontal)
-            }
-            
-        header: {
-            HStack {
-                Text("Сохраненные платежи")
-                    .font(.headline)
-                    .padding(.horizontal)
-                Spacer()
-                Button(action: {
-                }) {
-                    Text("Все")
-                        .font(.subheadline)
-                        .foregroundColor(.blue)
-                }
-                .padding(.bottom, 12)
-                .padding(.horizontal)
-            }
-        }
-        }
-        
-        if let user = viewModel.currentUser, user.invitation, viewModel.currentUser?.role == false {
+        if let user = viewModel.currentUser, user.invitation, user.role == false {
             Button(action: {
                 showInvitationAlert = true
             }) {
