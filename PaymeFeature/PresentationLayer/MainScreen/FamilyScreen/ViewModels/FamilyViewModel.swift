@@ -77,13 +77,13 @@ class FamilyViewModel: ObservableObject {
         
         UsersNtworkinDataService.shared.getData(link: usersEndpoint) { (users: [UserModel]?) in
             guard let users = users, let userToUpdate = users.first else {
-                print("Пользователь с таким номером не найден")
+
                 completion(false)
                 return
             }
             
             if userToUpdate.familyId == adminUser.familyId {
-                print("Пользователь уже принадлежит к этой семье")
+
                 completion(false)
                 return
             }
@@ -92,7 +92,7 @@ class FamilyViewModel: ObservableObject {
             var updatedUser = userToUpdate
             updatedUser.familyId = adminUser.familyId
             
-            print("Id: \(updatedUser.familyId)")
+            
             
             UserDefaults.standard.set(updatedUser.familyId, forKey: "userFamilyId")
             
@@ -110,16 +110,12 @@ class FamilyViewModel: ObservableObject {
                         
                         
                         UsersNtworkinDataService.shared.updateData(link: familyEndpoint, dataToUpdate: familyToUpdate) { familyUpdateSuccess in
-                            if familyUpdateSuccess {
-                                print("Пользователь успешно добавлен в семью")
-                            } else {
-                                print("Ошибка обновления данных семьи")
-                            }
+                        
                             completion(familyUpdateSuccess)
                         }
                     }
                 } else {
-                    print("Ошибка обновления данных пользователя")
+                    
                     completion(false)
                 }
             }
@@ -130,7 +126,7 @@ class FamilyViewModel: ObservableObject {
     
     func addFamilyCard(cardName: String, ownerPhoneNumber: String, completion: @escaping (Bool) -> Void) {
         guard let familyId = currentUser?.familyId else {
-            print("Текущий пользователь не имеет идентификатора семьи")
+            
             completion(false)
             return
         }
@@ -139,7 +135,7 @@ class FamilyViewModel: ObservableObject {
         
         UsersNtworkinDataService.shared.getData(link: familyEndpoint) { (family: FamilyModel?) in
             guard var familyToUpdate = family else {
-                print("Семья с id \(familyId) не найдена")
+                
                 completion(false)
                 return
             }
@@ -166,11 +162,6 @@ class FamilyViewModel: ObservableObject {
             familyToUpdate.cards.append(newCard)
             
             UsersNtworkinDataService.shared.updateData(link: familyEndpoint, dataToUpdate: familyToUpdate) { success in
-                if success {
-                    print("Новая карточка успешно добавлена")
-                } else {
-                    print("Ошибка обновления карточек семьи")
-                }
                 completion(success)
             }
         }
@@ -230,13 +221,13 @@ class FamilyViewModel: ObservableObject {
                             }
                         }
                     } else {
-                        print("Ошибка Face ID: \(authError?.localizedDescription ?? "Неизвестная ошибка")")
+                        
                         completion(false)
                     }
                 }
             }
         } else {
-            print("Face ID недоступен: \(error?.localizedDescription ?? "")")
+            
             completion(false)
         }
         refreshData()

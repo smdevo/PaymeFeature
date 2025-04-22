@@ -28,7 +28,7 @@ class LoginViewModel: ObservableObject {
     func getUsers() {
         netSerVice.getData(link: "users") { [weak self] (users: [UserModel]?) in
             guard let users else {
-                print("Cant get users in login Page")
+                
                 return
             }
             self?.users = users

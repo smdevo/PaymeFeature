@@ -29,4 +29,4 @@ DerivedData/
 .DS_Store
 
 # Xcode user state
-*.xcuserstate
+*.xcuserstate.DS_Store
