@@ -33,12 +33,13 @@ struct PaymentSuccessView: View {
             Text(amount)
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
              
             
             Text("Успешно оплачено")
                 .font(.title2)
                 .fontWeight(.semibold)
+                .foregroundColor(.primary)
             
             
             Text("В случае задержки получения товаров или услуг обратитесь в службу поддержки поставщика.")
@@ -47,9 +48,7 @@ struct PaymentSuccessView: View {
                 .foregroundColor(.gray)
                 .padding(.horizontal)
             
-            
             Spacer()
-            
             
             HStack {
                 Button(action: {
@@ -87,8 +86,6 @@ struct PaymentSuccessView: View {
         .navigationBarBackButtonHidden()
     }
 }
-
-
 
 #Preview {
     PaymentSuccessView(amount: "235 000 сум", completion: {})

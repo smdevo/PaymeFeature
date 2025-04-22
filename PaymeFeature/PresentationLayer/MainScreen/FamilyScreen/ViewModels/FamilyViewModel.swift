@@ -156,7 +156,8 @@ class FamilyViewModel: ObservableObject {
             
             let newCard = VirtualCardModel(
                 id: ownerPhoneNumber,
-                name: cardName, number: formattedCardNumber,
+                name: cardName,
+                number: formattedCardNumber,
                 ownerPhoneNumber: self.currentUser?.number ?? "" ,
                 balance: "0",
                 limit: nil
