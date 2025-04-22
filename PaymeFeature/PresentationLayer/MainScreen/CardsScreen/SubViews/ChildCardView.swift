@@ -57,6 +57,9 @@ struct ChildCardView: View {
                     .foregroundColor(.black)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             }
+            else{
+                Text("")
+            }
             Spacer()
             Text(bankCard.cardNumber.maskedCardNumber)
                 .font(.headline)
