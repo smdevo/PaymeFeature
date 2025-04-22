@@ -131,7 +131,11 @@ struct ServicesSheetViewForParent: View {
                 BackgroundSelectionView(id: id)
             }
             .fullScreenCover(isPresented: $showBlockCardSheet) {
-                BlockCardView()
+                BlockCardView(completion: {
+                    
+                    dismiss()
+                    
+                })
             }
 
         }
