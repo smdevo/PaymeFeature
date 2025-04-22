@@ -24,7 +24,7 @@ struct PaymentSuccessView: View {
             Spacer()
             
             
-            Image("successicon")
+            Image("success")
                 .resizable()
                 .frame(width: 140, height: 140)
                 
@@ -114,4 +114,5 @@ struct PaymentSuccessView: View {
 #Preview {
     PaymentSuccessView(amount: "235 000 сум", completion: {})
 }
+
 

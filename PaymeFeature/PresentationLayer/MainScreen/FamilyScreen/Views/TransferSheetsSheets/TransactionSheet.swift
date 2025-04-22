@@ -108,6 +108,7 @@ struct TransactionSheet: View {
                 }
                 .padding()
             }
+<<<<<<< HEAD
             .navigationDestination(isPresented: $navigateToSuccess) {
                 PaymentSuccessView(
                     amount: "\(sentAmount) сум",
@@ -116,6 +117,10 @@ struct TransactionSheet: View {
                     }
                 )
             }
+=======
+        .background(.backgroundC)
+            
+>>>>>>> Development
         }
     }
 }
