@@ -122,7 +122,7 @@ struct TransactionSheet: View {
                     NavigationLink(
                         destination: PaymentSuccessView(amount: "\(sentAmount) сум", completion: {
                             completion()
-                            dismiss()
+                           // dismiss()
                         }),
                         isActive: $navigateToSuccess,
                         label: { EmptyView() }

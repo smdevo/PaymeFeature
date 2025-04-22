@@ -9,7 +9,10 @@
 import SwiftUI
 
 struct CardLimitSetView: View {
+    
     let limitAmount: String
+    
+    let completion: () -> ()
     
     var body: some View {
         VStack(spacing: 24) {
@@ -29,7 +32,7 @@ struct CardLimitSetView: View {
                 .multilineTextAlignment(.center)
             
             
-            Text("Новый лимит: \(limitAmount)")
+            Text("Новый лимит: \(limitAmount) сум")
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(.black)
@@ -45,13 +48,13 @@ struct CardLimitSetView: View {
             
             
             Button(action: {
-                
+                completion()
             }) {
                 Text("Вернуться в приложение")
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.blue)
+                    .background(.paymeC)
                     .foregroundColor(.white)
                     .cornerRadius(12)
                     .padding(.horizontal, 40)
@@ -62,10 +65,11 @@ struct CardLimitSetView: View {
         .padding()
         .background(Color(.systemGray6))
         .edgesIgnoringSafeArea(.all)
+        .navigationBarBackButtonHidden()
     }
 }
 
 
 #Preview {
-    CardLimitSetView(limitAmount: "100 000")
+    CardLimitSetView(limitAmount: "100 000", completion: {})
 }

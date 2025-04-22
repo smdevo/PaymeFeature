@@ -22,34 +22,37 @@ struct BackgroundSelectionView: View {
         self.id = id
     }
     
-   
-
+    
+    
     var body: some View {
         NavigationView {
-            LazyVGrid(
-                columns: [GridItem(.flexible()),
-                          GridItem(.flexible()),
-                          GridItem(.flexible())],
-                spacing: 20
-            ) {
-                
-                ForEach(settedBacks, id: \.self) { name in
-                    Image(name)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 80, height: 80)
-                        .clipped()
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.white, lineWidth: 2)
-                        )
-                        .onTapGesture {
-                            evm.backgroundImange[id] = name
-                            dismiss()
-                        }
-                }
             
+            ScrollView {
+                LazyVGrid(
+                    columns: [GridItem(.flexible()),
+                              GridItem(.flexible()),
+                              GridItem(.flexible())],
+                    spacing: 20
+                ) {
+                    
+                    ForEach(settedBacks, id: \.self) { name in
+                        Image(name)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 80, height: 80)
+                            .clipped()
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.white, lineWidth: 2)
+                            )
+                            .onTapGesture {
+                                evm.backgroundImange[id] = name
+                                dismiss()
+                            }
+                    }
+                    
+                }
             }
             .padding()
             .navigationTitle("Выберите фон")
