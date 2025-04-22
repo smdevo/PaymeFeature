@@ -59,6 +59,18 @@ struct BlockCardView: View {
                     .edgesIgnoringSafeArea(.all)
             )
             .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title2)
+                            .foregroundColor(.gray)
+                            .padding()
+                    }
+                }
+            }
         }
     }
 }
