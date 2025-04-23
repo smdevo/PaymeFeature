@@ -24,11 +24,10 @@ struct CardsTableView: View {
                     
                     if card.isFamilyCard {
                         ChildCardView(bankCard: card)
-//                            .padding()
                     }else {
                         if vm.currentUser?.role ?? true {
                             CardView(bankCard: card)
-//                                .padding()
+
                         }
                     }
                 }

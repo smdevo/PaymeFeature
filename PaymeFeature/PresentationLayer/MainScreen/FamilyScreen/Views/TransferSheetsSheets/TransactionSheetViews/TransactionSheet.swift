@@ -57,10 +57,7 @@ struct TransactionSheet: View {
                 
                 Text("Отправить деньги")
                     .font(.title).bold()
-                Text("к")
-                    .foregroundStyle(Color.gray)
-                    .font(.title).bold()
-                
+             
                 Text(fEvm.allUsers.first(where: { $0.number == id })?.name ?? "Someone")
                     .font(.title).bold()
                 
