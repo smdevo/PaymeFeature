@@ -58,7 +58,7 @@ struct SettingLimitationSheet: View {
                     }
                 }
                 
-                Text("Set Daily Limit")
+                Text("Установить дневной лимит")
                     .font(.title2)
                     .bold()
                 
@@ -74,7 +74,7 @@ struct SettingLimitationSheet: View {
                         .bold()
                 }
                 
-                TextField("Set amount", text: $sum)
+                TextField("Установить сумму", text: $sum)
                     .keyboardType(.numberPad)
                     .padding()
                     .background(Color(.systemGray6))
@@ -98,7 +98,7 @@ struct SettingLimitationSheet: View {
                         navigateToSuccess = true
                     }
                 } label: {
-                    Text(isSetting ? "Setting..." : "Set")
+                    Text(isSetting ? "установить..." : "установить")
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.paymeC)

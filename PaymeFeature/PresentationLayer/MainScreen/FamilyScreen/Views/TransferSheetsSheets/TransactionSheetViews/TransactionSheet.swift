@@ -55,9 +55,9 @@ struct TransactionSheet: View {
                     .scaledToFit()
                     .frame(height: 70)
                 
-                Text("Send Money")
+                Text("Отправить деньги")
                     .font(.title).bold()
-                Text("To")
+                Text("к")
                     .foregroundStyle(Color.gray)
                     .font(.title).bold()
                 
@@ -65,7 +65,7 @@ struct TransactionSheet: View {
                     .font(.title).bold()
                 
                 VStack(spacing: 20) {
-                    TextField("Enter amount", text: $sum)
+                    TextField("Введите сумму", text: $sum)
                         .keyboardType(.numberPad)
                         .padding()
                         .background(Color(.systemGray6))
@@ -94,7 +94,7 @@ struct TransactionSheet: View {
                             }
                         }
                     } label: {
-                        Text(isSending ? "Sending..." : "Send")
+                        Text(isSending ? "Отправка..." : "отправлять")
                             .frame(maxWidth: .infinity)
                             .padding()
                             .foregroundColor(.white)

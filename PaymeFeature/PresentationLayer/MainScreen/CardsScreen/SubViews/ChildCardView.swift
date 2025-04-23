@@ -114,11 +114,11 @@ struct ChildCardView: View {
         }
         .sheet(isPresented: $showParentServiceSheet) {
             ServicesSheetViewForParent(id: bankCard.id)
-                .presentationDetents([.fraction(0.7)])
+                .presentationDetents([.fraction(0.8)])
         }
         .sheet(isPresented: $showChildServiceSheet) {
             ServicesSheetViewForChild(id: bankCard.id)
-                .presentationDetents([.fraction(0.7)])
+                .presentationDetents([.fraction(0.6)])
         }
     }
 }
