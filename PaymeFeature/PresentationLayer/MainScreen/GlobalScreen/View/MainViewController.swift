@@ -116,13 +116,34 @@ extension MainViewController: MainViewProtocol {
     
     
     func showCardsView(enObj: GlobalViewModel,enFamObj: FamilyViewModel) {
+        
+        
         let cardsView = CardsView()
             .environmentObject(enObj)
             .environmentObject(enFamObj)
         
-        let hostingController = UIHostingController(rootView: cardsView)
+       
         
+        let hostingController = UIHostingController(rootView: cardsView)
+        hostingController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(hostingController, animated: true)
+        
+//        let role = UserDefaults.standard.bool(forKey: "role")
+//        
+//        if role {
+//            let hostingController = UIHostingController(rootView: cardsView)
+//            hostingController.hidesBottomBarWhenPushed = true
+//            navigationController?.pushViewController(hostingController, animated: true)
+//        }else {
+//            let hostingController = UIHostingController(rootView: childCardsView)
+//            hostingController.hidesBottomBarWhenPushed = true
+//            navigationController?.pushViewController(hostingController, animated: true)
+//        }
+        
+        
+        
+        
+        
     }
     
     

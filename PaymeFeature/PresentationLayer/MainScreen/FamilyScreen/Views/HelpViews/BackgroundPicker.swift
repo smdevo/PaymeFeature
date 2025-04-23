@@ -13,7 +13,7 @@ struct BackgroundSelectionView: View {
     
     let settedBacks = [ "default", "girlBackground", "boyBackground", "abstractBackground", "natureBackground"]
     
-    @State var backGroundImage = "default1"
+    @State var backGroundImage = "default"
     
     @Environment(\.dismiss) var dismiss
     
@@ -146,7 +146,7 @@ struct BackgroundSelectionView: View {
                 
                 Spacer()
                 
-                Text("bankCard.cardNumber")
+                Text("0000 0000 0000 0000    12/28")
                     .font(.subheadline)
                     .foregroundColor(.white)
             }
