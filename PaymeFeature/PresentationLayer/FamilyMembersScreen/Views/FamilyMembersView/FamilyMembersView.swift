@@ -11,6 +11,8 @@ struct FamilyMembersView: View {
     @State private var showSnackbar = false
     @State private var snackbarMessage = ""
     
+    @Environment(\.dismiss) var dismiss
+    
     let onCardAdded: () -> Void
     
     private var children: [UserModel] {
@@ -43,7 +45,9 @@ struct FamilyMembersView: View {
                 }
                 .padding(.vertical, 30)
                 .sheet(isPresented: $showFamilyCardAddSheet) {
-                    FamilyCardAddView(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
+                    FamilyCardAddView(viewModel: viewModel, onSuccess: {
+                        dismiss()
+                    })
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.hidden)
                 }
