@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct ChildCardsView: View {
     
     @EnvironmentObject var vm: GlobalViewModel
@@ -30,16 +29,11 @@ struct ChildCardsView: View {
     var body: some View {
         VStack {
             
-            
-            
             if vm.cards.isEmpty {
                 ProgressView()
             }else {
                 
-                
                 ScrollView {
-                    
-                    
                     
                     LazyVStack {
                         ForEach(vm.cards.filter { $0.isFamilyCard }) { card in
@@ -48,13 +42,9 @@ struct ChildCardsView: View {
                             
                         }
                         
-                        
-                        
                     }
                     
                     Button {
-                        
-                        
                         
                     } label: {
                         HStack {
@@ -83,8 +73,11 @@ struct ChildCardsView: View {
                         .tint(.quickPay)
                     }
                     
-                    
-                    
+                    Text("Мои задания")
+                        .padding()
+                        .font(.headline)
+                        .bold()
+                        .frame(alignment: .leading)
                     
                     LazyVStack(spacing: 12) {
                         ForEach(tasks.indices, id: \.self) { index in
@@ -92,13 +85,28 @@ struct ChildCardsView: View {
                         }
                     }
                     .padding()
-   
+                    
+                    HStack(alignment: .center) {
+                        
+                        Spacer()
+                        
+                        Button {
+                            logOut()
+                            
+                        } label: {
+                            HStack(spacing: 0) {
+                                Text("Logout")
+                                Image(systemName: "chevron.right")
+                            }
+                            .foregroundStyle(.unselectedTabbarItem)
+                        }
+                    }
+                    .padding()
                     
                 }
                 .scrollIndicators(.hidden)
                 
             }
-            
             
             Spacer()
             
