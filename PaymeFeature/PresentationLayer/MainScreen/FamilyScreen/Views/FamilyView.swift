@@ -15,8 +15,7 @@ struct FamilyView: View {
     
     @EnvironmentObject var vm: GlobalViewModel
     
-    
-    @State private var showFamilyCardAddSheet: Bool = false
+//    @State private var showFamilyCardAddSheet: Bool = false
     @State private var showAddFamilyMemberSheet: Bool = false
     
     @State private var showInvitationAlert: Bool = false
@@ -28,6 +27,9 @@ struct FamilyView: View {
     var familyCards: [BankCard] = []
     
     var body: some View {
+        
+        let members = self.viewModel.familyMembers.filter { !$0.role }.count
+        
         ZStack{
             if viewModel.currentUser == nil {
                 ProgressView()
@@ -36,7 +38,7 @@ struct FamilyView: View {
                     
                     NavigationLink {
                         
-                        FamilyMembersView()
+                        FamilyMembersView(viewModel: viewModel)
                         
                     } label: {
                         VStack {
@@ -53,9 +55,9 @@ struct FamilyView: View {
                                     .padding(.horizontal)
                                 
                                 VStack(alignment: .leading){
-                                    Text("Моя семья")
+                                    Text("Дети")
                                         .fontWeight(.bold)
-                                    Text("\(viewModel.familyMembers.count) участников")
+                                    Text("\(members) участников")
                                 }.foregroundColor(.primary)
                             }
                         }// members
@@ -141,30 +143,30 @@ struct FamilyView: View {
                                     .environmentObject(viewModel)
                                 }
                             }
-                            if let user = viewModel.currentUser, user.role {
-                                Button(action: {
-                                    showFamilyCardAddSheet = true
-                                }) {
-                                    HStack{
-                                        
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .fill(.paymeC)
-                                            .frame(width: .spacing(.x14), height: .spacing(.x14))
-                                            .overlay(
-                                                Image(systemName: "plus")
-                                                    .foregroundColor(.white)
-                                                    .fontWeight(.bold)
-                                            )
-                                        Text("Добавить детскую карту")
-                                            .font(.headline)
-                                            .foregroundColor(.primary)
-                                            .padding()
-                                            .cornerRadius(10)
-                                    }
-                                    
-                                }
-                                .padding()
-                            }
+//                            if let user = viewModel.currentUser, user.role {
+//                                Button(action: {
+//                                    showFamilyCardAddSheet = true
+//                                }) {
+//                                    HStack{
+//                                        
+//                                        RoundedRectangle(cornerRadius: 10)
+//                                            .fill(.paymeC)
+//                                            .frame(width: .spacing(.x14), height: .spacing(.x14))
+//                                            .overlay(
+//                                                Image(systemName: "plus")
+//                                                    .foregroundColor(.white)
+//                                                    .fontWeight(.bold)
+//                                            )
+//                                        Text("Добавить детскую карту")
+//                                            .font(.headline)
+//                                            .foregroundColor(.primary)
+//                                            .padding()
+//                                            .cornerRadius(10)
+//                                    }
+//                                    
+//                                }
+//                                .padding()
+//                            }
                         }
                     }
                 }
@@ -177,11 +179,11 @@ struct FamilyView: View {
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.hidden)
                 }
-                .sheet(isPresented: $showFamilyCardAddSheet) {
-                    FamilyCardAddView(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
-                        .presentationDetents([.medium])
-                        .presentationDragIndicator(.hidden)
-                }
+//                .sheet(isPresented: $showFamilyCardAddSheet) {
+//                    FamilyCardAddView(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
+//                        .presentationDetents([.medium])
+//                        .presentationDragIndicator(.hidden)
+//                }
             }
             
             if showSnackbar {
@@ -217,7 +219,7 @@ struct FamilyView: View {
         .refreshable{
             viewModel.refreshData()
         }
-        .navigationTitle("Моя семья")
+        .navigationTitle("Payme Kids")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {

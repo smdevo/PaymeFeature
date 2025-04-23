@@ -33,18 +33,18 @@ struct ChildCardView: View {
             }
             Spacer()
             Text(bankCard.name)
-                .font(.largeTitle).bold()
+                .font(.title).bold()
                 .foregroundColor(.white)
                 .shadow(color: .black.opacity(0.7), radius: 1, x: 1, y: 1)
             Spacer()
             if let sumInt = Int(bankCard.sum.replacingOccurrences(of: " ", with: "")) {
                 Text("\(sumInt.formattedWithSeparator) сум")
-                    .font(.title).bold()
+                    .font(.title2).bold()
                     .foregroundColor(.white)
                     .shadow(color: .black.opacity(0.7), radius: 1, x: 1, y: 1)
             } else {
                 Text("\(bankCard.sum) сум")
-                    .font(.title).bold()
+                    .font(.title2).bold()
                     .foregroundColor(.white)
                     .shadow(color: .black.opacity(0.7), radius: 1, x: 1, y: 1)
             }

@@ -1,56 +1,58 @@
-//
-//  AllFamilyMembersView.swift
-//  PaymeFeature
-//
-//  Created by Umidjon on 21/04/25.
-//
-
 import SwiftUI
 
-
 struct FamilyMembersView: View {
-    let participants: [UserModel] = [
-        
-        UserModel(name: "Сардор Ашуров", number: "+998 99 111 23 34", password: "111", date: 111, familyId: "111", role: true, balance: "10000", id: "111", invitation: false, cardNumber: "1111 1111 1111 1111"),
-        UserModel(name: "Акбар Равшанов", number: "+998 93 342 23 35", password: "222", date: 222, familyId: "222", role: false, balance: "10000", id: "222", invitation: false, cardNumber: "2222 2222 2222 2222"),
-        UserModel(name: "Халилов Шухрат", number: "+998 91 147 02 24", password: "333", date: 333, familyId: "333", role: false, balance: "10000", id: "333", invitation: false, cardNumber: "333"),
-        UserModel(name: "Азимов Азиз", number: "+998 90 235 21 98", password: "444", date: 444, familyId: "444", role: false, balance: "10000", id: "444", invitation: false, cardNumber: "444")
-        
-    ]
+    @ObservedObject var viewModel : FamilyViewModel
+    @State private var isShowingSpinner = true
+    @State private var showFamilyCardAddSheet: Bool = false
+    @State private var showSnackbar: Bool = false
+    @State private var snackbarMessage: String = ""
+    @State private var snackbarDuration: Double = 3
     
+    private var children: [UserModel] {
+        viewModel.familyMembers.filter { !$0.role }
+    }
+
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                Text("Дети")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding(.top)
-                
-                if participants.isEmpty {
-                    Text("No members found")
-                        .foregroundColor(.gray)
-                        .padding(.top, 100)
-                } else {
-                    ForEach(participants) { participant in
-                        MembersInfo(participant: participant)
-                            .padding(.horizontal)
+        ZStack {
+            ScrollView {
+                VStack(spacing: 20) {
+
+                    if children.isEmpty {
+                        Text("No members found")
+                            .foregroundColor(.gray)
+                            .padding(.top, 100)
+                    } else {
+                        ForEach(children) { child in
+                            let hasCard = viewModel.familyCards.contains {
+                                $0.id == child.number
+                            }
+                            MembersInfo(participant: child, hasCard: hasCard)
+                                .padding(.horizontal)
+                        }    .sheet(isPresented: $showFamilyCardAddSheet) {
+                            FamilyCardAddView(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
+                                .presentationDetents([.medium])
+                                .presentationDragIndicator(.hidden)
+                        }
                     }
                 }
+                .padding(.vertical, 30)
             }
-            .padding(.bottom, 30)
+            .background(
+                Color(.systemGroupedBackground).ignoresSafeArea()
+            )
+            .navigationTitle("Дети")
+            .navigationBarTitleDisplayMode(.inline)
+            .opacity(isShowingSpinner ? 0 : 1)
+
+            if isShowingSpinner {
+                ProgressView().scaleEffect(2)
+            }
         }
-        .background(
-            Color(.systemGroupedBackground)
-                .ignoresSafeArea()
-        )
-        .navigationTitle("Дети")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-
-#Preview {
-    NavigationStack {
-        FamilyMembersView()
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                isShowingSpinner = false
+                viewModel.getCurrentUserAndFamily()
+            }
+        }
     }
 }
