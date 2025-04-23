@@ -31,7 +31,7 @@ struct LocationPickerScreen: View {
                     radius: radius
                 )
                 .edgesIgnoringSafeArea(.all)
-                .onChange(of: selectedCoordinate) { newCoord in
+                .onChange(of: selectedCoordinate) { oldCoord, newCoord in
                     if let coord = newCoord {
                         nameManager.getName(from: coord)
                     }

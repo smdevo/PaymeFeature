@@ -66,8 +66,7 @@ struct FamilyMembersView: View {
         ) {
             FamilyCardAddView(
                 viewModel: viewModel,
-                showSnackbar: $showSnackbar,
-                snackbarMessage: $snackbarMessage,
+                
                 onSuccess: {
                     onCardAdded()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
