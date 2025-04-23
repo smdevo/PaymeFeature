@@ -14,17 +14,18 @@
  */
 
 enum ServicesType: String {
-    case transfertoFamilyCard = "Transfer the money into family Card"
-    case setDailySpending = "Set Daily Spending"
-    case chooseLocatiion = "Choose Location"
-    case block = "Block Card"
-    case selectApprovedMArkets = "Select approved markets"
-    case selectBackgroundImage = "Select Background Image"
-    case fulfillTheTaskAndGetMoneyCh = "Fulfill tasks to get reward reward"
-    
-    case checkApprovedMArkets = "Check approved Markets"
-    case checkApprovedLocation = "Check approved Location"
-    case fulfillTheTaskAndGetMoneyP = "Set tasks to reward"
+    case transfertoChildCard = "Перевести деньги на детскую карту"
+    case setDailySpending = "Установить дневной лимит расходов"
+    case chooseLocatiion = "Выбрать местоположение"
+    case block = "Заблокировать карту"
+    case selectApprovedMArkets = "Выбрать одобренные магазины"
+    case selectBackgroundImage = "Выбрать фоновое изображение"
+    case fulfillTheTaskAndGetMoneyCh = "Выполняйте задания, чтобы получить награду"
+
+    case checkApprovedMArkets = "Проверить одобренные магазины"
+    case checkApprovedLocation = "Проверить одобренное местоположение"
+    case fulfillTheTaskAndGetMoneyP = "Назначить задания для награды"
+
 }
 
 struct UserService: Identifiable {
@@ -61,7 +62,7 @@ struct ServicesSheetViewForParent: View {
     
     
     let services: [UserService] = [
-        .init(type: .transfertoFamilyCard,    icon: "arrow.down.circle"),
+        .init(type: .transfertoChildCard,    icon: "arrow.down.circle"),
         .init(type: .setDailySpending,        icon: "calendar.badge.clock"),
         .init(type: .chooseLocatiion,         icon: "mappin.and.ellipse"),
         .init(type: .selectApprovedMArkets,   icon: "list.bullet.indent"),
@@ -75,7 +76,7 @@ struct ServicesSheetViewForParent: View {
             VStack(spacing: 0) {
                 
                 HStack {
-                    Text("Family Card Services")
+                    Text("Сервисы детской карты")
                         .font(.title3)
                         .bold()
                     Spacer()
@@ -165,7 +166,7 @@ struct ServicesSheetViewForParent: View {
         
         func handleServiceTap(_ service: ServicesType) {
             switch service {
-            case .transfertoFamilyCard:
+            case .transfertoChildCard:
                 showTransactionSheet.toggle()
             case .setDailySpending:
                 showLimitationSheet.toggle()
