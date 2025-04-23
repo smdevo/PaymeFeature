@@ -28,14 +28,16 @@ struct FamilyMembersView: View {
                             }
                             MembersInfo(participant: child, hasCard: hasCard)
                                 .padding(.horizontal)
-                        }    .sheet(isPresented: $showFamilyCardAddSheet) {
-                            FamilyCardAddView(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
-                                .presentationDetents([.medium])
-                                .presentationDragIndicator(.hidden)
                         }
+                        
                     }
                 }
                 .padding(.vertical, 30)
+                .sheet(isPresented: $showFamilyCardAddSheet) {
+                    FamilyCardAddView(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.hidden)
+                }
             }
             .background(
                 Color(.systemGroupedBackground).ignoresSafeArea()

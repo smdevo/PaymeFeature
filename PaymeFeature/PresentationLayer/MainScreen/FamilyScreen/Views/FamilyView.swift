@@ -238,5 +238,7 @@ struct FamilyView: View {
 }
 
 #Preview {
-    FamilyView().environmentObject(GlobalViewModel())
+    FamilyView()
+        .environmentObject(GlobalViewModel())
+        .environmentObject(FamilyViewModel())
 }
