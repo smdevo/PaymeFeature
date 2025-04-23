@@ -2,8 +2,6 @@ import SwiftUI
 
 struct FamilyCardAddView: View {
     @ObservedObject var viewModel: FamilyViewModel
-    @Binding var showSnackbar: Bool
-    @Binding var snackbarMessage: String
     
     @State private var passport: String = "518281726700021"
     @State private var phoneNumber: String = ""
@@ -55,15 +53,14 @@ struct FamilyCardAddView: View {
                             cardName: firstUser.name,
                             ownerPhoneNumber: phoneNumber
                         ) { success in
+                            
                             isButtonLoading = false
+                            
                             if success {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                    snackbarMessage = "Детская карта успешно добавлена."
-                                    showSnackbar = true
-                                }
                                 onSuccess()
                                 dismiss()
                             }
+                            
                         }
                     }
                 }) {
