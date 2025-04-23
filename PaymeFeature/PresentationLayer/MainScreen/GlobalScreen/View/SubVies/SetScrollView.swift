@@ -11,7 +11,6 @@ import UIKit
 
 struct SetScrollView: View {
     
-    
     @EnvironmentObject var evm: GlobalViewModel
     @StateObject var viewModel: FamilyViewModel = FamilyViewModel()
     
@@ -20,11 +19,7 @@ struct SetScrollView: View {
     
     let role = UserDefaults.standard.bool(forKey: "role")
     
-    
-    
     var body: some View {
-        
-        
         
         if role {
             
@@ -68,15 +63,14 @@ struct SetScrollView: View {
             } message: {
                 Text("Введите код подтверждения, который вы получили")
             }
+            
         }
         
-    
-
-
         //MARK: pay
         Section {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
+                    
                     GenericItemView(title: "Популярное",
                                      imageName: "star.fill",
                                      color: .yellow)
@@ -86,8 +80,11 @@ struct SetScrollView: View {
                     GenericItemView(title: "Интернет-\nпровайдеры",
                                      imageName: "wifi",
                                      color: .green)
+                    GenericItemView(title: "Интернет-\nпровайдеры",
+                                     imageName: "wifi",
+                                     color: .green)
+                    
                 }
-                .padding()
             }
             .cornerRadius(12)
             .padding(.horizontal)
@@ -124,13 +121,6 @@ struct SetScrollView: View {
         }
         .padding()
       
-       // }
-  
-        
-       
-            
-           
-        
     }
 }
 
