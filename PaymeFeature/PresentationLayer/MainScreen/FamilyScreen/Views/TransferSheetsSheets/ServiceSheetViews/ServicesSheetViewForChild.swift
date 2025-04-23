@@ -16,6 +16,7 @@ struct ServicesSheetViewForChild: View {
     @State private var showSelectingBackgroundView = false
     @State private var showApprovedMArkets = false
     @State private var showBlockView = false
+    @State private var showTasksView = false
 
     let id: String
     
@@ -32,6 +33,7 @@ struct ServicesSheetViewForChild: View {
     let services: [UserService] = [
         .init(type: .checkApprovedMArkets, icon: "list.bullet.indent"),
         .init(type: .checkApprovedLocation, icon: "mappin.and.ellipse"),
+        .init(type: .fulfillTheTaskAndGetMoneyCh, icon: "s.circle"),
         .init(type: .selectBackgroundImage,   icon: "plus"),
         .init(type: .block,                   icon: "lock.shield")
     ]
@@ -106,6 +108,9 @@ struct ServicesSheetViewForChild: View {
                 dismiss()
             }
         }
+        .fullScreenCover(isPresented: $showTasksView) {
+            FulfillTheTaskAndGetTheMoneyScreen()
+        }
         
         
         
@@ -117,6 +122,8 @@ struct ServicesSheetViewForChild: View {
             showApprovedMArkets.toggle()
         case .checkApprovedLocation:
             showApprovedLocation.toggle()
+        case .fulfillTheTaskAndGetMoneyCh:
+            showTasksView.toggle()
         case .selectBackgroundImage:
             showSelectingBackgroundView.toggle()
         case .block:
@@ -128,5 +135,5 @@ struct ServicesSheetViewForChild: View {
 }
 
 #Preview {
-    ServicesSheetViewForParent(id: "1")
+    ServicesSheetViewForChild(id: "1")
 }

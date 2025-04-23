@@ -38,9 +38,15 @@ struct FamilyMembersView: View {
                                     }
                                 }
                         }
+                        
                     }
                 }
                 .padding(.vertical, 30)
+                .sheet(isPresented: $showFamilyCardAddSheet) {
+                    FamilyCardAddView(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.hidden)
+                }
             }
             .opacity(isShowingSpinner ? 0 : 1)
             

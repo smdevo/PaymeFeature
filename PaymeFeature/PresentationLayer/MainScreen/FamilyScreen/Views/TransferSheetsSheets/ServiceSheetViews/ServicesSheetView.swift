@@ -20,9 +20,11 @@ enum ServicesType: String {
     case block = "Block Card"
     case selectApprovedMArkets = "Select approved markets"
     case selectBackgroundImage = "Select Background Image"
+    case fulfillTheTaskAndGetMoneyCh = "Fulfill tasks to get reward reward"
     
     case checkApprovedMArkets = "Check approved Markets"
     case checkApprovedLocation = "Check approved Location"
+    case fulfillTheTaskAndGetMoneyP = "Set tasks to reward"
 }
 
 struct UserService: Identifiable {
@@ -44,6 +46,7 @@ struct ServicesSheetViewForParent: View {
     @State private var showBlockCardSheet = false
     @State private var showApprovedMArkets = false
     @State private var showChoosenLocations = false
+    @State private var showFullFillTaskAndGetMoneyScreen = false
     
     
     
@@ -62,6 +65,7 @@ struct ServicesSheetViewForParent: View {
         .init(type: .setDailySpending,        icon: "calendar.badge.clock"),
         .init(type: .chooseLocatiion,         icon: "mappin.and.ellipse"),
         .init(type: .selectApprovedMArkets,   icon: "list.bullet.indent"),
+        .init(type: .fulfillTheTaskAndGetMoneyP, icon: "s.circle"),
         .init(type: .selectBackgroundImage,   icon: "plus"),
         .init(type: .block,                   icon: "lock.shield")
     ]
@@ -152,6 +156,9 @@ struct ServicesSheetViewForParent: View {
                     dismiss()
                 })
             }
+            .fullScreenCover(isPresented: $showFullFillTaskAndGetMoneyScreen) {
+                FulfillTheTaskAndGetTheMoneyScreen()
+            }
             
         }
     }
@@ -170,6 +177,8 @@ struct ServicesSheetViewForParent: View {
                 showBackgroundPicker.toggle()
             case .selectApprovedMArkets:
                 showApprovedMArkets.toggle()
+            case .fulfillTheTaskAndGetMoneyP:
+                showFullFillTaskAndGetMoneyScreen.toggle()
             default:
                 break
             }
@@ -182,3 +191,5 @@ struct ServicesSheetViewForParent: View {
 #Preview {
     ServicesSheetViewForParent(id: "1")
 }
+
+
