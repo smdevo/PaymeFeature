@@ -267,7 +267,7 @@ class GlobalViewModel: ObservableObject {
     
     
     func saveHistoryMonitoring(sender: String, receiver: String, amount: String) {
-        transactions.append(TransactionModel(date: "date", time: "date", amount: amount, description: "Transaction to family card", iconName: "safia"))
+        transactions.append(TransactionModel(date: "Сегодня", time: "15:22", amount: amount, description: "Перевод", iconName: ""))
     }
     
     func setLimitToFamilyCard(id: String, limit: String) {
