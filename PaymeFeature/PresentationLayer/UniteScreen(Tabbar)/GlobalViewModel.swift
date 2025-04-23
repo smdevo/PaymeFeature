@@ -136,7 +136,7 @@ class GlobalViewModel: ObservableObject {
         
         guard let currentUser else { return }
         
-        let cardUser = BankCard(name: "Own Card", ownerName: currentUser.name, sum: currentUser.balance, cardNumber: currentUser.cardNumber, type: .uzcard, expirationDate: "11/28", id: UUID().uuidString, limit: nil)
+        let cardUser = BankCard(name: "Own Card", ownerName: currentUser.name, sum: currentUser.balance, cardNumber: currentUser.cardNumber, type: .humo, expirationDate: "11/29", id: UUID().uuidString, limit: nil)
         
         cards.append(cardUser)
     }
@@ -156,7 +156,7 @@ class GlobalViewModel: ObservableObject {
         
         let bankCards = cards.map { fCard in
             
-            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "0000 0000 0000 0001", type: .humo, expirationDate: "11/28",isFamilyCard: true, id: fCard?.id ?? "1234", limit: fCard?.limit)
+            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "0000 0000 0000 0001", type: .uzcard, expirationDate: "11/28",isFamilyCard: true, id: fCard?.id ?? "1234", limit: fCard?.limit)
         }
         
         self.cards.append(contentsOf: bankCards)

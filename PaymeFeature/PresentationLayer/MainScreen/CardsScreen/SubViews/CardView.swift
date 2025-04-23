@@ -40,16 +40,14 @@ struct CardView: View {
                 let sumValue = Int(rawSum) ?? 0
                 let formattedSum = sumValue.formattedWithSeparator
                 Text("\(formattedSum) сум")
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(.title2)
                     .foregroundColor(.white)
                     .textWithBlackBorder()
-
+                    .fontWeight(.bold)
                 Text(bankCard.ownerName)
                     .foregroundColor(.white)
                     .textWithBlackBorder()
                     .font(.title2)
-
                 Spacer()
 
                 Text("Main")
@@ -81,21 +79,21 @@ struct CardView: View {
         .foregroundStyle(.white)
     }
 }
-
-#Preview {
-    let model = BankCard(
-        name: "Apple Inc.",
-        ownerName: "David Lee",
-        sum: "100 000",
-        cardNumber: "1234 5678 9012 3456",
-        type: .humo,
-        expirationDate: "11/27",
-        iconName: "star.fill",
-        isFamilyCard: false,
-        id: "s",
-        limit: nil
-    )
-    CardView(bankCard: model)
-        .environmentObject(GlobalViewModel())
-        .padding()
-}
+//
+//#Preview {
+//    let model = BankCard(
+//        name: "Apple Inc.",
+//        ownerName: "David Lee",
+//        sum: "100 000",
+//        cardNumber: "1234 5678 9012 3456",
+//        type: .humo,
+//        expirationDate: "11/27",
+//        iconName: "star.fill",
+//        isFamilyCard: false,
+//        id: "s",
+//        limit: nil
+//    )
+//    CardView(bankCard: model)
+//        .environmentObject(GlobalViewModel())
+//        .padding()
+//}

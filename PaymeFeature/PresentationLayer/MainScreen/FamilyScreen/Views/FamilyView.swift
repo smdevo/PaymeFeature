@@ -114,11 +114,11 @@ struct FamilyView: View {
                                 ForEach(viewModel.familyCards, id: \.id) { card in
                                     ChildCardView(bankCard:
                                                     BankCard(
-                                                        name: String(card.name.split(separator: " ").first ?? ""),
+                                                        name: card.name,
                                                         ownerName: card.name,
                                                         sum: card.balance,
                                                         cardNumber: card.number,
-                                                        type: .humo,
+                                                        type: .uzcard,
                                                         expirationDate: "11/27",
                                                         isFamilyCard: true, id: card.id, limit: card.limit))
                                     .environmentObject(viewModel)
@@ -135,7 +135,7 @@ struct FamilyView: View {
                                                         ownerName: card.name,
                                                         sum: card.balance,
                                                         cardNumber: card.number,
-                                                        type: .humo,
+                                                        type: .uzcard,
                                                         expirationDate: "11/27",
                                                         isFamilyCard: true, id: card.id,
                                                         limit: card.limit
