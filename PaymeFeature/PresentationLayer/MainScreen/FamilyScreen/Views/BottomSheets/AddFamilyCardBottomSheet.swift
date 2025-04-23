@@ -8,6 +8,8 @@ struct FamilyCardAddView: View {
     @State private var passport: String = "518281726700021"
     @State private var phoneNumber: String = ""
     @State private var isButtonLoading: Bool = false
+    
+    let onSuccess: () -> Void
 
     @Environment(\.dismiss) var dismiss
 
@@ -25,7 +27,7 @@ struct FamilyCardAddView: View {
                 keyboardType: .default
             )
             .disabled(true)
-            .opacity(0.6) // опционально, чтобы визуально показать disabled
+            .opacity(0.6) 
             
             LabeledTextField(
                 label: "Номер телефона",
@@ -55,11 +57,12 @@ struct FamilyCardAddView: View {
                         ) { success in
                             isButtonLoading = false
                             if success {
-                                dismiss()
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                                     snackbarMessage = "Детская карта успешно добавлена."
                                     showSnackbar = true
                                 }
+                                onSuccess()
+                                dismiss()
                             }
                         }
                     }
