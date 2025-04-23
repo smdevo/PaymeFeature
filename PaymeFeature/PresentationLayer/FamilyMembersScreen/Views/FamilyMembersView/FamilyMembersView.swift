@@ -1,22 +1,26 @@
 import SwiftUI
 
 struct FamilyMembersView: View {
-    @ObservedObject var viewModel : FamilyViewModel
+    @ObservedObject var viewModel: FamilyViewModel
+    
+    @Environment(\.dismiss) private var navDismiss
+    
     @State private var isShowingSpinner = true
-    @State private var showFamilyCardAddSheet: Bool = false
-    @State private var showSnackbar: Bool = false
-    @State private var snackbarMessage: String = ""
-    @State private var snackbarDuration: Double = 3
+    @State private var showFamilyCardAddSheet = false
+    
+    @State private var showSnackbar = false
+    @State private var snackbarMessage = ""
+    
+    let onCardAdded: () -> Void
     
     private var children: [UserModel] {
         viewModel.familyMembers.filter { !$0.role }
     }
-
+    
     var body: some View {
         ZStack {
             ScrollView {
                 VStack(spacing: 20) {
-
                     if children.isEmpty {
                         Text("No members found")
                             .foregroundColor(.gray)
@@ -28,6 +32,11 @@ struct FamilyMembersView: View {
                             }
                             MembersInfo(participant: child, hasCard: hasCard)
                                 .padding(.horizontal)
+                                .onTapGesture {
+                                    if !hasCard {
+                                        showFamilyCardAddSheet = true
+                                    }
+                                }
                         }
                         
                     }
@@ -39,22 +48,43 @@ struct FamilyMembersView: View {
                         .presentationDragIndicator(.hidden)
                 }
             }
-            .background(
-                Color(.systemGroupedBackground).ignoresSafeArea()
-            )
-            .navigationTitle("Дети")
-            .navigationBarTitleDisplayMode(.inline)
             .opacity(isShowingSpinner ? 0 : 1)
-
+            
             if isShowingSpinner {
-                ProgressView().scaleEffect(2)
+                ProgressView()
+                    .scaleEffect(2)
             }
         }
+        .background(Color(.systemGroupedBackground).ignoresSafeArea())
+        .navigationTitle("Дети")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 isShowingSpinner = false
                 viewModel.getCurrentUserAndFamily()
             }
         }
+        .sheet(
+            isPresented: $showFamilyCardAddSheet,
+            onDismiss: {
+                viewModel.getCurrentUserAndFamily()
+            }
+        ) {
+            FamilyCardAddView(
+                viewModel: viewModel,
+                
+                onSuccess: {
+                    onCardAdded()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            navDismiss()
+                        }
+                    }
+                }
+            )
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.hidden)
+        }
+        
     }
 }

@@ -57,7 +57,9 @@ struct CardsView: View {
             
         }
         .overlay(alignment: .bottom) {
-            plusButton
+            if ((vm.currentUser?.role) != false) {
+                plusButton
+            }
         }
         .padding(12)
         .refreshable {
