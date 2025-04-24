@@ -19,6 +19,7 @@ class LoginViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     var onLoginSuccess: (() -> Void)?
+    var onChildLoginSuccess: (() -> Void)?
     
     init() {
         getUsers()
@@ -56,6 +57,31 @@ class LoginViewModel: ObservableObject {
             UserDefaults.standard.set(user.familyId, forKey: "userFamilyId")
             UserDefaults.standard.set(user.role, forKey: "role")
             onLoginSuccess?()
+        } else {
+            errorMessage = "Неверный логин или пароль"
+        }
+    }
+    
+    
+    func loginAsChild() {
+        
+        let trimmedUserName = phoneNumber.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !users.isEmpty else {
+            errorMessage = "No Internet"
+            return
+        }
+        errorMessage = ""
+        
+        
+        if let user = users.first(where: {
+            $0.number.lowercased() == trimmedUserName && $0.password == trimmedPassword
+        }) {
+            UserDefaults.standard.set(user.id, forKey: "userId")
+            UserDefaults.standard.set(user.familyId, forKey: "userFamilyId")
+            UserDefaults.standard.set(user.role, forKey: "role")
+            onChildLoginSuccess?()
         } else {
             errorMessage = "Неверный логин или пароль"
         }
