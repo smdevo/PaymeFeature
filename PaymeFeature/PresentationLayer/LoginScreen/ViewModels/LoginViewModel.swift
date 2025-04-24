@@ -28,7 +28,7 @@ class LoginViewModel: ObservableObject {
     func getUsers() {
         netSerVice.getData(link: "users") { [weak self] (users: [UserModel]?) in
             guard let users else {
-                print("Cant get users in login Page")
+                
                 return
             }
             self?.users = users
@@ -54,6 +54,7 @@ class LoginViewModel: ObservableObject {
             
             UserDefaults.standard.set(user.id, forKey: "userId")
             UserDefaults.standard.set(user.familyId, forKey: "userFamilyId")
+            UserDefaults.standard.set(user.role, forKey: "role")
             onLoginSuccess?()
         } else {
             errorMessage = "Неверный логин или пароль"

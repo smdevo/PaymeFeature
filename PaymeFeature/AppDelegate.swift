@@ -24,7 +24,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if let id = UserDefaults.standard.string(forKey: "userId"), !id.isEmpty {
                 
-                window?.rootViewController = UniteViewController()
+                let role = UserDefaults.standard.bool(forKey: "role")
+                
+                if role {
+                    window?.rootViewController = UniteViewController()
+                }else {
+                    
+                    let enObj = GlobalViewModel()
+                    let enFamObj = FamilyViewModel()
+                    
+                    let childCardsView = ChildCardsView()
+                        .environmentObject(enObj)
+                        .environmentObject(enFamObj)
+                    
+                    let hostingController = UIHostingController(rootView: childCardsView)
+                    window?.rootViewController = hostingController
+                }
+                
             }else {
                 let hostingController = UIHostingController(rootView: LoginView())
                 window?.rootViewController = hostingController

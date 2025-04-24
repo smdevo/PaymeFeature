@@ -85,7 +85,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     private func startTimer() {
-            timerCancellable = Timer.publish(every: 5, on: .main, in: .common)
+            timerCancellable = Timer.publish(every: 50, on: .main, in: .common)
                 .autoconnect()
                 .sink { [weak self] _ in
                     self?.loadUserAndFamily()
@@ -136,7 +136,7 @@ class GlobalViewModel: ObservableObject {
         
         guard let currentUser else { return }
         
-        let cardUser = BankCard(name: "Own Card", ownerName: currentUser.name, sum: currentUser.balance, cardNumber: currentUser.cardNumber, type: .uzcard, expirationDate: "11/28", id: UUID().uuidString, limit: nil)
+        let cardUser = BankCard(name: "Own Card", ownerName: currentUser.name, sum: currentUser.balance, cardNumber: currentUser.cardNumber, type: .humo, expirationDate: "11/29", id: UUID().uuidString, limit: nil)
         
         cards.append(cardUser)
     }
@@ -145,7 +145,6 @@ class GlobalViewModel: ObservableObject {
     func getFamilyCard() {
         
         guard let currentFamily = currentFamily, let currentUser = currentUser else {
-            print("Skipping getFamilyCard — missing data")
             return
         }
     
@@ -157,7 +156,7 @@ class GlobalViewModel: ObservableObject {
         
         let bankCards = cards.map { fCard in
             
-            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "0000 0000 0000 0001", type: .humo, expirationDate: "11/28",isFamilyCard: true, id: fCard?.id ?? "1234", limit: fCard?.limit)
+            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "0000 0000 0000 0001", type: .uzcard, expirationDate: "11/28",isFamilyCard: true, id: fCard?.id ?? "1234", limit: fCard?.limit)
         }
         
         self.cards.append(contentsOf: bankCards)
@@ -268,14 +267,11 @@ class GlobalViewModel: ObservableObject {
     
     
     func saveHistoryMonitoring(sender: String, receiver: String, amount: String) {
-        transactions.append(TransactionModel(date: "date", time: "date", amount: amount, description: "Transaction to family card", iconName: "safia"))
+        transactions.append(TransactionModel(date: "Сегодня", time: "15:22", amount: amount, description: "Перевод", iconName: ""))
     }
     
     func setLimitToFamilyCard(id: String, limit: String) {
-        
-        
-        
-        
+    
         guard let family = currentFamily else { return }
         
         let card = family.cards.filter { vcm in
@@ -284,7 +280,7 @@ class GlobalViewModel: ObservableObject {
         
         guard let card else { return }
         
-        let cardToSetLimit = VirtualCardModel(id: id, name: card?.name ?? "", balance: card?.balance ?? "0", limit: limit)
+        let cardToSetLimit = VirtualCardModel(id: id, name: card?.name ?? "", number: card?.number ?? "", balance: card?.balance ?? "0", limit: limit)
         
         let cards = family.cards.map { vc in
             if vc?.id == cardToSetLimit.id {

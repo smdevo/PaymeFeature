@@ -21,9 +21,12 @@ final class MainInteractor {
     
     let enObj: GlobalViewModel
     
-    init(presenter: MainPresenterProtocol, enObj: GlobalViewModel) {
+    let enFamObj: FamilyViewModel
+    
+    init(presenter: MainPresenterProtocol, enObj: GlobalViewModel, enfamObj: FamilyViewModel) {
         self.presenter = presenter
         self.enObj = enObj
+        self.enFamObj = enfamObj
     }
     
 }
@@ -41,14 +44,16 @@ extension MainInteractor: MainInteractorProtocol {
     
     
     func tapForCards() {
-        presenter.presentCardsView(enObj: enObj)
+        presenter.presentCardsView(enObj: enObj, enFamObj: enFamObj)
     }
     
     private func upDateTheBalance() {
         
         enObj.$currentUser
             .sink { [weak self] user in
-                self?.presenter.presentBalance(balance: user?.balance ?? "...")
+                if let intBalance = Int(user?.balance ?? "...") {
+                self?.presenter.presentBalance(balance: intBalance.formattedWithSeparator)
+                }
             }
             .store(in: &cancellables)
     }
@@ -56,7 +61,7 @@ extension MainInteractor: MainInteractorProtocol {
     
     private func setUpBaseView() {
         
-        presenter.presentBaseView(enObj: enObj)
+        presenter.presentBaseView(enObj: enObj, enFamObj: enFamObj)
         
     }
     

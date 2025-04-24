@@ -12,9 +12,11 @@ final class Assembly {
     
     func giveMAinViewController(enObj: GlobalViewModel) -> MainViewController {
         
+        let familyeNOb = FamilyViewModel()
+        
         let presenter = MainPresenter()
         
-        let interactor = MainInteractor(presenter: presenter, enObj: enObj)
+        let interactor = MainInteractor(presenter: presenter, enObj: enObj, enfamObj: familyeNOb)
         
         let view = MainViewController(interactor: interactor)
         

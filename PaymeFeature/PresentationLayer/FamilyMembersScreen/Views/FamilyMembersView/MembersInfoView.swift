@@ -1,47 +1,40 @@
-//
-//  MembersInfoView.swift
-//  PaymeFeature
-//
-//  Created by Umidjon on 21/04/25.
-//
-
 import SwiftUI
-
 
 struct MembersInfo: View {
     let participant: UserModel
-    
+    let hasCard: Bool
+
     var body: some View {
         HStack(spacing: 16) {
-            
             ZStack {
                 Circle()
                     .fill(Color.teal.opacity(0.15))
                     .frame(width: 60, height: 60)
-                
-                
                 Image(participant.role ? "Parents" : "Child")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 60, height: 60)
-                    .foregroundColor(participant.role ? .blue : .green)
-                
+                    .clipShape(Circle())
             }
-            
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Text(participant.name)
-                    .foregroundColor(.primary)
                     .font(.headline)
                 Text(participant.number)
                     .font(.subheadline)
                     .foregroundColor(.gray)
-                Text(participant.role ? "Родитель" : "Ребёнок")
+                Text("ПИНФЛ: 518281726700021")
                     .font(.caption)
-                    .foregroundColor(participant.role ? .blue : .green)
+                    .foregroundColor(.green)
             }
-            
+
             Spacer()
+
+            if hasCard {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(.green)
+            }
         }
         .padding()
         .background(
@@ -51,4 +44,3 @@ struct MembersInfo: View {
         )
     }
 }
-

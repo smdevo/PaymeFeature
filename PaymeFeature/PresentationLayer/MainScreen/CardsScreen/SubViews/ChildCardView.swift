@@ -8,93 +8,73 @@
 import SwiftUI
 
 struct ChildCardView: View {
-    
     @State private var showParentServiceSheet = false
     @State private var showChildServiceSheet = false
+    @State var backgroundImage = "default"
     
     @EnvironmentObject var vm: GlobalViewModel
     let bankCard: BankCard
     
     private let cardAspectRatio: CGFloat = 340 / 210
-    
     private let horizontalPadding: CGFloat = 12
     
     var body: some View {
-        
         VStack(alignment: .leading) {
-            
-            
             HStack {
-                Image("humo")
+                Image("uzcard")
                     .resizable()
+                    .renderingMode(.template)
+                    .foregroundColor(.white)
                     .scaledToFill()
-                    .frame(width: 45,height: 15)
-                
+                    .frame(width: 20, height: 35)
+                    .padding(.leading)
                 Spacer()
                 Image("paymekidsborder")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 130,height: 15)
-                
-                HStack {
-                    
-                    Text("TBC Bank")
-                        .foregroundColor(.white)
-                        .textWithBlackBorder()
-                }
+                    .frame(width: 130, height: 15)
             }
-            
             Spacer()
-            
             Text(bankCard.name)
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(.title).bold()
                 .foregroundColor(.white)
                 .shadow(color: .black.opacity(0.7), radius: 1, x: 1, y: 1)
-            
             Spacer()
-            
-            if let sumInt = Int(bankCard.sum) {
+            if let sumInt = Int(bankCard.sum.replacingOccurrences(of: " ", with: "")) {
                 Text("\(sumInt.formattedWithSeparator) сум")
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(.title2).bold()
                     .foregroundColor(.white)
                     .shadow(color: .black.opacity(0.7), radius: 1, x: 1, y: 1)
-            }
-            else {
+            } else {
                 Text("\(bankCard.sum) сум")
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(.title2).bold()
                     .foregroundColor(.white)
                     .shadow(color: .black.opacity(0.7), radius: 1, x: 1, y: 1)
             }
-            
             Spacer()
-            
-            if let limit = bankCard.limit {
-                Text("Лимит: \(limit)")
-                    .font(.subheadline)
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 10)
-                    .background(Color.yellow)
-                    .foregroundColor(.black)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+            if let limit = bankCard.limit, !limit.isEmpty {
+                if let intLimit = Int(limit){
+                    Text("Лимит: \(intLimit.formattedWithSeparator) сум")
+                        .font(.subheadline)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 10)
+                        .background(Color.yellow)
+                        .foregroundColor(.black)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
             }
-            
+            else{
+                Text("")
+            }
             Spacer()
-            
-            Text(bankCard.cardNumber)
-                .font(.subheadline)
+            Text("\(bankCard.cardNumber.maskedCardNumber)    4/30" )
+                .font(.headline)
                 .foregroundColor(.white)
-                .background(.red)
         }
-        
         .padding(20)
         .padding(.horizontal, horizontalPadding)
-        
         .frame(
-            height: (UIScreen.main.bounds.width - horizontalPadding * 2)
-            / cardAspectRatio,
+            height: (UIScreen.main.bounds.width - horizontalPadding * 2) / cardAspectRatio,
             alignment: .topLeading
         )
         .background(
@@ -115,12 +95,11 @@ struct ChildCardView: View {
                             .scaledToFill()
                     }
                 }
-                Image("childrens")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 150, height: 150)
-                    .fontWeight(.bold)
-                    .padding(20)
+                //                Image("childrens")
+                //                    .resizable()
+                //                    .scaledToFit()
+                //                    .frame(width: 150, height: 150)
+                //                    .padding(20)
             }
         )
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -135,7 +114,7 @@ struct ChildCardView: View {
         }
         .sheet(isPresented: $showParentServiceSheet) {
             ServicesSheetViewForParent(id: bankCard.id)
-                .presentationDetents([.fraction(0.6)])
+                .presentationDetents([.fraction(0.8)])
         }
         .sheet(isPresented: $showChildServiceSheet) {
             ServicesSheetViewForChild(id: bankCard.id)
@@ -144,14 +123,20 @@ struct ChildCardView: View {
     }
 }
 
-extension View {
-    func textWithBlackBorder() -> some View {
-        self.shadow(color: .black, radius: 3, x: 3, y: 3)
-    }
-}
-
-#Preview {
-    let model: BankCard = .init(name: "Apple Inc.", ownerName: "David Lee", sum: "100 000", cardNumber: "100 000 000", type: .humo, expirationDate: "sfds", id: "s", limit: "100 000")
-    ChildCardView(bankCard: model)
-        .environmentObject(GlobalViewModel())
-}
+//#Preview {
+//    let model = BankCard(
+//        name: "Apple Inc.",
+//        ownerName: "David Lee",
+//        sum: "100 000",
+//        cardNumber: "1234 5678 9012 3456",
+//        type: .humo,
+//        expirationDate: "11/27",
+//        iconName: "star.fill",
+//        isFamilyCard: true,
+//        id: "s",
+//        limit: "100 000"
+//    )
+//    ChildCardView(bankCard: model)
+//        .environmentObject(GlobalViewModel())
+//        .padding()
+//}

@@ -16,7 +16,6 @@ struct FamilyView: View {
     @EnvironmentObject var vm: GlobalViewModel
     
     
-    @State private var showFamilyCardAddSheet: Bool = false
     @State private var showAddFamilyMemberSheet: Bool = false
     
     @State private var showInvitationAlert: Bool = false
@@ -28,6 +27,9 @@ struct FamilyView: View {
     var familyCards: [BankCard] = []
     
     var body: some View {
+        
+        let members = self.viewModel.familyMembers.filter { !$0.role }.count
+        
         ZStack{
             if viewModel.currentUser == nil {
                 ProgressView()
@@ -36,7 +38,13 @@ struct FamilyView: View {
                     
                     NavigationLink {
                         
-                        FamilyMembersView()
+                        FamilyMembersView(
+                            viewModel: viewModel,
+                            onCardAdded: {
+                                snackbarMessage = "Детская карта успешно добавлена."
+                                showSnackbar = true
+                            }
+                        )
                         
                     } label: {
                         VStack {
@@ -53,9 +61,9 @@ struct FamilyView: View {
                                     .padding(.horizontal)
                                 
                                 VStack(alignment: .leading){
-                                    Text("Моя семья")
+                                    Text("Дети")
                                         .fontWeight(.bold)
-                                    Text("\(viewModel.familyMembers.count) участников")
+                                    Text("\(members) участников")
                                 }.foregroundColor(.primary)
                             }
                         }// members
@@ -68,39 +76,6 @@ struct FamilyView: View {
                     
                     
                     
-                    //                        if let user = viewModel.currentUser, user.invitation, viewModel.currentUser?.role == false {
-                    //                            Button(action: {
-                    //                                showInvitationAlert = true
-                    //                            }) {
-                    //                                HStack {
-                    //                                    Image(systemName: "exclamationmark.triangle.fill")
-                    //                                        .foregroundColor(.paymeC)
-                    //                                    Text("Подтвердите приглашение в семью")
-                    //                                        .font(.subheadline)
-                    //                                        .foregroundColor(.paymeC)
-                    //                                }
-                    //                                .padding()
-                    //                                .background(Color(.systemGray6))
-                    //                                .cornerRadius(8)
-                    //                                .padding()
-                    //                            }
-                    //                            .alert("Подтверждение приглашения", isPresented: $showInvitationAlert) {
-                    //                                TextField("Введите код", text: $invitationCode)
-                    //                                Button("Confirm") {
-                    //                                    viewModel.confirmInvitation(enteredCode: invitationCode) { success in
-                    //                                        if success {
-                    //                                            print("Success")
-                    //                                        } else {
-                    //                                            print("Failure")
-                    //                                        }
-                    //                                    }
-                    //                                }
-                    //                                Button("Cancel", role: .cancel) {}
-                    //                            } message: {
-                    //                                Text("Введите код подтверждения, который вы получили")
-                    //                            }
-                    //                        }
-                    
                     Text("Детские карты")
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .fontWeight(.bold)
@@ -112,11 +87,11 @@ struct FamilyView: View {
                                 ForEach(viewModel.familyCards, id: \.id) { card in
                                     ChildCardView(bankCard:
                                                     BankCard(
-                                                        name: String(card.name.split(separator: " ").first ?? ""),
+                                                        name: card.name,
                                                         ownerName: card.name,
                                                         sum: card.balance,
                                                         cardNumber: card.number,
-                                                        type: .humo,
+                                                        type: .uzcard,
                                                         expirationDate: "11/27",
                                                         isFamilyCard: true, id: card.id, limit: card.limit))
                                     .environmentObject(viewModel)
@@ -133,7 +108,7 @@ struct FamilyView: View {
                                                         ownerName: card.name,
                                                         sum: card.balance,
                                                         cardNumber: card.number,
-                                                        type: .humo,
+                                                        type: .uzcard,
                                                         expirationDate: "11/27",
                                                         isFamilyCard: true, id: card.id,
                                                         limit: card.limit
@@ -141,44 +116,16 @@ struct FamilyView: View {
                                     .environmentObject(viewModel)
                                 }
                             }
-                            if let user = viewModel.currentUser, user.role {
-                                Button(action: {
-                                    showFamilyCardAddSheet = true
-                                }) {
-                                    HStack{
-                                        
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .fill(.paymeC)
-                                            .frame(width: .spacing(.x14), height: .spacing(.x14))
-                                            .overlay(
-                                                Image(systemName: "plus")
-                                                    .foregroundColor(.white)
-                                                    .fontWeight(.bold)
-                                            )
-                                        Text("Добавить детскую карту")
-                                            .font(.headline)
-                                            .foregroundColor(.primary)
-                                            .padding()
-                                            .cornerRadius(10)
-                                    }
-                                    
-                                }
-                                .padding()
-                            }
+                            
                         }
                     }
                 }
                 
-                .padding()
+                .padding(12)
                 .background(.backgroundC)
                 
                 .sheet(isPresented: $showAddFamilyMemberSheet) {
                     AddFamilyMember(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
-                        .presentationDetents([.medium])
-                        .presentationDragIndicator(.hidden)
-                }
-                .sheet(isPresented: $showFamilyCardAddSheet) {
-                    FamilyCardAddView(viewModel: viewModel, showSnackbar: $showSnackbar, snackbarMessage: $snackbarMessage)
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.hidden)
                 }
@@ -217,7 +164,7 @@ struct FamilyView: View {
         .refreshable{
             viewModel.refreshData()
         }
-        .navigationTitle("Моя семья")
+        .navigationTitle("Payme Kids")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -236,5 +183,7 @@ struct FamilyView: View {
 }
 
 #Preview {
-    FamilyView().environmentObject(GlobalViewModel())
+    FamilyView()
+        .environmentObject(GlobalViewModel())
+        .environmentObject(FamilyViewModel())
 }

@@ -64,7 +64,7 @@ struct TransfersView: View {
                     TextField("Номер карты или телефона", text: $cardOrPhone)
                         .keyboardType(.numberPad)
                         .font(.system(size: 14))
-                        .onChange(of: cardOrPhone) { newValue in
+                        .onChange(of: cardOrPhone) { oldValue, newValue in
                             cardOrPhone = formatCardNumber(newValue)
                             isCardValid = cardOrPhone.replacingOccurrences(of: " ", with: "").count == 16
                         }
@@ -97,7 +97,7 @@ struct TransfersView: View {
                     .onTapGesture {
                     }
                 
-                NavigationLink(destination: MoneyTransferView(cardNumber: cardOrPhone), isActive: $isCardValid) {
+                NavigationLink(destination: MoneyTransferView(cardNumber: cardOrPhone)) {
                     EmptyView()
                 }
                 
@@ -107,7 +107,7 @@ struct TransfersView: View {
                         HStack {
                             Image(systemName: "phone")
                             Text("По номеру телефона")
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.gray)
@@ -122,7 +122,7 @@ struct TransfersView: View {
                             Image(systemName: "creditcard")
                                 .foregroundColor(.paymeC)
                             Text("Перевод на мою карту")
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.gray)

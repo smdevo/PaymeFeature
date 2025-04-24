@@ -11,8 +11,13 @@ import SwiftUI
 struct ServicesSheetViewForChild: View {
     
     @Environment(\.dismiss) var dismiss
-    @State private var showTransactionSheet = false
     
+    @State private var showApprovedLocation = false
+    @State private var showSelectingBackgroundView = false
+    @State private var showApprovedMArkets = false
+    @State private var showBlockView = false
+    @State private var showTasksView = false
+
     let id: String
     
     init(id: String) {
@@ -26,7 +31,11 @@ struct ServicesSheetViewForChild: View {
     }
     
     let services: [UserService] = [
-        .init(type: .transferFromFamilyCard, icon: "arrow.up.circle")
+        .init(type: .checkApprovedMArkets, icon: "list.bullet.indent"),
+        .init(type: .checkApprovedLocation, icon: "mappin.and.ellipse"),
+        .init(type: .fulfillTheTaskAndGetMoneyCh, icon: "s.circle"),
+        .init(type: .selectBackgroundImage,   icon: "plus"),
+        .init(type: .block,                   icon: "lock.shield")
     ]
     
     var body: some View {
@@ -81,21 +90,44 @@ struct ServicesSheetViewForChild: View {
         .background(Color(.systemBackground))
         .cornerRadius(20)
         .edgesIgnoringSafeArea(.bottom)
-        .sheet(isPresented: $showTransactionSheet) {
-            TransactionSheet(id: id, completion: {
+//        .fullScreenCover(isPresented: $showApprovedLocation) {
+//
+//        }
+        .fullScreenCover(isPresented: $showSelectingBackgroundView) {
+            BackgroundSelectionView(id: id) {
                 dismiss()
-            })
-                .presentationDetents([.fraction(0.6)])
-                .presentationDragIndicator(.visible)
+            }
         }
+        .fullScreenCover(isPresented: $showBlockView) {
+            BlockCardView {
+                dismiss()
+            }
+        }
+        .fullScreenCover(isPresented: $showApprovedMArkets) {
+            ApprovedMarketsView {
+                dismiss()
+            }
+        }
+        .fullScreenCover(isPresented: $showTasksView) {
+            FulfillTheTaskAndGetTheMoneyScreen()
+        }
+        
+        
+        
     }
     
     func handleServiceTap(_ service: ServicesType) {
         switch service {
-        case .transferFromFamilyCard:
-            showTransactionSheet.toggle()
+        case .checkApprovedMArkets:
+            showApprovedMArkets.toggle()
+        case .checkApprovedLocation:
+            showApprovedLocation.toggle()
+        case .fulfillTheTaskAndGetMoneyCh:
+            showTasksView.toggle()
         case .selectBackgroundImage:
-            print("selectBackgroundImage")
+            showSelectingBackgroundView.toggle()
+        case .block:
+            showBlockView.toggle()
         default:
             break
         }
@@ -103,5 +135,5 @@ struct ServicesSheetViewForChild: View {
 }
 
 #Preview {
-    ServicesSheetViewForParent(id: "1")
+    ServicesSheetViewForChild(id: "1")
 }
