@@ -90,9 +90,11 @@ struct ServicesSheetViewForChild: View {
         .background(Color(.systemBackground))
         .cornerRadius(20)
         .edgesIgnoringSafeArea(.bottom)
-//        .fullScreenCover(isPresented: $showApprovedLocation) {
-//
-//        }
+        .fullScreenCover(isPresented: $showApprovedLocation) {
+            LocationPickerScreen(closure: {
+                dismiss()
+            })
+        }
         .fullScreenCover(isPresented: $showSelectingBackgroundView) {
             BackgroundSelectionView(id: id) {
                 dismiss()

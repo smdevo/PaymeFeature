@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let enObj = GlobalViewModel()
                     let enFamObj = FamilyViewModel()
                     
+                   // let childCardsView = ChildCardsView()
                     let childCardsView = ChildCardsView()
                         .environmentObject(enObj)
                         .environmentObject(enFamObj)

@@ -186,20 +186,18 @@ class GlobalViewModel: ObservableObject {
         }
         
         
-        let isParent = currentUser.role
+        
         
         guard
-            isParent ? userSum > amountSum : famCardSum > amountSum
+            userSum > amountSum
         else {
             completion(false)
             return
         }
        
-        let updatedUserBalance = isParent ?
-        String(userSum - amountSum) : String(userSum + amountSum)
+        let updatedUserBalance = String(userSum - amountSum)
         
-        let updatedFamilyBalance = isParent ?
-        String(famCardSum + amountSum) : String(famCardSum - amountSum)
+        let updatedFamilyBalance = String(famCardSum + amountSum)
         
         let updatedUser = UserModel(
             name: currentUser.name,

@@ -21,13 +21,13 @@ struct ChildCardView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image("uzcard")
-                    .resizable()
-                    .renderingMode(.template)
-                    .foregroundColor(.white)
-                    .scaledToFill()
-                    .frame(width: 20, height: 35)
-                    .padding(.leading)
+//                Image("uzcard")
+//                    .resizable()
+//                    .renderingMode(.template)
+//                    .foregroundColor(.white)
+//                    .scaledToFill()
+//                    .frame(width: 20, height: 35)
+//                    .padding(.leading)
                 Spacer()
                 Image("paymekidsborder")
                     .resizable()
@@ -67,9 +67,9 @@ struct ChildCardView: View {
                 Text("")
             }
             Spacer()
-            Text("\(bankCard.cardNumber.maskedCardNumber)    4/30" )
-                .font(.headline)
-                .foregroundColor(.white)
+//            Text("\(bankCard.cardNumber.maskedCardNumber)    4/30" )
+//                .font(.headline)
+//                .foregroundColor(.white)
         }
         .padding(20)
         .padding(.horizontal, horizontalPadding)

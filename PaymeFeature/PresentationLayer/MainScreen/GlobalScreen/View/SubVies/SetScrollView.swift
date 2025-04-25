@@ -124,23 +124,6 @@ struct SetScrollView: View {
     }
 }
 
-func logOut() {
-    UserDefaults.standard.removeObject(forKey: "userId")
-    UserDefaults.standard.removeObject(forKey: "userFamilyId")
-    
-    switchToLogin()
-}
-
-func switchToLogin() {
-    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-       let window = windowScene.windows.first {
-        let hostingController = UIHostingController(rootView: LoginView())
-        window.rootViewController = hostingController
-        window.makeKeyAndVisible()
-    }
-    
-}//Class
-
 
 #Preview {
     SetScrollView().environmentObject(GlobalViewModel())
