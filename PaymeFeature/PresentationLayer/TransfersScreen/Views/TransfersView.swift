@@ -8,71 +8,67 @@
 
 import SwiftUI
 
-
 struct TransfersView: View {
     @State private var cardOrPhone: String = ""
     @State private var isCardValid = false
-    
+    @State private var shouldNavigate = false
+
     @EnvironmentObject var evm: GlobalViewModel
-    
-    
+
     func formatCardNumber(_ number: String) -> String {
         let cleanNumber = number.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
-        
         let truncatedNumber = String(cleanNumber.prefix(16))
-        
+
         var formattedNumber = ""
-        
         for (index, char) in truncatedNumber.enumerated() {
             if index != 0 && index % 4 == 0 {
                 formattedNumber.append(" ")
             }
             formattedNumber.append(char)
         }
-        
         return formattedNumber
     }
-    
-    
+
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(alignment: .leading, spacing: 10) {
-                
+
                 HStack {
                     Spacer()
                     Text("Перевод средств")
                         .font(.title3)
                         .bold()
                     Spacer()
-                    
                 }
                 .padding(.top)
-                
+
                 Text("Кому:")
                     .font(.headline)
-                
+
                 Text("Номер карты или телефона")
                     .foregroundStyle(.gray)
                     .font(.system(size: 14))
-                
+
                 HStack {
                     Image(systemName: "creditcard")
                         .foregroundColor(.gray)
-                    
-                    
-    
+
                     TextField("Номер карты или телефона", text: $cardOrPhone)
                         .keyboardType(.numberPad)
                         .font(.system(size: 14))
                         .onChange(of: cardOrPhone) { oldValue, newValue in
                             cardOrPhone = formatCardNumber(newValue)
-                            isCardValid = cardOrPhone.replacingOccurrences(of: " ", with: "").count == 16
+                            let cleaned = cardOrPhone.replacingOccurrences(of: " ", with: "")
+                            isCardValid = cleaned.count == 16
+                            if isCardValid {
+                                shouldNavigate = true
+                            }
                         }
-                        .font(.system(size: 14))
-                    //                        .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
+
                     Button(action: {
+                        
                     }) {
                         Image(systemName: "qrcode.viewfinder")
                     }
@@ -80,8 +76,9 @@ struct TransfersView: View {
                 .padding()
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
-                
+
                 Button(action: {
+                    
                 }) {
                     HStack {
                         Image(systemName: "plus")
@@ -91,17 +88,13 @@ struct TransfersView: View {
                             .font(.system(size: 14))
                     }
                 }
-                
+
                 Text("Все получатели")
                     .foregroundColor(.blue)
                     .onTapGesture {
+                        
                     }
-                
-                NavigationLink(destination: MoneyTransferView(cardNumber: cardOrPhone)) {
-                    EmptyView()
-                }
-                
-                
+
                 VStack(spacing: 12) {
                     NavigationLink(destination: PhoneTransferScreen()) {
                         HStack {
@@ -116,7 +109,7 @@ struct TransfersView: View {
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
                     }
-                    
+
                     NavigationLink(destination: SelfTransferScreen()) {
                         HStack {
                             Image(systemName: "creditcard")
@@ -131,12 +124,14 @@ struct TransfersView: View {
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
                     }
-                    
                 }
-                
+
                 Spacer()
             }
             .padding()
+            .navigationDestination(isPresented: $shouldNavigate) {
+                MoneyTransferView(cardNumber: cardOrPhone)
+            }
         }
     }
 }
@@ -154,9 +149,6 @@ struct SelfTransferScreen: View {
             .navigationTitle("На мою карту")
     }
 }
-
-
-
 
 #Preview {
     TransfersView()

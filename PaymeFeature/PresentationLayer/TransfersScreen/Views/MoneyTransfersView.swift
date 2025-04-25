@@ -58,7 +58,7 @@ struct MoneyTransferView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Комментарий (Необязательно)")
                         .font(.headline)
-                    TextField("Izoh", text: $note)
+                    TextField("Комментарий", text: $note)
                         .padding()
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(10)
@@ -102,6 +102,6 @@ struct MoneyTransferView: View {
 }
 
 #Preview {
-    MoneyTransferView(cardNumber: "5614 68•••• •••• 1175")
+    MoneyTransferView(cardNumber: "5614 78•••• •••• 0206")
 }
 
