@@ -1,132 +1,231 @@
 //
-//  ChildCardsView.swift
+//  ChildCardsView2.swift
 //  PaymeFeature
 //
-//  Created by Samandar on 23/04/25.
+//  Created by Samandar on 25/04/25.
 //
 
 import SwiftUI
 
 struct ChildCardsView: View {
     
-    @EnvironmentObject var vm: GlobalViewModel
+    @EnvironmentObject var gvm: GlobalViewModel
+    @State var balance = 0
+    @State var name: String = ""
     
-    @State var controllerTab: Int = 0
-    
-    @State private var showAddCardSheet: Bool = false
-    
-    @State private var tasks: [Task] = [
-        Task(title: "Уборка комнаты", reward: 500),
-        Task(title: "Выполнение домашнего задания", reward: 800, isCompleted: true),
-        Task(title: "Складывание белья", reward: 400),
-        Task(title: "Кормление питомца", reward: 300, isCompleted: true),
-        Task(title: "Мойка посуды", reward: 600)
-        
-    ]
-    
-    let role = UserDefaults.standard.bool(forKey: "role")
     
     var body: some View {
-        VStack {
-            
-            if vm.cards.isEmpty {
-                ProgressView()
-            }else {
-                
-                ScrollView {
-                    
-                    LazyVStack {
-                        ForEach(vm.cards.filter { $0.isFamilyCard }) { card in
-                            
-                            ChildCardView(bankCard: card)
-                            
-                        }
-                        
-                    }
-                    
-                    Button {
-                        
-                    } label: {
-                        HStack {
-                            
-                            Text("Spend money with QR Code")
-                                .font(.headline)
-                                .bold()
-                            
-                            Spacer()
-                            
-                            Image(systemName: "s.circle")
-                                .resizable()
-                                .scaledToFit()
-                                .font(.subheadline)
-                                .frame(height: 30)
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(.white)
-                                .shadow(radius: 10)
-                            
-                        )
-                        .padding(.horizontal, 5)
-                        .tint(.quickPay)
-                    }
-                    
-                    Text("Мои задания")
-                        .padding()
-                        .font(.headline)
-                        .bold()
-                        .frame(alignment: .leading)
-                    
-                    LazyVStack(spacing: 12) {
-                        ForEach(tasks.indices, id: \.self) { index in
-                            TaskCard(task: $tasks[index], role: role)
-                        }
-                    }
-                    .padding()
-                    
-                    HStack(alignment: .center) {
-                        
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                // Greeting
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Text("Привет, \(name.split(separator: " ").first ?? "")!👋")
+                            .font(.largeTitle.bold())
                         Spacer()
                         
                         Button {
                             logOut()
-                            
                         } label: {
-                            HStack(spacing: 0) {
-                                Text("Logout")
-                                Image(systemName: "chevron.right")
-                            }
-                            .foregroundStyle(.unselectedTabbarItem)
+                            Image("Child")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                                .clipShape(Circle())
                         }
+
                     }
-                    .padding()
+                    Text("Ты молодец — вчера сэкономил 12 000 сум")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+                
+                // Balance
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("Твой баланс:")
+                            .font(.headline)
+                        Text(balance.formattedWithSeparator())
+                            .font(.largeTitle.bold())
+                        
+                    }
+                    
+                    Spacer()
+                    
+                    // Circle Progress
+                    CircleProgressView(progress: 0.7)
+                        .frame(width: 70, height: 70)
+                }
+                .padding(.bottom, 25)
+                
+                LazyVStack {
+                    ForEach(gvm.cards.filter { $0.isFamilyCard }) { card in
+                        ChildCardView(bankCard: card)
+                            .padding(.horizontal,-10)
+                            .onAppear {
+                                    balance = Int(card.sum) ?? 0
+                                    name = card.ownerName
+                            }
+                    }
                     
                 }
-                .scrollIndicators(.hidden)
+                .padding(.bottom,30)
                 
+               
+                
+                // Last expenses
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Последние траты")
+                        .font(.title2.bold())
+                    
+                    ExpenseRow(icon: "🍕", title: "Пицца", amount: "-900 сум")
+                    ExpenseRow(icon: "🚌", title: "Транспорт", amount: "-1500 сум")
+                    ExpenseRow(icon: "🎮", title: "Онлайн-игра", amount: "-500 сум")
+                }
+                .padding(.bottom, 25)
+                
+                // Weekly goal
+                VStack(alignment: .leading, spacing: 15) {
+                    Text("Цель недели")
+                        .font(.title2.bold())
+                    
+                    HStack {
+                        Text("🌟 Потратить меньше 50 000 сум")
+                        Spacer()
+                        Button(action: {
+                            // Action for reward
+                        }) {
+                            Text("→ Получи награду 🏅")
+                                .font(.subheadline)
+                                .foregroundColor(.blue)
+                        }
+                    }
+                }
+                .padding(.bottom, 25)
+                
+                // Tasks
+                VStack(alignment: .leading, spacing: 15) {
+                    Text("Задачи")
+                        .font(.title2.bold())
+                    
+                    TaskRow(title: "Копить на велосипед")
+                    TaskRow(title: "Сделать домашнее задание")
+                    TaskRow(title: "Помочь по дому")
+                }
             }
-            
-            Spacer()
-            
+            .padding(20)
+        }
+        .refreshable {
+            gvm.loadUserAndFamily()
         }
         
-        .padding(12)
-        .refreshable {
-            vm.loadUserAndFamily()
-        }
-        .navigationTitle("Мои карты")
-        //.background(.backgroundC)
-        .onAppear {
-            vm.loadUserAndFamily()
-        }
     }
 }
 
 
-#Preview {
-    ChildCardsView()
-        .environmentObject(GlobalViewModel())
-        .environmentObject(FamilyViewModel())
+func logOut() {
+    UserDefaults.standard.removeObject(forKey: "userId")
+    UserDefaults.standard.removeObject(forKey: "userFamilyId")
+    
+    switchToLogin()
 }
+
+func switchToLogin() {
+    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+       let window = windowScene.windows.first {
+        let hostingController = UIHostingController(rootView: LoginView())
+        window.rootViewController = hostingController
+        window.makeKeyAndVisible()
+    }
+    
+}//Class
+
+
+// MARK: - Components
+
+struct CircleProgressView: View {
+    var progress: CGFloat // 0.0 to 1.0
+    
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(Color.gray.opacity(0.3), lineWidth: 8)
+            Circle()
+                .trim(from: 0, to: progress)
+                .stroke(Color.blue, lineWidth: 8)
+                .rotationEffect(.degrees(-90))
+        }
+    }
+}
+
+struct ExpenseRow: View {
+    var icon: String
+    var title: String
+    var amount: String
+    
+    var body: some View {
+        HStack {
+            Text(icon)
+            Text(title)
+            Spacer()
+            Text(amount)
+                .foregroundColor(.red)
+        }
+        .font(.headline)
+    }
+}
+
+import SwiftUI
+
+struct TaskRow: View {
+    var title: String
+    @State private var isCompleted = false
+
+    var body: some View {
+        HStack(spacing: 16) {
+            Button(action: {
+                withAnimation(.spring(response: 0.5, dampingFraction: 0.5)) {
+                    isCompleted.toggle()
+                }
+            }) {
+                Image(systemName: isCompleted ? "checkmark.seal.fill" : "seal")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(isCompleted ? .purple : .orange)
+                    .rotationEffect(.degrees(isCompleted ? 360 : 0))
+                    .scaleEffect(isCompleted ? 1.3 : 1.0)
+                    .animation(.easeInOut(duration: 0.3), value: isCompleted)
+            }
+
+            Text(isCompleted ? "🎉 \(title)" : title)
+                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                .foregroundColor(isCompleted ? .gray : .primary)
+                .strikethrough(isCompleted, color: .gray)
+                .animation(.easeInOut(duration: 0.3), value: isCompleted)
+
+            Spacer()
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(isCompleted ? Color.purple.opacity(0.2) : Color.orange.opacity(0.1))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(isCompleted ? Color.purple : Color.orange, lineWidth: 2)
+        )
+        .frame(height: 60)
+        //.padding(.horizontal)
+    }
+}
+
+
+
+// MARK: - Preview
+
+struct DashboardView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChildCardsView()
+    }
+}
+

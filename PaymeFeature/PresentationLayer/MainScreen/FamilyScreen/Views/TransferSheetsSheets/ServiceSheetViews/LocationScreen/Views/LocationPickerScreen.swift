@@ -13,14 +13,16 @@ struct LocationPickerScreen: View {
     var closure: () -> ()
     
     @Environment(\.dismiss) private var dismiss
-
+    
     @State private var selectedCoordinate: CLLocationCoordinate2D? = nil
     @State private var showAlert = false
     @State private var radius: Double = 700
     @State private var circleCenter = CLLocationCoordinate2D(latitude: 41.3240, longitude: 69.2410)
-
+    
     @StateObject private var nameManager = LocationNameManager()
-
+    
+    let role = UserDefaults.standard.bool(forKey: "role")
+    
     var body: some View {
         ZStack(alignment: .topLeading) {
             ZStack(alignment: .bottom) {
@@ -36,35 +38,37 @@ struct LocationPickerScreen: View {
                         nameManager.getName(from: coord)
                     }
                 }
-
-                VStack(spacing: 12) {
-                    Text("Радиус зоны: \(Int(radius)) м")
-                        .padding(8)
-                        .background(Color.white.opacity(0.9))
-                        .cornerRadius(10)
-
-                    Slider(value: $radius, in: 100...2000, step: 50)
-                        .padding(.horizontal)
-                        .accentColor(.red)
-
-                    if let _ = selectedCoordinate {
-                        Text("Вы выбрали: \(nameManager.placeName)")
+                if role {
+                    VStack(spacing: 12) {
+                        Text("Радиус зоны: \(Int(radius)) м")
                             .padding(8)
                             .background(Color.white.opacity(0.9))
                             .cornerRadius(10)
+                        
+                        Slider(value: $radius, in: 100...2000, step: 50)
+                            .padding(.horizontal)
+                            .accentColor(.red)
+                        
+                        if let _ = selectedCoordinate {
+                            Text("Вы выбрали: \(nameManager.placeName)")
+                                .padding(8)
+                                .background(Color.white.opacity(0.9))
+                                .cornerRadius(10)
+                        }
+                        
+                        Button("Сохранить") {
+                            closure()
+                        }
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                     }
-
-                    Button("Сохранить") {
-                        closure()
-                    }
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .padding(.bottom, 30)
+                    
                 }
-                .padding(.bottom, 30)
             }
-
+            
             
             Button(action: {
                 dismiss()
