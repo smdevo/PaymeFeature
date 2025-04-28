@@ -48,8 +48,8 @@ struct FamilyMembersView: View {
                     FamilyCardAddView(viewModel: viewModel, onSuccess: {
                         dismiss()
                     })
-                        .presentationDetents([.medium])
-                        .presentationDragIndicator(.hidden)
+                    .presentationDetents([.fraction(0.5)])
+                    .presentationDragIndicator(.visible)
                 }
             }
             .opacity(isShowingSpinner ? 0 : 1)

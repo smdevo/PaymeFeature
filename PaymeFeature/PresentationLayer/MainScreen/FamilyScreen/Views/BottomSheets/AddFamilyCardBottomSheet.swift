@@ -5,6 +5,7 @@ struct FamilyCardAddView: View {
     
     @State private var passport: String = "518281726700021"
     @State private var phoneNumber: String = ""
+    @State private var pin: String = ""
     @State private var isButtonLoading: Bool = false
     
     let onSuccess: () -> Void
@@ -13,13 +14,13 @@ struct FamilyCardAddView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Добавить детскую карту")
+            Text("Добавить детский счёт")
                 .font(.title)
                 .padding()
             
             
             LabeledTextField(
-                label: "Номер и серия паспорта",
+                label: "Номер и серия ПИНФЛа ребёнка",
                 placeholder: "Введите номер и серию паспорта",
                 text: $passport,
                 keyboardType: .default
@@ -27,10 +28,18 @@ struct FamilyCardAddView: View {
             .disabled(true)
             .opacity(0.6) 
             
+//            LabeledTextField(
+//                label: "Номер телефона",
+//                placeholder: "Введите номер телефона владельца карты",
+//                text: $phoneNumber,
+//                keyboardType: .phonePad
+//            )
+            
+            
             LabeledTextField(
-                label: "Номер телефона",
-                placeholder: "Введите номер телефона владельца карты",
-                text: $phoneNumber,
+                label: "ПИН-код",
+                placeholder: "Введите ПИН-код для ребёнка",
+                text: $pin,
                 keyboardType: .phonePad
             )
             
@@ -64,7 +73,7 @@ struct FamilyCardAddView: View {
                         }
                     }
                 }) {
-                    Text("Заказать детскую карту")
+                    Text("Открыть детский счёт")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
