@@ -28,21 +28,21 @@ struct FamilyCardAddView: View {
             .disabled(true)
             .opacity(0.6) 
             
-//            LabeledTextField(
-//                label: "Номер телефона",
-//                placeholder: "Введите номер телефона владельца карты",
-//                text: $phoneNumber,
-//                keyboardType: .phonePad
-//            )
-            
-            
             LabeledTextField(
-                label: "ПИН-код",
-                placeholder: "Введите ПИН-код для ребёнка",
-                text: $pin,
+                label: "Номер телефона",
+                placeholder: "Введите номер телефона владельца карты",
+                text: $phoneNumber,
                 keyboardType: .phonePad
             )
             
+            
+//            LabeledTextField(
+//                label: "ПИН-код",
+//                placeholder: "Введите ПИН-код для ребёнка",
+//                text: $pin,
+//                keyboardType: .phonePad
+//            )
+//            
             if isButtonLoading {
                 ProgressView()
                     .padding()
