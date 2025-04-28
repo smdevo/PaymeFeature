@@ -17,7 +17,7 @@ struct LabeledTextField: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(label)
                 .font(.caption)
-                .foregroundColor(.gray)
+                .foregroundColor(.primary)
             TextField(placeholder, text: $text)
                 .keyboardType(keyboardType)
                 .padding(10)

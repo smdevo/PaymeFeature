@@ -14,6 +14,7 @@ struct TransactionModel: Identifiable {
     let amount: String
     let description: String
     let iconName: String?
+    let category: String?
 }
 
 struct MonitoringView: View {
@@ -113,10 +114,12 @@ struct TransactionRow: View {
             iconView
             
             VStack(alignment: .leading, spacing: 4) {
-                Text("\(transaction.date) | \(transaction.time)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
                 
+                
+//                Text("\(transaction.date) | \(transaction.time)")
+//                    .font(.caption)
+//                    .foregroundColor(.secondary)
+//                
                 HStack {
                     Text(transaction.description)
                         .font(.subheadline)
@@ -126,6 +129,19 @@ struct TransactionRow: View {
                         .font(.subheadline)
                         .foregroundColor(.primary)
                 }
+                
+                Text(transaction.category ?? "Оплата")
+                    .foregroundStyle(transaction.category == "Kids" ? Color.white: Color.black)
+                    .fontWeight(transaction.category == "Kids" ? .semibold : .light)
+                    .font(.caption2)
+                    .padding(3)
+                    .padding(.horizontal, 7)
+                    .frame(width: transaction.category == "Kids" ? 60 : 70)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(transaction.category == "Kids" ? Color.theme.paymeC : Color.gray.opacity(0.2))
+                            
+                    )
             }
         }
         .padding(.vertical, 6)
@@ -165,3 +181,6 @@ struct TransactionRow: View {
 #Preview{
     MonitoringView().environmentObject(GlobalViewModel())
 }
+
+  
+
