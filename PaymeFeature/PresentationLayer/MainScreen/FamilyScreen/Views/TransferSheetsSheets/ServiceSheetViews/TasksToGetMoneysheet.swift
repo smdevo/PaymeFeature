@@ -18,12 +18,11 @@ struct Task: Identifiable {
 struct FulfillTheTaskAndGetTheMoneyScreen: View {
     
     @State private var tasks: [Task] = [
-        Task(title: "Уборка комнаты", reward: 500),
-        Task(title: "Выполнение домашнего задания", reward: 800, isCompleted: true),
-        Task(title: "Складывание белья", reward: 400),
-        Task(title: "Кормление питомца", reward: 300, isCompleted: true),
-        Task(title: "Мойка посуды", reward: 600)
-
+        Task(title: "Уборка комнаты", reward: 5000),
+        Task(title: "Выполнение домашнего задания", reward: 8000, isCompleted: true),
+        Task(title: "Складывание белья", reward: 4000),
+        Task(title: "Кормление питомца", reward: 3000, isCompleted: true),
+        Task(title: "Мойка посуды", reward: 6000)
     ]
     
     @State private var showAddTaskSheet = false

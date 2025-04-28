@@ -43,11 +43,11 @@ struct ChildCardsView: View {
                 // Balance
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Твой баланс:")
+                        Text("Остаток лимита на день")
                             .font(.headline)
-                        Text(balance.formattedWithSeparator())
-                            .font(.largeTitle.bold())
                         
+                        Text("70 000")
+                            .font(.largeTitle.bold())
                     }
                     
                     Spacer()
@@ -57,6 +57,7 @@ struct ChildCardsView: View {
                         .frame(width: 70, height: 70)
                 }
                 .padding(.bottom, 25)
+                .padding(.trailing, 14)
                 
                 LazyVStack {
                     ForEach(gvm.cards.filter { $0.isFamilyCard }) { card in
@@ -71,49 +72,41 @@ struct ChildCardsView: View {
                 }
                 .padding(.bottom,30)
                 
-               
-                
-                // Last expenses
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Последние траты")
-                        .font(.title2.bold())
-                    
-                    ExpenseRow(icon: "🍕", title: "Пицца", amount: "-900 сум")
-                    ExpenseRow(icon: "🚌", title: "Транспорт", amount: "-1500 сум")
-                    ExpenseRow(icon: "🎮", title: "Онлайн-игра", amount: "-500 сум")
-                }
-                .padding(.bottom, 25)
-                
-                // Weekly goal
-                VStack(alignment: .leading, spacing: 15) {
-                    Text("Цель недели")
-                        .font(.title2.bold())
-                    
-                    HStack {
-                        Text("🌟 Потратить меньше 50 000 сум")
-                        Spacer()
-                        Button(action: {
-                            // Action for reward
-                        }) {
-                            Text("→ Получи награду 🏅")
-                                .font(.subheadline)
-                                .foregroundColor(.blue)
-                        }
-                    }
-                }
-                .padding(.bottom, 25)
-                
                 // Tasks
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Задачи")
                         .font(.title2.bold())
-                    
-                    TaskRow(title: "Копить на велосипед")
-                    TaskRow(title: "Сделать домашнее задание")
-                    TaskRow(title: "Помочь по дому")
+                    TaskRow(title: "Уборка комнаты", reward: 5000)
+                    TaskRow(title: "Выполнение домашнего задания", reward: 8000)
+                    TaskRow(title: "Складывание белья", reward: 4000)
+                    TaskRow(title: "Кормление питомца", reward: 3000)
+                    TaskRow(title: "Мойка посуды", reward: 6000)
                 }
             }
             .padding(20)
+            
+            // Last expenses
+            VStack(alignment: .leading, spacing: 20) {
+                
+                HStack{
+                    Text("Последние траты")
+                        .font(.title2.bold())
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        
+                    }, label:   {Text("Все")})
+                  
+                }
+             
+                ExpenseRow(icon: "🍕", title: "Пицца", amount: "-50 000 сум")
+                ExpenseRow(icon: "🚌", title: "Транспорт", amount: "-1500 сум")
+                ExpenseRow(icon: "🎮", title: "Онлайн-игра", amount: "-80 000 сум")
+            }
+            .padding(20)
+            
+            
         }
         .refreshable {
             gvm.loadUserAndFamily()
@@ -142,21 +135,65 @@ func switchToLogin() {
 
 
 // MARK: - Components
-
 struct CircleProgressView: View {
-    var progress: CGFloat // 0.0 to 1.0
-    
+    /// 0.0 to 1.0
+    var progress: CGFloat
+    /// Stroke width
+    var lineWidth: CGFloat = 6
+    /// Gradient colors around the circle
+    var gradientColors: [Color] = [Color.blue, Color.purple]
+
+    @State private var animatedProgress: CGFloat = 0
+
     var body: some View {
-        ZStack {
-            Circle()
-                .stroke(Color.gray.opacity(0.3), lineWidth: 8)
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(Color.blue, lineWidth: 8)
-                .rotationEffect(.degrees(-90))
+        GeometryReader { geo in
+            let size = min(geo.size.width, geo.size.height)
+            let radius = size / 2
+
+            ZStack {
+                // Background track
+                Circle()
+                    .stroke(Color.gray.opacity(0.2), lineWidth: lineWidth)
+
+                // Animated progress arc
+                Circle()
+                    .trim(from: 0, to: animatedProgress)
+                    .stroke(
+                        AngularGradient(
+                            gradient: Gradient(colors: gradientColors),
+                            center: .center
+                        ),
+                        style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
+                    )
+                    .rotationEffect(.degrees(-90))
+                    .shadow(color: .black.opacity(0.15), radius: 2, x: 1, y: 1)
+
+                // End-cap dot
+                Circle()
+                    .fill(gradientColors.last ?? .blue)
+                    .frame(width: lineWidth, height: lineWidth)
+                    // offset by the radius so the dot sits on the circle’s edge
+                    .offset(x: 0, y: -radius)
+                    // then rotate around the center
+                    .rotationEffect(.degrees(Double(animatedProgress) * 360))
+                    .shadow(color: .black.opacity(0.15), radius: 1, x: 0.5, y: 0.5)
+
+                // Percentage label
+                Text("\(Int(animatedProgress * 100))%")
+                    .font(.system(size: size * 0.25, weight: .bold, design: .rounded))
+                    .foregroundColor(gradientColors.last)
+            }
+            .onAppear {
+                withAnimation(.easeOut(duration: 1.0)) {
+                    animatedProgress = progress
+                }
+            }
         }
+        // keep it square
+        .aspectRatio(1, contentMode: .fit)
     }
 }
+
 
 struct ExpenseRow: View {
     var icon: String
@@ -175,16 +212,15 @@ struct ExpenseRow: View {
     }
 }
 
-import SwiftUI
-
 struct TaskRow: View {
     var title: String
+    var reward: Int
     @State private var isCompleted = false
 
     var body: some View {
         HStack(spacing: 16) {
             Button(action: {
-                withAnimation(.spring(response: 0.5, dampingFraction: 0.5)) {
+                withAnimation(.spring(response: 0.5, dampingFraction: 0.6)) {
                     isCompleted.toggle()
                 }
             }) {
@@ -194,14 +230,21 @@ struct TaskRow: View {
                     .foregroundColor(isCompleted ? .purple : .orange)
                     .rotationEffect(.degrees(isCompleted ? 360 : 0))
                     .scaleEffect(isCompleted ? 1.3 : 1.0)
-                    .animation(.easeInOut(duration: 0.3), value: isCompleted)
             }
 
-            Text(isCompleted ? "🎉 \(title)" : title)
-                .font(.system(size: 18, weight: .semibold, design: .rounded))
-                .foregroundColor(isCompleted ? .gray : .primary)
-                .strikethrough(isCompleted, color: .gray)
-                .animation(.easeInOut(duration: 0.3), value: isCompleted)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(isCompleted ? "🎉 \(title)" : title)
+                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .foregroundColor(isCompleted ? .gray : .primary)
+                    .strikethrough(isCompleted, color: .gray)
+
+                Text("\(reward) сум")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(isCompleted ? .green : .orange)
+                    .scaleEffect(isCompleted ? 1.2 : 1.0)
+                    .animation(.easeInOut(duration: 0.3), value: isCompleted)
+            }
 
             Spacer()
         }
@@ -214,18 +257,9 @@ struct TaskRow: View {
             RoundedRectangle(cornerRadius: 16)
                 .stroke(isCompleted ? Color.purple : Color.orange, lineWidth: 2)
         )
-        .frame(height: 60)
-        //.padding(.horizontal)
+        .frame(height: 80)
+        .animation(.easeInOut(duration: 0.3), value: isCompleted)
     }
 }
 
-
-
-// MARK: - Preview
-
-struct DashboardView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChildCardsView()
-    }
-}
 

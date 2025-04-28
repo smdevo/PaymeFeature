@@ -14,10 +14,10 @@
  */
 
 enum ServicesType: String {
-    case transfertoChildCard = "Перевести деньги на детскую карту"
+    case transfertoChildCard = "Перевести деньги на детский счёт"
     case setDailySpending = "Установить дневной лимит расходов"
     case chooseLocatiion = "Выбрать местоположение"
-    case block = "Заблокировать карту"
+    case block = "Заблокировать счёт"
     case selectApprovedMArkets = "Выбрать одобренные магазины"
     case selectBackgroundImage = "Выбрать фоновое изображение"
     case fulfillTheTaskAndGetMoneyCh = "Выполняйте задания, чтобы получить награду"
@@ -76,7 +76,7 @@ struct ServicesSheetViewForParent: View {
             VStack(spacing: 0) {
                 
                 HStack {
-                    Text("Сервисы детской карты")
+                    Text("Сервисы детского счета")
                         .font(.title3)
                         .bold()
                     Spacer()

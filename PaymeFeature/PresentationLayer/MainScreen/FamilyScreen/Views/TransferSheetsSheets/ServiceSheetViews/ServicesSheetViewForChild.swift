@@ -43,7 +43,7 @@ struct ServicesSheetViewForChild: View {
             
             // Header
             HStack {
-                Text("Family Card Services")
+                Text("Сервисы")
                     .font(.title3)
                     .bold()
                 Spacer()

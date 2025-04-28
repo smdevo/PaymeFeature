@@ -13,7 +13,7 @@ struct FamilyCardAddView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Добавить детскую карту")
+            Text("Открыть детский счёт")
                 .font(.title)
                 .padding()
             
@@ -29,7 +29,7 @@ struct FamilyCardAddView: View {
             
             LabeledTextField(
                 label: "Номер телефона",
-                placeholder: "Введите номер телефона владельца карты",
+                placeholder: "Введите номер телефона владельца счета",
                 text: $phoneNumber,
                 keyboardType: .phonePad
             )
@@ -64,7 +64,7 @@ struct FamilyCardAddView: View {
                         }
                     }
                 }) {
-                    Text("Заказать детскую карту")
+                    Text("Открыть детский счёт")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()

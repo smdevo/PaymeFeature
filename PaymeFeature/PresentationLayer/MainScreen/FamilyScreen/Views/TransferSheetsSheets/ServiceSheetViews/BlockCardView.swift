@@ -23,13 +23,13 @@ struct BlockCardView: View {
                     .scaledToFit()
                     .frame(width: 160, height: 160)
 
-                Text("Вы уверены, что хотите заблокировать карту?")
+                Text("Вы уверены, что хотите заблокировать счёт?")
                     .font(.title3)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.primary)
                     .padding(.horizontal)
                 Spacer()
-                Text("ВНИМАНИЕ: Разблокировать карту можно только в банке при личном присутствии и удостоверении личности.")
+                Text("ВНИМАНИЕ: Разблокировать счёт можно только в банке при личном присутствии и удостоверении личности.")
                     .font(.footnote)
                     .foregroundColor(.red)
                     .multilineTextAlignment(.center)
@@ -51,7 +51,7 @@ struct BlockCardView: View {
                 .padding(.horizontal)
                 .padding(.bottom, 20)
             }
-            .navigationTitle("Блокировка карты")
+            .navigationTitle("Блокировка счёта")
             .navigationBarTitleDisplayMode(.inline)
            
             .background(
