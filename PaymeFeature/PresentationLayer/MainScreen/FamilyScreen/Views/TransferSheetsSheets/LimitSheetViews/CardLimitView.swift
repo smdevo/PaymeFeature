@@ -38,7 +38,7 @@ struct CardLimitSetView: View {
                 .foregroundColor(.black)
             
             
-            Text("Теперь ваш ребёнок не сможет потратить больше заданной суммы с этой карты.\nВы всегда можете изменить лимит в настройках.")
+            Text("Теперь ваш ребёнок не сможет потратить больше заданной суммы с этого счёта.\nВы всегда можете изменить лимит в настройках.")
                 .font(.subheadline)
                 .foregroundColor(.gray)
                 .multilineTextAlignment(.center)

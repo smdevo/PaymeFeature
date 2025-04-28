@@ -41,7 +41,7 @@ struct FamilyView: View {
                         FamilyMembersView(
                             viewModel: viewModel,
                             onCardAdded: {
-                                snackbarMessage = "Детская карта успешно добавлена."
+                                snackbarMessage = "Детский счёт успешно открыт."
                                 showSnackbar = true
                             }
                         )
