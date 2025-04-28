@@ -13,7 +13,7 @@ struct ChildCardsView: View {
     @State var balance = 0
     @State var name: String = ""
     
-    
+ 
     var body: some View {
         
         NavigationStack {
@@ -49,16 +49,18 @@ struct ChildCardsView: View {
                         Text("Остаток лимита на день")
                             .font(.headline)
                         
-                        Text("70 000")
+                        Text("\(balance)")
                             .font(.largeTitle.bold())
                     }
                     
                     Spacer()
                     
                     // Circle Progress
-                    balance.formattedWithSeparator() == "0" ? CircleProgressView(progress: 0).frame(width: 70, height: 70) :
-                    CircleProgressView(progress: CGFloat(100000-Int(balance)))
+                    CircleProgressView(progress: 1)
                         .frame(width: 70, height: 70)
+                    //:
+//                    CircleProgressView(progress: 0.7)
+//                        .frame(width: 70, height: 70)
                 }
                 .padding(.bottom, 25)
                 .padding(.trailing, 14)
@@ -75,32 +77,7 @@ struct ChildCardsView: View {
                     
                 }
                 .padding(.bottom,30)
-                
-                
-                
-                
-                
-                // Weekly goal
-                VStack(alignment: .leading, spacing: 15) {
-                    Text("Цель недели")
-                        .font(.title2.bold())
-                    
-                    HStack {
-                        Text("🌟 Потратить меньше 50 000 сум")
-                        Spacer()
-                        Button(action: {
-                            // Action for reward
-                        }) {
-                            Text("→ Получи награду 🏅")
-                                .font(.subheadline)
-                                .foregroundColor(.blue)
-                        }
-                    }
-                }
-                .padding(.bottom, 25)
-                
-                
-                
+    
                 // Tasks
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Задачи")
@@ -167,8 +144,12 @@ struct ChildCardsView: View {
 //        })
         .refreshable {
             gvm.loadUserAndFamily()
+            
+            
+            
         }
-    }
+ 
+        }.padding(.vertical, 8)
         
     }
 }
