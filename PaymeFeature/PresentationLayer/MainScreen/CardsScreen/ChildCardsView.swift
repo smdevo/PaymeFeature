@@ -22,22 +22,22 @@ struct ChildCardsView: View {
             VStack(alignment: .leading, spacing: 20) {
                 // Greeting
                 VStack(alignment: .leading, spacing: 8) {
-//                    HStack {
-//                        Text("Привет, \(name.split(separator: " ").first ?? "")!👋")
-//                            .font(.largeTitle.bold())
-//                        Spacer()
-//                        
-//                        Button {
-//                            logOut()
-//                        } label: {
-//                            Image("Child")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(width: 60, height: 60)
-//                                .clipShape(Circle())
-//                        }
-//                        
-//                    }
+                    HStack {
+                        Text("Привет, \(name.split(separator: " ").first ?? "")!👋")
+                            .font(.largeTitle.bold())
+                        Spacer()
+                        
+                        Button {
+                            logOut()
+                        } label: {
+                            Image("Child")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                                .clipShape(Circle())
+                        }
+                        
+                    }
 //                    Text("Ты молодец — вчера сэкономил 12 000 сум")
 //                        .font(.subheadline)
 //                        .foregroundColor(.gray)
@@ -56,7 +56,8 @@ struct ChildCardsView: View {
                     Spacer()
                     
                     // Circle Progress
-                    CircleProgressView(progress: 0.7)
+                    balance.formattedWithSeparator() == "0" ? CircleProgressView(progress: 0).frame(width: 70, height: 70) :
+                    CircleProgressView(progress: CGFloat(100000-Int(balance)))
                         .frame(width: 70, height: 70)
                 }
                 .padding(.bottom, 25)
@@ -124,34 +125,34 @@ struct ChildCardsView: View {
             }
             .padding(20)
         }
-        .toolbar(content: {
-            ToolbarItem(placement: .navigation) {
-                VStack{
-                    HStack {
-                        Text("Привет, \(name.split(separator: " ").first ?? "")!👋")
-                            .font(.largeTitle.bold())
-                        
-                        Spacer()
-                        
-                        Button {
-                            logOut()
-                        } label: {
-                            Image("Child")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
-                                .clipShape(Circle())
-                        }
-                        
-                    }
-                    .padding(.leading,10)
-                    
-                    Text("")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                }
-            }
-        })
+//        .toolbar(content: {
+//            ToolbarItem(placement: .navigation) {
+//                VStack{
+//                    HStack {
+//                        Text("Привет, \(name.split(separator: " ").first ?? "")!👋")
+//                            .font(.largeTitle.bold())
+//                        
+//                        Spacer()
+//                        
+//                        Button {
+//                            logOut()
+//                        } label: {
+//                            Image("Child")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 60, height: 60)
+//                                .clipShape(Circle())
+//                        }
+//                        
+//                    }
+//                    .padding(.leading,10)
+//                    
+//                    Text("")
+//                        .font(.subheadline)
+//                        .foregroundColor(.gray)
+//                }
+//            }
+//        })
         .refreshable {
             gvm.loadUserAndFamily()
         }
