@@ -15,29 +15,32 @@ struct ChildCardsView: View {
     
     
     var body: some View {
+        
+        NavigationStack {
+        
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 // Greeting
                 VStack(alignment: .leading, spacing: 8) {
-                    HStack {
-                        Text("Привет, \(name.split(separator: " ").first ?? "")!👋")
-                            .font(.largeTitle.bold())
-                        Spacer()
-                        
-                        Button {
-                            logOut()
-                        } label: {
-                            Image("Child")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
-                                .clipShape(Circle())
-                        }
-
-                    }
-                    Text("Ты молодец — вчера сэкономил 12 000 сум")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+//                    HStack {
+//                        Text("Привет, \(name.split(separator: " ").first ?? "")!👋")
+//                            .font(.largeTitle.bold())
+//                        Spacer()
+//                        
+//                        Button {
+//                            logOut()
+//                        } label: {
+//                            Image("Child")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 60, height: 60)
+//                                .clipShape(Circle())
+//                        }
+//                        
+//                    }
+//                    Text("Ты молодец — вчера сэкономил 12 000 сум")
+//                        .font(.subheadline)
+//                        .foregroundColor(.gray)
                 }
                 
                 // Balance
@@ -64,13 +67,38 @@ struct ChildCardsView: View {
                         ChildCardView(bankCard: card)
                             .padding(.horizontal,-10)
                             .onAppear {
-                                    balance = Int(card.sum) ?? 0
-                                    name = card.ownerName
+                                balance = Int(card.sum) ?? 0
+                                name = card.ownerName
                             }
                     }
                     
                 }
                 .padding(.bottom,30)
+                
+                
+                
+                
+                
+                // Weekly goal
+                VStack(alignment: .leading, spacing: 15) {
+                    Text("Цель недели")
+                        .font(.title2.bold())
+                    
+                    HStack {
+                        Text("🌟 Потратить меньше 50 000 сум")
+                        Spacer()
+                        Button(action: {
+                            // Action for reward
+                        }) {
+                            Text("→ Получи награду 🏅")
+                                .font(.subheadline)
+                                .foregroundColor(.blue)
+                        }
+                    }
+                }
+                .padding(.bottom, 25)
+                
+                
                 
                 // Tasks
                 VStack(alignment: .leading, spacing: 15) {
@@ -108,9 +136,38 @@ struct ChildCardsView: View {
             
             
         }
+        .toolbar(content: {
+            ToolbarItem(placement: .navigation) {
+                VStack{
+                    HStack {
+                        Text("Привет, \(name.split(separator: " ").first ?? "")!👋")
+                            .font(.largeTitle.bold())
+                        
+                        Spacer()
+                        
+                        Button {
+                            logOut()
+                        } label: {
+                            Image("Child")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                                .clipShape(Circle())
+                        }
+                        
+                    }
+                    .padding(.leading,10)
+                    
+                    Text("")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+            }
+        })
         .refreshable {
             gvm.loadUserAndFamily()
         }
+    }
         
     }
 }

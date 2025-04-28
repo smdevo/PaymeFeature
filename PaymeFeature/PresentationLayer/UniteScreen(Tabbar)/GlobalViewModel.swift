@@ -21,15 +21,16 @@ class GlobalViewModel: ObservableObject {
     
     //MARK: MONITORING
     @Published var transactions: [TransactionModel] = [
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "оплата", iconName: "safia"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "оплата", iconName: "uzum"),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "+300 000", description: "перевод", iconName: ""
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "Перевод с карты", iconName: "", category: "Kids"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-25 000", description: "Перевод с карты", iconName: "", category: "Kids"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "Оплата", iconName: "uzum", category: "Оплата"),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-10 000", description: "Оплата", iconName: "safia", category: "Kids"
 ),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "оплата ", iconName: "safia"),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "связь", iconName: "ucell"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "услуги", iconName: ""),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "оплата", iconName: "makro"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500 000", description: "перевод", iconName: "")
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "Оплата", iconName: "safia", category: "Оплата"),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "Связь", iconName: "ucell", category: "Ucell"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "Услуги", iconName: "", category: "Оплата"),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-13 000", description: "Оплата", iconName: "makro", category: "Оплата"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500 000", description: "Перевод", iconName: "", category: "Перевод")
     ]
     
     var totalIncomeString: String {
@@ -265,7 +266,7 @@ class GlobalViewModel: ObservableObject {
     
     
     func saveHistoryMonitoring(sender: String, receiver: String, amount: String) {
-        transactions.append(TransactionModel(date: "Сегодня", time: "15:22", amount: amount, description: "Перевод", iconName: ""))
+        transactions.append(TransactionModel(date: "Сегодня", time: "15:22", amount: amount, description: "Перевод", iconName: "", category: "Оплата"))
     }
     
     func setLimitToFamilyCard(id: String, limit: String) {

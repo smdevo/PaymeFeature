@@ -5,6 +5,7 @@ struct FamilyCardAddView: View {
     
     @State private var passport: String = "518281726700021"
     @State private var phoneNumber: String = ""
+    @State private var pin: String = ""
     @State private var isButtonLoading: Bool = false
     
     let onSuccess: () -> Void
@@ -19,7 +20,7 @@ struct FamilyCardAddView: View {
             
             
             LabeledTextField(
-                label: "Номер и серия паспорта",
+                label: "Номер и серия ПИНФЛа ребёнка",
                 placeholder: "Введите номер и серию паспорта",
                 text: $passport,
                 keyboardType: .default
@@ -34,6 +35,14 @@ struct FamilyCardAddView: View {
                 keyboardType: .phonePad
             )
             
+            
+//            LabeledTextField(
+//                label: "ПИН-код",
+//                placeholder: "Введите ПИН-код для ребёнка",
+//                text: $pin,
+//                keyboardType: .phonePad
+//            )
+//            
             if isButtonLoading {
                 ProgressView()
                     .padding()
