@@ -36,13 +36,13 @@ struct FamilyCardAddView: View {
             )
             
             
-//            LabeledTextField(
-//                label: "ПИН-код",
-//                placeholder: "Введите ПИН-код для ребёнка",
-//                text: $pin,
-//                keyboardType: .phonePad
-//            )
-//            
+            LabeledTextField(
+                label: "ПИН-код",
+                placeholder: "Введите ПИН-код для ребёнка",
+                text: $pin,
+                keyboardType: .phonePad
+            )
+            
             if isButtonLoading {
                 ProgressView()
                     .padding()
