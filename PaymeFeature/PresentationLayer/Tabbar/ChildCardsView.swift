@@ -114,39 +114,8 @@ struct ChildCardsView: View {
             
             
         }
-//        .toolbar(content: {
-//            ToolbarItem(placement: .navigation) {
-//                VStack{
-//                    HStack {
-//                        Text("Привет, \(name.split(separator: " ").first ?? "")!👋")
-//                            .font(.largeTitle.bold())
-//                        
-//                        Spacer()
-//                        
-//                        Button {
-//                            logOut()
-//                        } label: {
-//                            Image("Child")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(width: 60, height: 60)
-//                                .clipShape(Circle())
-//                        }
-//                        
-//                    }
-//                    .padding(.leading,10)
-//                    
-//                    Text("")
-//                        .font(.subheadline)
-//                        .foregroundColor(.gray)
-//                }
-//            }
-//        })
         .refreshable {
             gvm.loadUserAndFamily()
-            
-            
-            
         }
  
         }.padding(.vertical, 8)
