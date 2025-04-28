@@ -73,7 +73,6 @@ struct CardsView: View {
     }
 }
 
-
 extension CardsView {
     
     private var plusButton: some View {

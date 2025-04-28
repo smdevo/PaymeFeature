@@ -31,13 +31,6 @@ struct ApprovedMarketsView: View {
         .init(title: "Uzum", imageName: "uzum"),
         .init(title: "Yandex GO", imageName: "yandex"),
         
-        
-            .init(title: "Korzinka", imageName: "korzinka"),
-        .init(title: "Makro", imageName: "makro"),
-        .init(title: "Ucell", imageName: "ucell"),
-        .init(title: "Uztelecom", imageName: "uztelecom"),
-        .init(title: "Uzum", imageName: "uzum"),
-        .init(title: "Yandex GO", imageName: "yandex"),
     ]
     private let columns: [GridItem] = Array(
         repeating: .init(.flexible(), spacing: 16),
