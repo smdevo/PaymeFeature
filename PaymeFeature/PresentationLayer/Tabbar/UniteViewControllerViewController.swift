@@ -29,9 +29,6 @@ class UniteViewController: UITabBarController {
         let transfers = UIHostingController(rootView: TransfersView().environmentObject(globalVM))
         transfers.tabBarItem = UITabBarItem(title: "Transfers", image: UIImage(systemName: "arrow.left.arrow.right"), tag: 1)
 
-//        let family = UIHostingController(rootView: FamilyView().environmentObject(cardsVM))
-//        family.tabBarItem = UITabBarItem(title: "Family", image: UIImage(systemName: "person.2.fill"), tag: 2)
-//        
         let service = UIHostingController(rootView: ServiceView().environmentObject(globalVM))
         service.tabBarItem = UITabBarItem(title: "Services", image: UIImage(systemName: "square.grid.2x2"), tag: 3)
 
