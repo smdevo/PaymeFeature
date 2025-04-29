@@ -21,8 +21,8 @@ struct ServiceView: View {
                 ScrollView {
                     VStack(spacing: 10) {
                         ForEach(viewModel.services) { service in
-                            if service.name == "Моя семья" {
-                                NavigationLink(destination: FamilyView()) {
+                            if service.name == "payme plus" {
+                                NavigationLink(destination: FamilySubscriptionView()) {
                                     ServiceButton(service: service)
                                 }
                             } else {
