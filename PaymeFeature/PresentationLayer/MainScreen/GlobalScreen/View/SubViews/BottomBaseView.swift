@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CurrencyView: UIView {
+class BottomBaseView: UIView {
     
     init(){
         super.init(frame: .zero)

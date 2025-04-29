@@ -33,12 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let enObj = GlobalViewModel()
                     let enFamObj = FamilyViewModel()
                     
-                   // let childCardsView = ChildCardsView()
-                    let childCardsView = ChildCardsView()
+                    let childAccountView = ChildAccountView()
                         .environmentObject(enObj)
                         .environmentObject(enFamObj)
                     
-                    let hostingController = UIHostingController(rootView: childCardsView)
+                    let hostingController = UIHostingController(rootView: childAccountView)
                     window?.rootViewController = hostingController
                 }
                 

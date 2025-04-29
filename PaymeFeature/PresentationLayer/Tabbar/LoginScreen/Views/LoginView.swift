@@ -71,7 +71,7 @@ struct LoginView: View {
                 }
             }
             .navigationDestination(isPresented: $navigateToChild) {
-                ChildCardsView()
+                ChildAccountView()
                               .environmentObject(GlobalViewModel())
                               .toolbar(.hidden, for: .navigationBar)
                       }

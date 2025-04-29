@@ -12,9 +12,7 @@ struct FamilyView: View {
     
     
     @EnvironmentObject var viewModel: FamilyViewModel
-    
-    @EnvironmentObject var vm: GlobalViewModel
-    
+        
     
     @State private var showAddFamilyMemberSheet: Bool = false
     

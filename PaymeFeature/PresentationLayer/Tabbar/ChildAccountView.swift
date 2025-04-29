@@ -1,5 +1,5 @@
 //
-//  ChildCardsView2.swift
+//  ChildAccountView.swift
 //  PaymeFeature
 //
 //  Created by Samandar on 25/04/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChildCardsView: View {
+struct ChildAccountView: View {
     
     @EnvironmentObject var gvm: GlobalViewModel
     @State var balance = 0

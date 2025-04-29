@@ -86,7 +86,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     private func startTimer() {
-            timerCancellable = Timer.publish(every: 2, on: .main, in: .common)
+            timerCancellable = Timer.publish(every: 5, on: .main, in: .common)
                 .autoconnect()
                 .sink { [weak self] _ in
                     self?.loadUserAndFamily()

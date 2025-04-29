@@ -12,7 +12,7 @@ import UIKit
 struct SetScrollView: View {
     
     @EnvironmentObject var evm: GlobalViewModel
-    @StateObject var viewModel: FamilyViewModel = FamilyViewModel()
+    @EnvironmentObject var viewModel: FamilyViewModel
     
     @State var invitationCode = ""
     @State var showInvitationAlert = false
