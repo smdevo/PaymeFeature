@@ -35,7 +35,7 @@ final class MainViewController: UIViewController {
 
     private let quickPayView = QuickPayView()
     
-    private let currencyView = CurrencyView()
+    private let bottomBaseView = BottomBaseView()
     
     private var familySetView = SetScrollView()
     
@@ -68,7 +68,7 @@ final class MainViewController: UIViewController {
         view.backgroundColor = UIColor.theme.paymeC
         view.addSubview(balanceView)
         view.addSubview(quickPayView)
-        view.addSubview(currencyView)
+        view.addSubview(bottomBaseView)
         
         quickPayView.balanceBtn.delegate = self
                
@@ -91,10 +91,10 @@ final class MainViewController: UIViewController {
         quickPayView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
         
         
-        currencyView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        currencyView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        currencyView.topAnchor.constraint(equalTo: quickPayView.bottomAnchor, constant: .spacing(.x10)).isActive = true
-        currencyView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        bottomBaseView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        bottomBaseView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        bottomBaseView.topAnchor.constraint(equalTo: quickPayView.bottomAnchor, constant: .spacing(.x10)).isActive = true
+        bottomBaseView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         
     }
@@ -122,27 +122,10 @@ extension MainViewController: MainViewProtocol {
             .environmentObject(enObj)
             .environmentObject(enFamObj)
         
-       
         
         let hostingController = UIHostingController(rootView: cardsView)
         hostingController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(hostingController, animated: true)
-        
-//        let role = UserDefaults.standard.bool(forKey: "role")
-//        
-//        if role {
-//            let hostingController = UIHostingController(rootView: cardsView)
-//            hostingController.hidesBottomBarWhenPushed = true
-//            navigationController?.pushViewController(hostingController, animated: true)
-//        }else {
-//            let hostingController = UIHostingController(rootView: childCardsView)
-//            hostingController.hidesBottomBarWhenPushed = true
-//            navigationController?.pushViewController(hostingController, animated: true)
-//        }
-        
-        
-        
-        
         
     }
     
@@ -161,9 +144,9 @@ extension MainViewController: MainViewProtocol {
         
         
         NSLayoutConstraint.activate([
-            hostingController.view.topAnchor.constraint(equalTo: currencyView.topAnchor,constant: .spacing(.x5)),
-            hostingController.view.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor),
-            hostingController.view.widthAnchor.constraint(equalTo: currencyView.widthAnchor),
+            hostingController.view.topAnchor.constraint(equalTo: bottomBaseView.topAnchor,constant: .spacing(.x5)),
+            hostingController.view.leadingAnchor.constraint(equalTo: bottomBaseView.leadingAnchor),
+            hostingController.view.widthAnchor.constraint(equalTo: bottomBaseView.widthAnchor),
         ])
         
         hostingController.didMove(toParent: self)

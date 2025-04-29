@@ -21,13 +21,6 @@ struct ChildCardView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-//                Image("uzcard")
-//                    .resizable()
-//                    .renderingMode(.template)
-//                    .foregroundColor(.white)
-//                    .scaledToFill()
-//                    .frame(width: 20, height: 35)
-//                    .padding(.leading)
                 Spacer()
                 Image("paymekidsborder")
                     .resizable()
@@ -67,9 +60,6 @@ struct ChildCardView: View {
                 Text("")
             }
             Spacer()
-//            Text("\(bankCard.cardNumber.maskedCardNumber)    4/30" )
-//                .font(.headline)
-//                .foregroundColor(.white)
         }
         .padding(20)
         .padding(.horizontal, horizontalPadding)
@@ -95,11 +85,6 @@ struct ChildCardView: View {
                             .scaledToFill()
                     }
                 }
-                //                Image("childrens")
-                //                    .resizable()
-                //                    .scaledToFit()
-                //                    .frame(width: 150, height: 150)
-                //                    .padding(20)
             }
         )
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -123,20 +108,3 @@ struct ChildCardView: View {
     }
 }
 
-//#Preview {
-//    let model = BankCard(
-//        name: "Apple Inc.",
-//        ownerName: "David Lee",
-//        sum: "100 000",
-//        cardNumber: "1234 5678 9012 3456",
-//        type: .humo,
-//        expirationDate: "11/27",
-//        iconName: "star.fill",
-//        isFamilyCard: true,
-//        id: "s",
-//        limit: "100 000"
-//    )
-//    ChildCardView(bankCard: model)
-//        .environmentObject(GlobalViewModel())
-//        .padding()
-//}

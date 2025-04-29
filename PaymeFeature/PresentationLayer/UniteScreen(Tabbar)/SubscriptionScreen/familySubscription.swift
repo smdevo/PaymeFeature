@@ -15,7 +15,7 @@ struct FamilySubscriptionView: View {
     ]
     private let features = [
         (icon: "chart.pie.fill", title: "Мониторинг всех расходов", subtitle: "Анализ по категориям и диаграммам"),
-        (icon: "percent.circle.fill", title: "Беспроцентные переводы детям", subtitle: "На детские счета до 5 000 000 UZS")
+        (icon: "percent", title: "Беспроцентные переводы детям", subtitle: "На детские счета до 5 000 000 UZS")
     ]
     private let gift = (
         title: "Yandex Plus",
@@ -136,13 +136,8 @@ struct FamilySubscriptionView: View {
                         .font(.subheadline).foregroundColor(.black)
                         .fontWeight(.bold)
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: { }) {
-                        Image(systemName: "chevron.left")
-                    }
-                }
             }
-        }.navigationBarBackButtonHidden(true)
+        }
     }
 }
 

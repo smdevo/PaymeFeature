@@ -79,21 +79,3 @@ struct CardView: View {
         .foregroundStyle(.white)
     }
 }
-//
-//#Preview {
-//    let model = BankCard(
-//        name: "Apple Inc.",
-//        ownerName: "David Lee",
-//        sum: "100 000",
-//        cardNumber: "1234 5678 9012 3456",
-//        type: .humo,
-//        expirationDate: "11/27",
-//        iconName: "star.fill",
-//        isFamilyCard: false,
-//        id: "s",
-//        limit: nil
-//    )
-//    CardView(bankCard: model)
-//        .environmentObject(GlobalViewModel())
-//        .padding()
-//}

@@ -44,9 +44,7 @@ class QuickPayView: UIStackView {
     }
     
     @objc private func balanceBtnTapped() {
-       // delegate?.tapForCards()
-        //why here is not working
-//        print("Hi Balance")
+       
     }
     
     
