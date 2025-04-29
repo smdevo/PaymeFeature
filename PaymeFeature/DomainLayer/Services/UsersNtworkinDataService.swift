@@ -10,10 +10,6 @@ import Foundation
 final class UsersNtworkinDataService {
     
     private let serVerLink = "https://67ecf2e64387d9117bbb9a32.mockapi.io/"
-   // private let linkUsers = "https://67ecf2e64387d9117bbb9a32.mockapi.io/users"
-   // private let linkFamilies = "https://67ecf2e64387d9117bbb9a32.mockapi.io/families"
-    
-    
     static let shared = UsersNtworkinDataService()
     
     func getData<T: Codable>(link: String, completion: @escaping (T?) -> Void) {
