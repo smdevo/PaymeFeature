@@ -18,8 +18,8 @@ protocol CardsButtonDelegate: AnyObject {
 protocol MainViewProtocol: AnyObject {
     
     func showUpdatedBalance(balance: String)
-    func showBaseView(enObj: GlobalViewModel)
-    func showCardsView(enObj: GlobalViewModel)
+    func showBaseView(enObj: GlobalViewModel, enFamObj: FamilyViewModel)
+    func showCardsView(enObj: GlobalViewModel, enFamObj: FamilyViewModel)
 }
 
 
@@ -35,9 +35,9 @@ final class MainViewController: UIViewController {
 
     private let quickPayView = QuickPayView()
     
-    private let currencyView = CurrencyView()
+    private let bottomBaseView = BottomBaseView()
     
-    private var currencyScrollView = SetScrollView()
+    private var familySetView = SetScrollView()
     
     
     
@@ -68,7 +68,7 @@ final class MainViewController: UIViewController {
         view.backgroundColor = UIColor.theme.paymeC
         view.addSubview(balanceView)
         view.addSubview(quickPayView)
-        view.addSubview(currencyView)
+        view.addSubview(bottomBaseView)
         
         quickPayView.balanceBtn.delegate = self
                
@@ -91,10 +91,10 @@ final class MainViewController: UIViewController {
         quickPayView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
         
         
-        currencyView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        currencyView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        currencyView.topAnchor.constraint(equalTo: quickPayView.bottomAnchor, constant: .spacing(.x10)).isActive = true
-        currencyView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        bottomBaseView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        bottomBaseView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        bottomBaseView.topAnchor.constraint(equalTo: quickPayView.bottomAnchor, constant: .spacing(.x10)).isActive = true
+        bottomBaseView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         
     }
@@ -115,18 +115,27 @@ extension MainViewController: CardsButtonDelegate {
 extension MainViewController: MainViewProtocol {
     
     
-    func showCardsView(enObj: GlobalViewModel) {
-        let cardsView = CardsView().environmentObject(enObj)
+    func showCardsView(enObj: GlobalViewModel,enFamObj: FamilyViewModel) {
+        
+        
+        let cardsView = CardsView()
+            .environmentObject(enObj)
+            .environmentObject(enFamObj)
+        
         
         let hostingController = UIHostingController(rootView: cardsView)
-        
+        hostingController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(hostingController, animated: true)
+        
     }
     
     
-    func showBaseView(enObj: GlobalViewModel) {
+    func showBaseView(enObj: GlobalViewModel, enFamObj: FamilyViewModel) {
         
-        let hostingController = UIHostingController(rootView: currencyScrollView.environmentObject(enObj))
+        let hostingController = UIHostingController(rootView: familySetView
+            .environmentObject(enObj)
+            .environmentObject(enFamObj)
+        )
         
         addChild(hostingController)
         view.addSubview(hostingController.view)
@@ -135,9 +144,9 @@ extension MainViewController: MainViewProtocol {
         
         
         NSLayoutConstraint.activate([
-            hostingController.view.topAnchor.constraint(equalTo: currencyView.topAnchor,constant: .spacing(.x5)),
-            hostingController.view.leadingAnchor.constraint(equalTo: currencyView.leadingAnchor),
-            hostingController.view.widthAnchor.constraint(equalTo: currencyView.widthAnchor),
+            hostingController.view.topAnchor.constraint(equalTo: bottomBaseView.topAnchor,constant: .spacing(.x5)),
+            hostingController.view.leadingAnchor.constraint(equalTo: bottomBaseView.leadingAnchor),
+            hostingController.view.widthAnchor.constraint(equalTo: bottomBaseView.widthAnchor),
         ])
         
         hostingController.didMove(toParent: self)

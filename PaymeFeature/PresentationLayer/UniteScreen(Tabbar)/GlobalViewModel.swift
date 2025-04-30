@@ -21,15 +21,16 @@ class GlobalViewModel: ObservableObject {
     
     //MARK: MONITORING
     @Published var transactions: [TransactionModel] = [
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "оплата", iconName: "safia"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "оплата", iconName: "uzum"),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "+300 000", description: "перевод", iconName: ""
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "Перевод с карты", iconName: "", category: "Kids"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-25 000", description: "Перевод с карты", iconName: "", category: "Kids"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "Оплата", iconName: "uzum", category: "Оплата"),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-10 000", description: "Оплата", iconName: "safia", category: "Kids"
 ),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "оплата ", iconName: "safia"),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "связь", iconName: "ucell"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "услуги", iconName: ""),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "оплата", iconName: "makro"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500 000", description: "перевод", iconName: "")
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "Оплата", iconName: "safia", category: "Оплата"),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "Связь", iconName: "ucell", category: "Ucell"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "Услуги", iconName: "", category: "Оплата"),
+        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-13 000", description: "Оплата", iconName: "makro", category: "Оплата"),
+        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500 000", description: "Перевод", iconName: "", category: "Перевод")
     ]
     
     var totalIncomeString: String {
@@ -85,7 +86,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     private func startTimer() {
-            timerCancellable = Timer.publish(every: 50, on: .main, in: .common)
+            timerCancellable = Timer.publish(every: 5, on: .main, in: .common)
                 .autoconnect()
                 .sink { [weak self] _ in
                     self?.loadUserAndFamily()
@@ -136,7 +137,7 @@ class GlobalViewModel: ObservableObject {
         
         guard let currentUser else { return }
         
-        let cardUser = BankCard(name: "Own Card", ownerName: currentUser.name, sum: currentUser.balance, cardNumber: currentUser.cardNumber, type: .uzcard, expirationDate: "11/28", id: UUID().uuidString, limit: nil)
+        let cardUser = BankCard(name: "Own Card", ownerName: currentUser.name, sum: currentUser.balance, cardNumber: currentUser.cardNumber, type: .humo, expirationDate: "11/29", id: UUID().uuidString, limit: nil)
         
         cards.append(cardUser)
     }
@@ -156,7 +157,7 @@ class GlobalViewModel: ObservableObject {
         
         let bankCards = cards.map { fCard in
             
-            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "0000 0000 0000 0001", type: .humo, expirationDate: "11/28",isFamilyCard: true, id: fCard?.id ?? "1234", limit: fCard?.limit)
+            BankCard(name: fCard?.name ?? "Name", ownerName: currentUser.name, sum: fCard?.balance ?? "Balance", cardNumber: fCard?.number ?? "0000 0000 0000 0001", type: .uzcard, expirationDate: "11/28",isFamilyCard: true, id: fCard?.id ?? "1234", limit: fCard?.limit)
         }
         
         self.cards.append(contentsOf: bankCards)
@@ -186,20 +187,18 @@ class GlobalViewModel: ObservableObject {
         }
         
         
-        let isParent = currentUser.role
+        
         
         guard
-            isParent ? userSum > amountSum : famCardSum > amountSum
+            userSum > amountSum
         else {
             completion(false)
             return
         }
        
-        let updatedUserBalance = isParent ?
-        String(userSum - amountSum) : String(userSum + amountSum)
+        let updatedUserBalance = String(userSum - amountSum)
         
-        let updatedFamilyBalance = isParent ?
-        String(famCardSum + amountSum) : String(famCardSum - amountSum)
+        let updatedFamilyBalance = String(famCardSum + amountSum)
         
         let updatedUser = UserModel(
             name: currentUser.name,
@@ -267,7 +266,7 @@ class GlobalViewModel: ObservableObject {
     
     
     func saveHistoryMonitoring(sender: String, receiver: String, amount: String) {
-        transactions.append(TransactionModel(date: "date", time: "date", amount: amount, description: "Transaction to family card", iconName: "safia"))
+        transactions.append(TransactionModel(date: "Сегодня", time: "15:22", amount: amount, description: "Перевод", iconName: "", category: "Оплата"))
     }
     
     func setLimitToFamilyCard(id: String, limit: String) {

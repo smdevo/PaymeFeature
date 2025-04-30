@@ -238,3 +238,69 @@
 //    }
 //
 //}
+
+
+
+
+//MARK: ADDFAMILYCARD
+//                            if let user = viewModel.currentUser, user.role {
+//                                Button(action: {
+//                                    showFamilyCardAddSheet = true
+//                                }) {
+//                                    HStack{
+//
+//                                        RoundedRectangle(cornerRadius: 10)
+//                                            .fill(.paymeC)
+//                                            .frame(width: .spacing(.x14), height: .spacing(.x14))
+//                                            .overlay(
+//                                                Image(systemName: "plus")
+//                                                    .foregroundColor(.white)
+//                                                    .fontWeight(.bold)
+//                                            )
+//                                        Text("Добавить детскую карту")
+//                                            .font(.headline)
+//                                            .foregroundColor(.primary)
+//                                            .padding()
+//                                            .cornerRadius(10)
+//                                    }
+//
+//                                }
+//                                .padding()
+//                            }
+
+
+//MARK: CONFIRMINVITATION
+
+//                        if let user = viewModel.currentUser, user.invitation, viewModel.currentUser?.role == false {
+//                            Button(action: {
+//                                showInvitationAlert = true
+//                            }) {
+//                                HStack {
+//                                    Image(systemName: "exclamationmark.triangle.fill")
+//                                        .foregroundColor(.paymeC)
+//                                    Text("Подтвердите приглашение в семью")
+//                                        .font(.subheadline)
+//                                        .foregroundColor(.paymeC)
+//                                }
+//                                .padding()
+//                                .background(Color(.systemGray6))
+//                                .cornerRadius(8)
+//                                .padding()
+//                            }
+//                            .alert("Подтверждение приглашения", isPresented: $showInvitationAlert) {
+//                                TextField("Введите код", text: $invitationCode)
+//                                Button("Confirm") {
+//                                    viewModel.confirmInvitation(enteredCode: invitationCode) { success in
+//                                        if success {
+//                                            print("Success")
+//                                        } else {
+//                                            print("Failure")
+//                                        }
+//                                    }
+//                                }
+//                                Button("Cancel", role: .cancel) {}
+//                            } message: {
+//                                Text("Введите код подтверждения, который вы получили")
+//                            }
+//                        }
+
