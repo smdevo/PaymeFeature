@@ -12,11 +12,9 @@ struct LoginView: View {
     
     @FocusState private var isUsernameFieldFocused: Bool
     
-    @State private var navigateToChild = false
     
     var body: some View {
         
-        NavigationStack{
             VStack(alignment: .leading, spacing: 20) {
                 
                 Text("Введите номер телефона")
@@ -39,7 +37,7 @@ struct LoginView: View {
                 
                 
                 Button("Войти как ребёнок") {
-                    viewModel.loginAsChild()
+                    viewModel.loginToChild()
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -49,7 +47,7 @@ struct LoginView: View {
                 .padding(.horizontal)
                 
                 Button(action: {
-                    viewModel.login()
+                    viewModel.loginToMain()
                 }) {
                     Text("Войти как родитель")
                         .frame(maxWidth: .infinity)
@@ -70,36 +68,12 @@ struct LoginView: View {
                         .multilineTextAlignment(.center)
                 }
             }
-            .navigationDestination(isPresented: $navigateToChild) {
-                ChildAccountView()
-                              .environmentObject(GlobalViewModel())
-                              .toolbar(.hidden, for: .navigationBar)
-                      }
-            .onAppear {
-                
-                viewModel.onChildLoginSuccess = {
-                    navigateToChild = true
-                }
-                
-                viewModel.onLoginSuccess = {
-                    switchToMain()
-                }
-            }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding(10)
-        }
         
         
     }
     
-    func switchToMain() {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
-            let tabBarController = UniteViewController()
-            window.rootViewController = tabBarController
-            window.makeKeyAndVisible()
-        }
-    }
 }
 
 

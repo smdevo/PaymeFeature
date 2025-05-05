@@ -26,16 +26,16 @@ class UniteViewController: UITabBarController {
         
         main.tabBarItem = UITabBarItem(title: "Main", image: UIImage(systemName: "house"), tag: 0)
 
-        let transfers = UIHostingController(rootView: TransfersView().environmentObject(globalVM))
+        let transfers = UIHostingController(rootView: TransfersView())//.environmentObject(globalVM))
         transfers.tabBarItem = UITabBarItem(title: "Transfers", image: UIImage(systemName: "arrow.left.arrow.right"), tag: 1)
 
-        let service = UIHostingController(rootView: ServiceView().environmentObject(globalVM))
+        let service = UIHostingController(rootView: ServiceView())//.environmentObject(globalVM))
         service.tabBarItem = UITabBarItem(title: "Services", image: UIImage(systemName: "square.grid.2x2"), tag: 3)
 
-        let monitoring = UIHostingController(rootView: MonitoringView().environmentObject(globalVM))
+        let monitoring = UIHostingController(rootView: MonitoringView())//.environmentObject(globalVM))
         monitoring.tabBarItem = UITabBarItem(title: "Monitoring", image: UIImage(systemName: "chart.bar"), tag: 4)
 
-        let payment = UIHostingController(rootView: PaymentsView().environmentObject(globalVM))
+        let payment = UIHostingController(rootView: PaymentsView())//.environmentObject(globalVM))
         payment.tabBarItem = UITabBarItem(title: "Payment", image: UIImage(systemName: "wallet.bifold.fill"), tag: 5)
 
         viewControllers = [main,transfers,payment, service, monitoring]
@@ -48,7 +48,6 @@ class UniteViewController: UITabBarController {
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor.theme.tabbarBC
         
-        // Customize tab bar item text & icon color
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.theme.paymeC, .font: UIFont.boldSystemFont(ofSize: 12)]
         appearance.stackedLayoutAppearance.selected.iconColor = UIColor.theme.paymeC
         

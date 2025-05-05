@@ -114,8 +114,6 @@ struct ServicesSheetViewForChild: View {
             FulfillTheTaskAndGetTheMoneyScreen()
         }
         
-        
-        
     }
     
     func handleServiceTap(_ service: ServicesType) {
