@@ -36,15 +36,14 @@ class LoginViewModel: ObservableObject {
         }
     }
     
-    
-    func login() {
+    func check() -> Bool? {
         
         let trimmedUserName = phoneNumber.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !users.isEmpty else {
             errorMessage = "No Internet"
-            return
+            return nil
         }
         errorMessage = ""
         
@@ -56,35 +55,65 @@ class LoginViewModel: ObservableObject {
             UserDefaults.standard.set(user.id, forKey: "userId")
             UserDefaults.standard.set(user.familyId, forKey: "userFamilyId")
             UserDefaults.standard.set(user.role, forKey: "role")
-            onLoginSuccess?()
+            
+            return user.role
+            
         } else {
             errorMessage = "Неверный логин или пароль"
+            return nil
         }
+        
     }
     
     
-    func loginAsChild() {
+    func loginToMain() {
         
-        let trimmedUserName = phoneNumber.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        guard !users.isEmpty else {
-            errorMessage = "No Internet"
+        guard let isPareent = check() else {
             return
         }
-        errorMessage = ""
         
-        
-        if let user = users.first(where: {
-            $0.number.lowercased() == trimmedUserName && $0.password == trimmedPassword
-        }) {
-            UserDefaults.standard.set(user.id, forKey: "userId")
-            UserDefaults.standard.set(user.familyId, forKey: "userFamilyId")
-            UserDefaults.standard.set(user.role, forKey: "role")
-            onChildLoginSuccess?()
+        if isPareent {
+            switchToMain()
         } else {
-            errorMessage = "Неверный логин или пароль"
+            errorMessage = "It is not parnet's account"
+        }
+       
+    }
+    
+    func loginToChild() {
+        
+        guard let isPareent = check() else {
+            return
+        }
+        
+        if !isPareent {
+            switchToChild()
+        }else {
+            errorMessage = "It is not child's account"
+        }
+       
+    }
+    
+    
+    func switchToMain() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            let tabBarController = UniteViewController()
+            window.rootViewController = tabBarController
+            window.makeKeyAndVisible()
         }
     }
+    
+    func switchToChild() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            let childAccountView = ChildAccountView()
+                .environmentObject(GlobalViewModel())
+            let hostingController = UIHostingController(rootView: childAccountView)
+            window.rootViewController = hostingController
+            window.makeKeyAndVisible()
+        }
+    }
+    
 }
 

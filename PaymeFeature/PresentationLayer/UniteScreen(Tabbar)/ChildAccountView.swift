@@ -38,12 +38,9 @@ struct ChildAccountView: View {
                         }
                         
                     }
-//                    Text("Ты молодец — вчера сэкономил 12 000 сум")
-//                        .font(.subheadline)
-//                        .foregroundColor(.gray)
+
                 }
                 
-                // Balance
                 HStack {
                     VStack(alignment: .leading) {
                         Text("Остаток лимита на день")
@@ -55,12 +52,9 @@ struct ChildAccountView: View {
                     
                     Spacer()
                     
-                    // Circle Progress
                     CircleProgressView(progress: 1)
                         .frame(width: 70, height: 70)
-                    //:
-//                    CircleProgressView(progress: 0.7)
-//                        .frame(width: 70, height: 70)
+                    
                 }
                 .padding(.bottom, 25)
                 .padding(.trailing, 14)

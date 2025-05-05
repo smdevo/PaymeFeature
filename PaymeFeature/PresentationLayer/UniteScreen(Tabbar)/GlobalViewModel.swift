@@ -19,54 +19,6 @@ class GlobalViewModel: ObservableObject {
     
     @Published var cards: [BankCard] = []
     
-    //MARK: MONITORING
-    @Published var transactions: [TransactionModel] = [
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "Перевод с карты", iconName: "", category: "Kids"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-25 000", description: "Перевод с карты", iconName: "", category: "Kids"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "Оплата", iconName: "uzum", category: "Оплата"),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-10 000", description: "Оплата", iconName: "safia", category: "Kids"
-),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "Оплата", iconName: "safia", category: "Оплата"),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-300 000", description: "Связь", iconName: "ucell", category: "Ucell"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "-500 000", description: "Услуги", iconName: "", category: "Оплата"),
-        TransactionModel(date: "9 апреля 2025", time: "12:34", amount: "-13 000", description: "Оплата", iconName: "makro", category: "Оплата"),
-        TransactionModel(date: "8 апреля 2025", time: "11:22", amount: "+500 000", description: "Перевод", iconName: "", category: "Перевод")
-    ]
-    
-    var totalIncomeString: String {
-        let sum = transactions
-            .compactMap { Int($0.amount.replacingOccurrences(of: " ", with: "")) }
-            .filter { $0 > 0 }
-            .reduce(0, +)
-        return format(sum)
-    }
-
-    var totalExpenseString: String {
-        let sum = transactions
-            .compactMap { Int($0.amount.replacingOccurrences(of: " ", with: "")) }
-            .filter { $0 < 0 }
-            .reduce(0, +)
-        return format(sum)
-    }
-
-    var sectionTotals: [String: String] {
-        Dictionary(grouping: transactions, by: \.date)
-            .mapValues { items in
-                let sum = items
-                    .compactMap { Int($0.amount.replacingOccurrences(of: " ", with: "")) }
-                    .reduce(0, +)
-                return format(sum)
-            }
-    }
-
-    private func format(_ value: Int) -> String {
-        let fmt = NumberFormatter()
-        fmt.numberStyle = .decimal
-        fmt.groupingSeparator = " "
-        fmt.maximumFractionDigits = 0
-        let absString = fmt.string(from: .init(value: abs(value))) ?? "0"
-        return (value >= 0 ? "+" : "-") + absString
-    }
     
     //MARK: Limits
     
@@ -256,7 +208,7 @@ class GlobalViewModel: ObservableObject {
         group.notify(queue: .main) { [weak self] in
             completion(successUserUpdate && successFamilyUpdate)
             
-            self?.saveHistoryMonitoring(sender: currentUser.cardNumber, receiver: famCard?.number ?? "", amount: String(amountSum))
+//            self?.saveHistoryMonitoring(sender: currentUser.cardNumber, receiver: famCard?.number ?? "", amount: String(amountSum))
             
             self?.cards.removeAll()
             self?.loadUserAndFamily()
@@ -265,9 +217,9 @@ class GlobalViewModel: ObservableObject {
     
     
     
-    func saveHistoryMonitoring(sender: String, receiver: String, amount: String) {
-        transactions.append(TransactionModel(date: "Сегодня", time: "15:22", amount: amount, description: "Перевод", iconName: "", category: "Оплата"))
-    }
+//    func saveHistoryMonitoring(sender: String, receiver: String, amount: String) {
+//        transactions.append(TransactionModel(date: "Сегодня", time: "15:22", amount: amount, description: "Перевод", iconName: "", category: "Оплата"))
+//    }
     
     func setLimitToFamilyCard(id: String, limit: String) {
     
