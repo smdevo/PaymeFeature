@@ -31,11 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }else {
                     
                     let enObj = GlobalViewModel()
-                    let enFamObj = FamilyViewModel()
                     
                     let childAccountView = ChildAccountView()
                         .environmentObject(enObj)
-                        .environmentObject(enFamObj)
                     
                     let hostingController = UIHostingController(rootView: childAccountView)
                     window?.rootViewController = hostingController
